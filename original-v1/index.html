@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>破防宇宙：人间炼狱 | Web Demo</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="scanline" aria-hidden="true"></div>
+    <div class="loader-overlay hidden" id="loaderOverlay" aria-live="polite">
+      <div class="loader-rings" aria-hidden="true"><span></span><span></span><span></span></div>
+      <p class="loader-text">正在解构你的破防点</p>
+      <p class="loader-detail" id="loaderDetail">扫描关键词...</p>
+    </div>
+    <main class="app-shell">
+      <header class="brand-strip">
+        <span class="brand-logo">▣ BREAKVERSE</span>
+        <span class="brand-status">CH.01 · 破防者觉醒</span>
+        <span class="brand-clock" id="brandClock">02:47</span>
+      </header>
+
+      <section class="hero-panel" id="introView">
+        <div class="hero-copy">
+          <p class="kicker">今日副本入口已开启</p>
+          <h1>破防宇宙：人间炼狱</h1>
+          <p class="lede">输入一句今天让你破防的事，把它变成 Boss，然后在三分钟内打爆它。</p>
+          <div class="hero-stats" aria-label="Demo 功能状态">
+            <span>人生原型扫描</span>
+            <span>横版动作副本</span>
+            <span>战报分享生成</span>
+          </div>
+          <div class="last-run-strip hidden" id="lastRunStrip"></div>
+        </div>
+
+        <div class="hero-console">
+          <div class="mini-stage" aria-hidden="true">
+            <div class="city-glow"></div>
+            <div class="mini-player"></div>
+            <div class="mini-boss"><span>卷</span></div>
+            <div class="mini-slash"></div>
+          </div>
+          <div class="input-workbench" aria-label="生成今日 Boss">
+            <label for="rantInput">今天谁让你破防了？</label>
+            <div class="terminal-input">
+              <span class="prompt">&gt;</span>
+              <textarea
+                id="rantInput"
+                maxlength="180"
+                placeholder="今天谁让你破防了"
+              ></textarea>
+              <span class="caret" aria-hidden="true"></span>
+              <span class="counter" id="rantCounter">0/180</span>
+            </div>
+            <div class="chip-group" id="identityChips" role="radiogroup" aria-label="选择人生身份">
+              <button class="chip is-active" type="button" data-value="打工人">打工人</button>
+              <button class="chip" type="button" data-value="学生党">学生党</button>
+              <button class="chip" type="button" data-value="情感用户">情感</button>
+              <button class="chip" type="button" data-value="家庭压力用户">家庭</button>
+              <button class="chip" type="button" data-value="创作者">创作者</button>
+            </div>
+            <div class="input-row">
+              <select id="identitySelect" aria-label="选择人生身份" class="visually-hidden">
+                <option value="打工人">打工人</option>
+                <option value="学生党">学生党</option>
+                <option value="情感用户">情感用户</option>
+                <option value="家庭压力用户">家庭压力用户</option>
+                <option value="创作者">UGC 创作者</option>
+              </select>
+              <select id="styleSelect" aria-label="选择职业风格">
+                <option value="远程嘴炮">远程嘴炮</option>
+                <option value="忍不了一点">爆发刺客</option>
+                <option value="我扛过太多了">重击坦克</option>
+                <option value="我不发疯我布局">控场辅助</option>
+              </select>
+              <button id="generateBtn" class="btn-primary is-ready" type="button">生成 Boss →</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="generator-panel hidden" id="bossView" aria-live="polite">
+        <div class="boss-stage">
+          <div class="boss-avatar" id="bossAvatar">
+            <div class="avatar-halo"></div>
+            <div class="case-stamp" id="caseStamp">CASE #SH-0000</div>
+            <div class="danger-ribbon">THREAT S</div>
+            <span id="bossGlyph">怒</span>
+          </div>
+          <div>
+            <p class="kicker case-file-id" id="caseFileId">CASE FILE #SH-0000</p>
+            <h2 id="bossName">周末吞噬者</h2>
+            <p id="bossTitle" class="boss-title">把休息日吃掉的人</p>
+            <p id="bossIntro" class="boss-intro"></p>
+            <div class="threat-meter" aria-label="威胁等级">
+              <span>THREAT LEVEL</span>
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><b>S</b>
+            </div>
+            <div class="boss-meta">
+              <span id="bossRelation">职场压力源</span>
+              <span id="bossEmotion">愤怒 90 / 疲惫 70</span>
+              <span id="bossStyle">远程嘴炮</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="config-grid">
+          <article class="skill-card">
+            <h3>Boss 技能</h3>
+            <ul id="skillList"></ul>
+          </article>
+          <article class="loot-card">
+            <h3>掉落预览</h3>
+            <p id="dropPreview"></p>
+          </article>
+          <article class="safe-card">
+            <h3>故事改编</h3>
+            <p id="safeText"></p>
+          </article>
+        </div>
+
+        <div class="action-strip">
+          <button id="regenBtn" type="button">重新生成</button>
+          <button id="startBtn" type="button">进入副本</button>
+        </div>
+      </section>
+
+      <section class="game-panel hidden" id="gameView">
+        <div class="battle-hud" aria-label="战斗状态">
+          <div class="combatant-card player-card">
+            <div class="portrait">你</div>
+            <div class="combatant-main">
+              <div class="combatant-row"><strong>破防者</strong><span id="playerHpText">120/120</span></div>
+              <div class="hp-bar"><i id="playerHpLag" class="hp-bar__lag"></i><b id="playerHpBar" class="hp-bar__fill"></b></div>
+            </div>
+          </div>
+          <div class="level-chip" id="levelName">周日深夜会议室</div>
+          <div class="combatant-card boss-card">
+            <div class="portrait danger" id="bossPortrait">卷</div>
+            <div class="combatant-main">
+              <div class="combatant-row"><strong id="bossHudName">周末吞噬者</strong><span id="bossHpText">360/360</span></div>
+              <div class="hp-bar danger"><i id="bossHpLag" class="hp-bar__lag"></i><b id="bossHpBar" class="hp-bar__fill"></b></div>
+              <small id="bossPhaseText">PHASE 1/3 · 紧急需求</small>
+            </div>
+          </div>
+        </div>
+
+        <canvas id="battleCanvas" width="960" height="540" aria-label="横版动作战斗画面"></canvas>
+
+        <div class="controls-panel">
+          <div class="desktop-help">键盘：A/D 移动，W/空格跳跃，J 轻攻击，K 闪避，L 技能</div>
+          <div class="skill-dock" aria-label="技能冷却">
+            <button class="skill-btn ready" type="button" data-skill="attack">
+              <svg class="cd-ring" viewBox="0 0 48 48"><circle class="cd-track" cx="24" cy="24" r="21"></circle><circle class="cd-fill" id="attackCdRing" cx="24" cy="24" r="21"></circle></svg>
+              <span class="skill-icon">⚔</span><span class="skill-key">J</span>
+            </button>
+            <button class="skill-btn" type="button" data-skill="dodge">
+              <svg class="cd-ring" viewBox="0 0 48 48"><circle class="cd-track" cx="24" cy="24" r="21"></circle><circle class="cd-fill" id="dodgeCdRing" cx="24" cy="24" r="21"></circle></svg>
+              <span class="skill-icon">⤬</span><span class="skill-key">K</span>
+            </button>
+            <button class="skill-btn" type="button" data-skill="skill">
+              <svg class="cd-ring" viewBox="0 0 48 48"><circle class="cd-track" cx="24" cy="24" r="21"></circle><circle class="cd-fill" id="skillCdRing" cx="24" cy="24" r="21"></circle></svg>
+              <span class="skill-icon">⚡</span><span class="skill-key">L</span>
+            </button>
+          </div>
+          <div class="touch-controls" aria-label="触控操作">
+            <button data-touch="left" type="button">←</button>
+            <button data-touch="right" type="button">→</button>
+            <button data-touch="jump" type="button">跳</button>
+            <button data-touch="attack" type="button">攻</button>
+            <button data-touch="dodge" type="button">闪</button>
+            <button data-touch="skill" type="button">技</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="result-panel hidden" id="resultView">
+        <div class="result-copy">
+          <p class="kicker">副本结算</p>
+          <h2 id="resultTitle">你夺回了今晚这三分钟</h2>
+          <p id="resultSummary"></p>
+        </div>
+
+        <div class="share-layout">
+          <article class="share-card" id="shareCard">
+            <p>BREAKVERSE 战报</p>
+            <h3 id="shareBossName"></h3>
+            <div class="share-stats">
+              <span id="shareDamage">⚔ 0000</span>
+              <span id="shareTime">⏱ 00:00</span>
+              <span id="shareBreaks">💢 0</span>
+            </div>
+            <strong id="shareDrop"></strong>
+            <span id="shareQuote"></span>
+            <small id="shareCode"></small>
+          </article>
+
+          <div class="loot-panel">
+            <h3 id="lootName"></h3>
+            <p id="lootEffect"></p>
+            <textarea id="shareText" readonly></textarea>
+            <div class="action-strip">
+              <button id="copyBtn" type="button">复制分享文案</button>
+              <button id="downloadCardBtn" type="button">下载战报 PNG</button>
+              <button id="againBtn" type="button">再开一局</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="./src/app.js"></script>
+  </body>
+</html>

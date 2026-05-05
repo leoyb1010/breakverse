@@ -1,0 +1,2117 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>破防宇宙：人间炼狱 | BREAKVERSE Design Proto</title>
+<style>
+/* ============================================================
+   BREAKVERSE · HD Pixel + Dark Comedy + Stage Lighting
+   Design System & All Page Styles
+   ============================================================ */
+
+/* --- CUSTOM PROPERTIES --- */
+:root {
+  --bg-deep: #07080a;
+  --bg-mid: #0e1015;
+  --bg-panel: rgba(14, 16, 21, 0.85);
+  --bg-glass: rgba(20, 22, 28, 0.72);
+  --ink-100: #ffffff;
+  --ink-80: #e8eaf0;
+  --ink-60: #98a0b0;
+  --ink-40: #5e6675;
+  --emotion-rage: #ff3b47;
+  --emotion-melt: #b596ff;
+  --emotion-anxiety: #54d4e8;
+  --accent-gold: #ffc857;
+  --accent-warn: #ffa64d;
+  --accent-green: #62d28f;
+  --line: rgba(255,246,232,0.1);
+  --line-strong: rgba(255,246,232,0.18);
+  --shadow-deep: 0 24px 64px rgba(0,0,0,0.6);
+  --boss-color: var(--emotion-rage);
+  --f-display: "Inter Display", "PingFang SC", system-ui, sans-serif;
+  --f-body: "Inter", "PingFang SC", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", "SF Mono", monospace;
+}
+
+/* --- RESET & BASE --- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+body {
+  font-family: var(--f-body);
+  background: var(--bg-deep);
+  color: var(--ink-100);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- GLOBAL ATMOSPHERE --- */
+body::before {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(circle at 16% 0%, rgba(255,59,71,0.18), transparent 40rem),
+    radial-gradient(circle at 84% 14%, rgba(84,212,232,0.12), transparent 32rem),
+    linear-gradient(145deg, #07080a 0%, #0f1018 42%, #0a1416 100%);
+}
+.scanlines {
+  position: fixed; inset: 0; z-index: 100; pointer-events: none; opacity: 0.08;
+  background: repeating-linear-gradient(to bottom, rgba(255,255,255,0.3) 0 1px, transparent 2px 4px);
+}
+.stage-fog {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.4;
+  background: radial-gradient(ellipse at 50% 100%, rgba(0,0,0,0.55), transparent 60%);
+}
+
+/* --- APP SHELL --- */
+.app-shell {
+  position: relative; z-index: 1;
+  width: min(1200px, calc(100vw - 32px));
+  height: 100vh; margin: 0 auto;
+  display: flex; flex-direction: column; justify-content: center;
+}
+
+/* --- BRAND STRIP --- */
+.brand-strip {
+  position: fixed; top: 0; left: 50%; transform: translateX(-50%);
+  width: min(1200px, calc(100vw - 32px)); z-index: 50;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(7,8,10,0.78); backdrop-filter: blur(18px);
+}
+.brand-logo { color: var(--accent-gold); font: 900 13px/1 var(--f-mono); letter-spacing: 0.06em; }
+.brand-chapter { color: var(--ink-60); font: 700 12px/1 var(--f-body); text-transform: uppercase; }
+.brand-clock { color: var(--accent-gold); font: 900 13px/1 var(--f-mono); }
+
+/* --- SCREENS --- */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ============================================================
+   SCREEN 1 · INTRO / HOME
+   ============================================================ */
+.intro-layout {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 48px; align-items: center; padding-top: 60px;
+}
+.hero-copy { animation: fadeUp 600ms cubic-bezier(0.34,1.56,0.64,1) both; }
+.hero-kicker { color: var(--accent-gold); font: 900 13px/1 var(--f-mono); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px; }
+.hero-copy h1 {
+  font: 950 clamp(48px,7vw,96px)/0.92 var(--f-display); letter-spacing: -0.02em;
+  text-shadow: 0 0 40px rgba(255,59,71,0.2), 0 18px 60px rgba(0,0,0,0.5);
+}
+.hero-copy h1 em { font-style: normal; color: var(--boss-color); }
+.hero-lede { max-width: 480px; margin-top: 20px; color: var(--ink-60); font-size: 17px; line-height: 1.7; }
+.hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.hero-tags span {
+  padding: 6px 14px; border: 1px solid var(--line-strong); border-radius: 999px;
+  background: rgba(255,255,255,0.04); color: var(--ink-60); font: 800 12px/1 var(--f-body);
+}
+.last-run-badge {
+  display: inline-block; margin-top: 20px; padding: 8px 14px;
+  border-left: 3px solid var(--accent-gold);
+  background: rgba(255,200,87,0.06); color: var(--ink-80);
+  font: 700 12px/1.4 var(--f-body);
+}
+
+/* Console (right side) */
+.hero-console { display: flex; flex-direction: column; gap: 14px; animation: fadeUp 500ms 120ms backwards; }
+
+/* Mini Stage */
+.mini-stage {
+  position: relative; height: 220px; overflow: hidden;
+  border: 1px solid var(--line); border-radius: 8px;
+  background: linear-gradient(180deg, rgba(84,212,232,0.08), transparent 50%),
+              linear-gradient(90deg, rgba(255,59,71,0.12), rgba(255,200,87,0.06)),
+              #0c0e12;
+}
+.mini-stage-canvas { width: 100%; height: 100%; display: block; }
+.mini-stage-label {
+  position: absolute; bottom: 10px; left: 14px;
+  color: var(--ink-40); font: 700 10px/1 var(--f-mono); text-transform: uppercase;
+}
+
+/* Input Terminal */
+.input-workbench {
+  padding: 18px; border: 1px solid var(--line); border-radius: 8px;
+  background: rgba(7,8,10,0.78); backdrop-filter: blur(14px);
+}
+.input-workbench label { display: block; margin-bottom: 10px; font: 900 16px/1 var(--f-display); }
+.terminal-input {
+  position: relative; padding: 14px 48px 14px 40px;
+  border: 1px solid var(--boss-color); border-radius: 6px;
+  background: rgba(0,0,0,0.55);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04), 0 0 0 4px rgba(255,59,71,0.14);
+  transition: box-shadow 200ms ease;
+}
+.terminal-input:focus-within { box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04), 0 0 0 4px rgba(255,59,71,0.28), 0 0 32px rgba(255,59,71,0.12); }
+.terminal-input .prompt {
+  position: absolute; left: 16px; top: 16px;
+  color: var(--accent-gold); font: 900 15px/1 var(--f-mono);
+}
+.terminal-input textarea {
+  width: 100%; min-height: 72px; padding: 0; border: 0; border-radius: 0;
+  background: transparent; color: var(--ink-80); font: 600 15px/1.55 var(--f-mono);
+  outline: none; resize: none;
+}
+.terminal-input textarea::placeholder { color: var(--ink-40); }
+.terminal-input .caret {
+  position: absolute; left: 40px; bottom: 14px;
+  width: 7px; height: 16px; background: var(--accent-gold);
+  animation: caretBlink 1s steps(2) infinite;
+}
+.terminal-input .counter {
+  position: absolute; right: 12px; bottom: 10px;
+  color: var(--ink-40); font: 800 11px/1 var(--f-mono);
+}
+.terminal-input.is-hot .counter { color: var(--accent-gold); }
+
+/* Chips */
+.chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.chip {
+  min-height: 34px; padding: 0 14px; border-radius: 999px; cursor: pointer;
+  background: rgba(255,255,255,0.06); color: var(--ink-60);
+  border: 1px solid rgba(255,255,255,0.08);
+  font: 800 12px/1 var(--f-body);
+  transition: all 180ms cubic-bezier(0.34,1.56,0.64,1);
+}
+.chip:hover { border-color: rgba(255,255,255,0.25); transform: translateY(-1px); }
+.chip.is-active {
+  background: linear-gradient(180deg, #ffd877, var(--accent-warn));
+  color: #1a1204; border-color: transparent;
+  box-shadow: 0 6px 20px rgba(255,200,87,0.3);
+}
+
+/* Config Row */
+.config-row { display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px; margin-top: 10px; }
+.styled-select {
+  min-height: 40px; padding: 0 12px; border: 1px solid var(--line-strong); border-radius: 6px;
+  background: rgba(7,8,10,0.55); color: var(--ink-80);
+  font: 700 13px/1 var(--f-body); outline: none; cursor: pointer;
+}
+
+/* Buttons */
+.btn {
+  min-height: 42px; padding: 0 20px; border-radius: 8px; cursor: pointer;
+  font: 900 14px/1 var(--f-body); border: none;
+  transition: transform 80ms cubic-bezier(0.34,1.56,0.64,1), filter 160ms ease;
+}
+.btn:active { transform: scale(0.96); }
+.btn-primary {
+  background: linear-gradient(180deg, #ffd877, var(--accent-warn));
+  color: #1a0f00; min-height: 48px; padding: 0 24px;
+  box-shadow: 0 5px 0 #9b5d16, 0 14px 34px rgba(255,166,77,0.36);
+  position: relative; overflow: hidden;
+}
+.btn-primary::after {
+  content: ''; position: absolute; inset: 1px 1px auto; height: 48%;
+  border-radius: 7px 7px 0 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.42), transparent);
+}
+.btn-primary.is-ready { animation: glowPulse 1.7s ease-in-out infinite; }
+.btn-ghost {
+  background: rgba(255,255,255,0.06); color: var(--ink-80);
+  border: 1px solid var(--line-strong);
+}
+.btn-ghost:hover { background: rgba(255,255,255,0.1); }
+
+/* ============================================================
+   SCREEN 2 · BOSS DOSSIER
+   ============================================================ */
+.dossier-layout { padding-top: 60px; animation: fadeUp 400ms both; }
+.dossier-header { margin-bottom: 24px; }
+.case-id {
+  display: inline-block; font: 900 12px/1 var(--f-mono); letter-spacing: 0.1em;
+  background: linear-gradient(90deg, var(--ink-60) 30%, var(--accent-gold) 50%, var(--ink-60) 70%);
+  background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  animation: shimmer 4s linear infinite; margin-bottom: 8px;
+}
+.dossier-stage {
+  display: grid; grid-template-columns: 340px 1fr; gap: 36px; align-items: start;
+}
+/* Boss Portrait */
+.boss-portrait-wrap {
+  position: relative; aspect-ratio: 0.85;
+  border: 1px solid rgba(255,59,71,0.45); border-radius: 8px;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 24%, rgba(255,255,255,0.08) 0 22px, transparent 23px),
+              radial-gradient(circle at 48% 40%, rgba(255,59,71,0.3) 0 64px, transparent 65px),
+              linear-gradient(160deg, rgba(255,59,71,0.2), rgba(84,212,232,0.08)), #101114;
+  box-shadow: 0 24px 80px rgba(255,59,71,0.2);
+}
+.boss-portrait-canvas { width: 100%; height: 100%; display: block; }
+.portrait-stamp {
+  position: absolute; top: 12px; left: 12px; z-index: 2;
+  color: var(--accent-gold); font: 900 11px/1 var(--f-mono);
+}
+.portrait-ribbon {
+  position: absolute; top: 22px; right: -36px; z-index: 2;
+  width: 130px; padding: 6px 0; text-align: center;
+  background: var(--boss-color); color: #08090b;
+  font: 900 11px/1 var(--f-mono);
+  transform: rotate(35deg);
+}
+.portrait-halo {
+  position: absolute; width: 200px; aspect-ratio: 1; top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  border: 1px solid rgba(255,200,87,0.25); border-radius: 50%;
+  box-shadow: inset 0 0 28px rgba(255,200,87,0.1);
+  animation: spinSlow 13s linear infinite;
+}
+
+/* Boss Info */
+.dossier-info h2 { font: 950 clamp(38px,5vw,64px)/0.98 var(--f-display); letter-spacing: -0.01em; }
+.dossier-title { margin: 8px 0 12px; color: var(--accent-gold); font: 900 18px/1 var(--f-body); }
+.dossier-intro { color: var(--ink-60); font-size: 15px; line-height: 1.65; max-width: 480px; }
+.threat-row { display: flex; align-items: center; gap: 10px; margin-top: 16px; }
+.threat-label { color: var(--ink-40); font: 900 11px/1 var(--f-mono); }
+.threat-bar { display: flex; gap: 3px; }
+.threat-bar i { width: 20px; height: 8px; display: block; background: linear-gradient(90deg, var(--boss-color), var(--accent-gold)); box-shadow: 0 0 12px rgba(255,59,71,0.5); }
+.threat-grade { color: var(--accent-gold); font: 950 20px/1 var(--f-display); }
+.meta-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.meta-tags span {
+  padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px;
+  background: rgba(255,255,255,0.04); color: var(--ink-60); font: 800 12px/1 var(--f-body);
+}
+
+/* Dossier Cards */
+.dossier-cards { display: grid; grid-template-columns: 1.2fr 0.8fr 1fr; gap: 12px; margin-top: 20px; }
+.dossier-card {
+  padding: 18px; border: 1px solid var(--line); border-radius: 8px;
+  background: var(--bg-panel); backdrop-filter: blur(14px);
+  position: relative; overflow: hidden;
+}
+.dossier-card::before {
+  content: ''; position: absolute; inset: 0 0 auto; height: 3px;
+}
+.dossier-card.skill::before { background: linear-gradient(90deg, var(--boss-color), var(--accent-gold)); }
+.dossier-card.loot::before { background: linear-gradient(90deg, var(--accent-gold), #fff6e8); }
+.dossier-card.safe::before { background: linear-gradient(90deg, var(--ink-60), var(--ink-40)); }
+.dossier-card h3 { font: 900 15px/1 var(--f-display); margin-bottom: 10px; }
+.dossier-card ul { padding-left: 16px; color: var(--ink-60); font-size: 13px; line-height: 1.65; }
+.dossier-card ul li + li { margin-top: 4px; }
+.dossier-card ul strong { color: var(--ink-80); }
+.dossier-card p { color: var(--ink-60); font-size: 13px; line-height: 1.65; }
+
+.dossier-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+
+/* ============================================================
+   SCREEN 3 · BATTLE
+   ============================================================ */
+.battle-layout { padding-top: 56px; display: flex; flex-direction: column; gap: 10px; }
+
+/* Battle HUD */
+.battle-hud {
+  display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px; align-items: center;
+}
+.combatant-card {
+  display: grid; grid-template-columns: 44px 1fr; gap: 10px; align-items: center;
+  padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px;
+  background: rgba(7,8,10,0.72); backdrop-filter: blur(14px);
+}
+.combatant-card.right { text-align: right; direction: rtl; }
+.combatant-card.right .combatant-info { direction: ltr; text-align: right; }
+.portrait-icon {
+  width: 44px; aspect-ratio: 1; display: grid; place-items: center; border-radius: 8px;
+  font: 950 16px/1 var(--f-display);
+}
+.portrait-icon.player { background: linear-gradient(180deg, var(--accent-gold), var(--accent-warn)); color: #101214; }
+.portrait-icon.boss { background: linear-gradient(180deg, var(--boss-color), #4a0d14); color: var(--ink-100); box-shadow: 0 0 20px rgba(255,59,71,0.4); }
+.combatant-row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.combatant-name { font: 800 13px/1 var(--f-body); }
+.combatant-hp { font: 800 11px/1 var(--f-mono); color: var(--ink-60); }
+.hp-bar-wrap {
+  height: 12px; border: 1px solid var(--line); border-radius: 999px;
+  background: rgba(0,0,0,0.5); overflow: hidden; margin-top: 6px;
+}
+.hp-bar-fill {
+  height: 100%; border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent-green), #a6efb8);
+  box-shadow: 0 0 12px rgba(98,210,143,0.4);
+  transition: width 140ms cubic-bezier(0.4,0,0.2,1);
+}
+.hp-bar-wrap.danger .hp-bar-fill {
+  background: linear-gradient(90deg, var(--boss-color), var(--accent-gold));
+  box-shadow: 0 0 12px rgba(255,59,71,0.5);
+}
+.phase-text { font: 700 10px/1 var(--f-mono); color: var(--ink-40); margin-top: 4px; }
+
+.level-chip {
+  padding: 10px 16px; border: 1px solid var(--line); border-radius: 8px;
+  background: rgba(7,8,10,0.72); backdrop-filter: blur(14px);
+  color: var(--accent-gold); font: 900 12px/1 var(--f-mono); text-align: center;
+  white-space: nowrap;
+}
+
+/* Canvas */
+.battle-canvas-wrap {
+  position: relative; border: 1px solid var(--line-strong); border-radius: 8px;
+  background: #08090b; overflow: hidden;
+  box-shadow: var(--shadow-deep), 0 0 0 1px rgba(84,212,232,0.06), inset 0 0 80px rgba(0,0,0,0.45);
+}
+#battleCanvas { display: block; width: 100%; aspect-ratio: 16/9; }
+.wave-announce {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 5;
+  pointer-events: none; text-align: center; opacity: 0; transition: opacity 300ms ease;
+}
+.wave-announce.show { opacity: 1; }
+.wave-announce .wa-label { font: 900 13px/1 var(--f-mono); color: var(--accent-gold); }
+.wave-announce .wa-title { font: 950 36px/1 var(--f-display); color: var(--ink-100); margin-top: 6px; }
+
+/* Controls */
+.controls-panel { display: flex; flex-direction: column; gap: 8px; }
+.keyboard-help { color: var(--ink-40); font: 700 12px/1 var(--f-body); text-align: center; }
+.skill-dock { display: flex; gap: 8px; justify-content: center; }
+.skill-btn {
+  width: 52px; height: 52px; position: relative; display: grid; place-items: center;
+  border-radius: 10px; cursor: pointer;
+  background: rgba(7,8,10,0.75); border: 1px solid var(--line);
+  color: var(--ink-100); font-size: 18px;
+  box-shadow: var(--shadow-deep);
+  transition: all 100ms ease;
+}
+.skill-btn:active { transform: scale(0.92); background: var(--accent-gold); box-shadow: 0 0 24px rgba(255,200,87,0.5); }
+.skill-btn.ready { border-color: rgba(255,200,87,0.35); animation: breathe 1.4s ease-in-out infinite; }
+.skill-key { position: absolute; right: 5px; bottom: 4px; color: var(--ink-40); font: 900 10px/1 var(--f-mono); }
+
+.cd-ring { position: absolute; inset: 4px; transform: rotate(-90deg); pointer-events: none; }
+.cd-ring circle { fill: none; stroke-width: 2.5; }
+.cd-ring .cd-track { stroke: rgba(255,255,255,0.08); }
+.cd-ring .cd-fill { stroke: var(--accent-gold); stroke-linecap: round; filter: drop-shadow(0 0 4px var(--accent-gold)); }
+
+.touch-pad { display: none; grid-template-columns: repeat(6,1fr); gap: 6px; }
+.touch-pad button {
+  min-height: 40px; border-radius: 8px; cursor: pointer; user-select: none; touch-action: manipulation;
+  background: rgba(255,255,255,0.06); border: 1px solid var(--line); color: var(--ink-80);
+  font: 800 14px/1 var(--f-body);
+  transition: all 80ms ease;
+}
+.touch-pad button:active { background: var(--accent-gold); color: #101214; box-shadow: 0 0 18px rgba(255,200,87,0.5); transform: scale(0.92); }
+
+/* ============================================================
+   SCREEN 4 · RESULT
+   ============================================================ */
+.result-layout { padding-top: 60px; animation: fadeUp 500ms both; }
+.result-header { margin-bottom: 24px; }
+.result-kicker { color: var(--accent-gold); font: 900 13px/1 var(--f-mono); letter-spacing: 0.1em; margin-bottom: 8px; }
+.result-header h2 { font: 950 clamp(32px,4vw,52px)/1.05 var(--f-display); }
+.result-summary { margin-top: 12px; color: var(--ink-60); font-size: 15px; line-height: 1.65; max-width: 600px; }
+.result-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start;
+}
+
+/* Share Card */
+.share-card {
+  padding: 28px; border: 1px solid rgba(255,200,87,0.4); border-radius: 8px;
+  background: linear-gradient(160deg, rgba(255,59,71,0.18), transparent 40%),
+              linear-gradient(25deg, rgba(84,212,232,0.12), transparent 50%),
+              repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0 1px, transparent 1px 16px),
+              #0f1015;
+  box-shadow: var(--shadow-deep); position: relative;
+}
+.share-card::after {
+  content: '#BREAKVERSE'; position: absolute; right: 20px; bottom: 20px;
+  color: rgba(255,200,87,0.35); font: 900 11px/1 var(--f-mono);
+}
+.share-card .sc-label { color: var(--accent-gold); font: 900 12px/1 var(--f-mono); letter-spacing: 0.08em; }
+.share-card h3 { font: 950 36px/1.02 var(--f-display); margin: 12px 0; }
+.share-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; margin: 12px 0; }
+.share-stats span {
+  min-height: 38px; display: grid; place-items: center;
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 6px;
+  background: rgba(0,0,0,0.25); color: var(--ink-80); font: 900 13px/1 var(--f-mono);
+}
+.share-drop { color: var(--accent-green); font: 900 18px/1 var(--f-display); margin: 8px 0; }
+.share-quote { color: var(--ink-60); font-size: 14px; line-height: 1.6; margin: 8px 0 14px; }
+.share-code { color: var(--accent-gold); font: 900 13px/1 var(--f-mono); }
+
+/* Loot Panel */
+.loot-panel {
+  padding: 22px; border: 1px solid var(--line); border-radius: 8px;
+  background: var(--bg-panel); backdrop-filter: blur(14px);
+  position: relative; overflow: hidden;
+}
+.loot-panel::before {
+  content: ''; position: absolute; inset: 0 0 auto; height: 3px;
+  background: linear-gradient(90deg, var(--accent-gold), var(--accent-green));
+}
+.loot-panel h3 { font: 900 20px/1 var(--f-display); margin-bottom: 8px; }
+.loot-panel .loot-desc { color: var(--ink-60); font-size: 14px; line-height: 1.6; margin-bottom: 14px; }
+.loot-panel textarea {
+  width: 100%; min-height: 130px; padding: 12px; border: 1px solid var(--line); border-radius: 6px;
+  background: rgba(0,0,0,0.4); color: var(--ink-80); font: 600 13px/1.6 var(--f-mono);
+  resize: vertical; outline: none;
+}
+.loot-actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+
+/* ============================================================
+   LOADING OVERLAY
+   ============================================================ */
+.loader-overlay {
+  position: fixed; inset: 0; z-index: 80;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: rgba(7,8,10,0.92); backdrop-filter: blur(20px);
+  transition: opacity 300ms ease;
+}
+.loader-overlay.hidden { opacity: 0; pointer-events: none; }
+.loader-rings { position: relative; width: 72px; height: 72px; }
+.loader-rings span {
+  position: absolute; inset: 0; border: 2px solid transparent;
+  border-top-color: var(--accent-gold); border-radius: 50%;
+  animation: spinRings 1.4s cubic-bezier(0.5,0,0.5,1) infinite;
+}
+.loader-rings span:nth-child(2) { inset: 8px; border-top-color: var(--boss-color); animation-duration: 1.8s; animation-direction: reverse; }
+.loader-rings span:nth-child(3) { inset: 16px; border-top-color: var(--emotion-anxiety); animation-duration: 2.2s; }
+.loader-text { margin-top: 22px; font: 900 20px/1 var(--f-display); }
+.loader-detail { margin-top: 8px; color: var(--ink-40); font: 700 12px/1 var(--f-mono); }
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes scaleIn { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+@keyframes caretBlink { 50% { opacity: 0; } }
+@keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+@keyframes spinSlow { to { transform: translate(-50%,-50%) rotate(360deg); } }
+@keyframes spinRings { to { transform: rotate(360deg); } }
+@keyframes breathe { 50% { transform: scale(1.04); filter: brightness(1.1); } }
+@keyframes glowPulse { 50% { box-shadow: 0 5px 0 #9b5d16, 0 14px 44px rgba(255,166,77,0.55); } }
+@keyframes bossFloat { 50% { transform: translateY(-3px); } }
+@keyframes slashSwing { 0% { transform: rotate(-18deg) scaleX(0.5); opacity: 0; } 20% { opacity: 1; transform: rotate(-18deg) scaleX(1); } 50% { opacity: 0; transform: rotate(-18deg) scaleX(1.2); } }
+
+/* Screen transition overlay */
+.screen-transition {
+  position: fixed; inset: 0; z-index: 70; pointer-events: none;
+  background: #000; opacity: 0; transition: opacity 500ms ease;
+}
+.screen-transition.active { opacity: 1; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 920px) {
+  .intro-layout, .dossier-stage, .result-grid, .dossier-cards { grid-template-columns: 1fr; }
+  .hero-copy h1 { font-size: clamp(36px,10vw,56px); }
+  .boss-portrait-wrap { max-width: 280px; }
+  .config-row { grid-template-columns: 1fr; }
+  .battle-hud { grid-template-columns: 1fr; }
+  .keyboard-help { display: none; }
+  .touch-pad { display: grid; }
+  .dossier-cards { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="scanlines" aria-hidden="true"></div>
+<div class="stage-fog" aria-hidden="true"></div>
+<div class="screen-transition" id="screenTransition"></div>
+
+<!-- ===== LOADING OVERLAY ===== -->
+<div class="loader-overlay hidden" id="loaderOverlay">
+  <div class="loader-rings"><span></span><span></span><span></span></div>
+  <p class="loader-text">正在解构你的破防点</p>
+  <p class="loader-detail" id="loaderDetail">扫描关键词...</p>
+</div>
+
+<!-- ===== BRAND STRIP ===== -->
+<header class="brand-strip">
+  <span class="brand-logo">▣ BREAKVERSE</span>
+  <span class="brand-chapter">CH.01 · 破防者觉醒</span>
+  <span class="brand-clock" id="brandClock">02:47</span>
+</header>
+
+<!-- ===== APP SHELL ===== -->
+<main class="app-shell">
+
+<!-- ===== SCREEN 1: INTRO ===== -->
+<section class="screen active" id="introScreen">
+  <div class="intro-layout">
+    <div class="hero-copy">
+      <p class="hero-kicker">今日副本入口已开启</p>
+      <h1>破防宇宙<em>：</em><br>人间炼狱</h1>
+      <p class="hero-lede">输入一句今天让你破防的事，把它变成 Boss，然后在三分钟内打爆它。</p>
+      <div class="hero-tags">
+        <span>人生原型扫描</span><span>横版动作副本</span><span>战报分享生成</span>
+      </div>
+      <div class="last-run-badge hidden" id="lastRunBadge"></div>
+    </div>
+    <div class="hero-console">
+      <div class="mini-stage">
+        <canvas class="mini-stage-canvas" id="miniStageCanvas" width="520" height="220"></canvas>
+        <span class="mini-stage-label">LIVE PREVIEW</span>
+      </div>
+      <div class="input-workbench">
+        <label for="rantInput">今天谁让你破防了？</label>
+        <div class="terminal-input" id="terminalInput">
+          <span class="prompt">&gt;</span>
+          <textarea id="rantInput" maxlength="180" placeholder="写下让你破防的事..."></textarea>
+          <span class="caret" aria-hidden="true"></span>
+          <span class="counter" id="rantCounter">0/180</span>
+        </div>
+        <div class="chip-row" id="identityChips">
+          <button class="chip is-active" data-value="打工人">打工人</button>
+          <button class="chip" data-value="学生党">学生党</button>
+          <button class="chip" data-value="情感用户">情感</button>
+          <button class="chip" data-value="家庭压力用户">家庭</button>
+          <button class="chip" data-value="创作者">创作者</button>
+        </div>
+        <div class="config-row">
+          <select class="styled-select" id="identitySelect">
+            <option value="打工人">打工人</option><option value="学生党">学生党</option>
+            <option value="情感用户">情感用户</option><option value="家庭压力用户">家庭压力用户</option>
+            <option value="创作者">创作者</option>
+          </select>
+          <select class="styled-select" id="styleSelect">
+            <option value="远程嘴炮">远程嘴炮</option><option value="忍不了一点">爆发刺客</option>
+            <option value="我扛过太多了">重击坦克</option><option value="我不发疯我布局">控场辅助</option>
+          </select>
+          <button class="btn btn-primary" id="generateBtn">⚡ 生成 Boss →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SCREEN 2: BOSS DOSSIER ===== -->
+<section class="screen" id="dossierScreen">
+  <div class="dossier-layout">
+    <div class="dossier-header">
+      <span class="case-id" id="caseFileId">CASE FILE #SH-0000</span>
+    </div>
+    <div class="dossier-stage">
+      <div class="boss-portrait-wrap" id="bossPortraitWrap">
+        <canvas class="boss-portrait-canvas" id="bossPortraitCanvas" width="340" height="400"></canvas>
+        <span class="portrait-stamp" id="caseStamp">CASE #SH-0000</span>
+        <div class="portrait-ribbon">THREAT S</div>
+        <div class="portrait-halo"></div>
+      </div>
+      <div class="dossier-info">
+        <h2 id="bossName">周末吞噬者</h2>
+        <p class="dossier-title" id="bossTitle">把休息日吃掉的人</p>
+        <p class="dossier-intro" id="bossIntro"></p>
+        <div class="threat-row">
+          <span class="threat-label">THREAT LEVEL</span>
+          <div class="threat-bar" id="threatBar"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <span class="threat-grade">S</span>
+        </div>
+        <div class="meta-tags">
+          <span id="bossRelation">职场压力源</span>
+          <span id="bossEmotion">愤怒 90 / 疲惫 70</span>
+          <span id="bossStyle">远程嘴炮</span>
+        </div>
+      </div>
+    </div>
+    <div class="dossier-cards">
+      <article class="dossier-card skill">
+        <h3>⚔ Boss 技能</h3>
+        <ul id="skillList"></ul>
+      </article>
+      <article class="dossier-card loot">
+        <h3>掉落预览</h3>
+        <p id="dropPreview"></p>
+      </article>
+      <article class="dossier-card safe">
+        <h3>故事改编</h3>
+        <p id="safeText"></p>
+      </article>
+    </div>
+    <div class="dossier-actions">
+      <button class="btn btn-ghost" id="regenBtn">重新生成</button>
+      <button class="btn btn-primary" id="enterBattleBtn">⚔ 进入副本</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SCREEN 3: BATTLE ===== -->
+<section class="screen" id="battleScreen">
+  <div class="battle-layout">
+    <div class="battle-hud">
+      <div class="combatant-card">
+        <div class="portrait-icon player">你</div>
+        <div class="combatant-info">
+          <div class="combatant-row">
+            <span class="combatant-name">破防者</span>
+            <span class="combatant-hp" id="playerHpText">120/120</span>
+          </div>
+          <div class="hp-bar-wrap"><div class="hp-bar-fill" id="playerHpBar" style="width:100%"></div></div>
+        </div>
+      </div>
+      <div class="level-chip" id="levelChip">周日 23:47 的开放办公区</div>
+      <div class="combatant-card right">
+        <div class="portrait-icon boss" id="bossPortraitIcon">卷</div>
+        <div class="combatant-info">
+          <div class="combatant-row">
+            <span class="combatant-name" id="bossHudName">周末吞噬者</span>
+            <span class="combatant-hp" id="bossHpText">360/360</span>
+          </div>
+          <div class="hp-bar-wrap danger"><div class="hp-bar-fill" id="bossHpBar" style="width:100%"></div></div>
+          <div class="phase-text" id="bossPhaseText">PHASE 1/3 · 紧急需求</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="battle-canvas-wrap">
+      <canvas id="battleCanvas" width="960" height="540"></canvas>
+      <div class="wave-announce" id="waveAnnounce">
+        <div class="wa-label">BREAKVERSE WAVE</div>
+        <div class="wa-title" id="waTitle"></div>
+      </div>
+    </div>
+
+    <div class="controls-panel">
+      <div class="keyboard-help">A/D 移动 · W/空格 跳跃 · J 攻击 · K 闪避 · L 技能</div>
+      <div class="skill-dock">
+        <button class="skill-btn ready" data-skill="attack" id="attackBtn">
+          <svg class="cd-ring" viewBox="0 0 44 44"><circle class="cd-track" cx="22" cy="22" r="19"/><circle class="cd-fill" id="attackCdCircle" cx="22" cy="22" r="19" stroke-dasharray="119.4" stroke-dashoffset="0"/></svg>
+          <span>⚔</span><span class="skill-key">J</span>
+        </button>
+        <button class="skill-btn" data-skill="dodge" id="dodgeBtn">
+          <svg class="cd-ring" viewBox="0 0 44 44"><circle class="cd-track" cx="22" cy="22" r="19"/><circle class="cd-fill" id="dodgeCdCircle" cx="22" cy="22" r="19" stroke-dasharray="119.4" stroke-dashoffset="0"/></svg>
+          <span>⤬</span><span class="skill-key">K</span>
+        </button>
+        <button class="skill-btn" data-skill="skill" id="skillBtn">
+          <svg class="cd-ring" viewBox="0 0 44 44"><circle class="cd-track" cx="22" cy="22" r="19"/><circle class="cd-fill" id="skillCdCircle" cx="22" cy="22" r="19" stroke-dasharray="119.4" stroke-dashoffset="0"/></svg>
+          <span>⚡</span><span class="skill-key">L</span>
+        </button>
+      </div>
+      <div class="touch-pad">
+        <button data-touch="left">←</button><button data-touch="right">→</button>
+        <button data-touch="jump">跳</button><button data-touch="attack">攻</button>
+        <button data-touch="dodge">闪</button><button data-touch="skill">技</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SCREEN 4: RESULT ===== -->
+<section class="screen" id="resultScreen">
+  <div class="result-layout">
+    <div class="result-header">
+      <p class="result-kicker">副本结算</p>
+      <h2 id="resultTitle">你夺回了今晚这三分钟</h2>
+      <p class="result-summary" id="resultSummary"></p>
+    </div>
+    <div class="result-grid">
+      <article class="share-card" id="shareCard">
+        <span class="sc-label">BREAKVERSE 战报</span>
+        <h3 id="shareBossName">周末吞噬者</h3>
+        <div class="share-stats">
+          <span id="shareDamage">⚔ 0000</span><span id="shareTime">⏱ 00:00</span><span id="shareBreaks">💢 0</span>
+        </div>
+        <div class="share-drop" id="shareDrop"></div>
+        <p class="share-quote" id="shareQuote"></p>
+        <span class="share-code" id="shareCode"></span>
+      </article>
+      <div class="loot-panel">
+        <h3 id="lootName">没有获得装备</h3>
+        <p class="loot-desc" id="lootEffect"></p>
+        <textarea id="shareText" readonly></textarea>
+        <div class="loot-actions">
+          <button class="btn btn-ghost" id="copyBtn">复制分享文案</button>
+          <button class="btn btn-ghost" id="downloadCardBtn">下载战报 PNG</button>
+          <button class="btn btn-primary" id="againBtn">再开一局</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main><!-- /app-shell -->
+
+<script>
+// ============================================================
+// BREAKVERSE · COMPLETE GAME ENGINE + UI LOGIC
+// ============================================================
+
+// --- DOM REFS ---
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => document.querySelectorAll(s);
+
+const screenTransition = $('#screenTransition');
+const loaderOverlay = $('#loaderOverlay');
+const loaderDetail = $('#loaderDetail');
+
+const screens = {
+  intro: $('#introScreen'),
+  dossier: $('#dossierScreen'),
+  battle: $('#battleScreen'),
+  result: $('#resultScreen'),
+};
+
+// Battle canvas
+const battleCanvas = $('#battleCanvas');
+const ctx = battleCanvas.getContext('2d');
+const miniStageCanvas = $('#miniStageCanvas');
+const miniCtx = miniStageCanvas.getContext('2d');
+const bossPortraitCanvas = $('#bossPortraitCanvas');
+const portraitCtx = bossPortraitCanvas.getContext('2d');
+
+// HUD
+const waveAnnounce = $('#waveAnnounce');
+const waTitle = $('#waTitle');
+
+// Input
+const keys = new Set();
+const touch = new Set();
+
+// Audio
+let audioCtx = null;
+
+// --- STATE ---
+let currentBoss = null;
+let game = null;
+let animId = 0;
+let lastFrame = 0;
+let currentScreen = 'intro';
+let lastRunData = null;
+
+// --- GAME BALANCE ---
+const BAL = {
+  playerSpeed: 245, jumpVel: -540, gravity: 1350,
+  attackDmg: 38, skillDmg: 56,
+  attackCd: 0.34, dodgeCd: 1.1, skillCd: 2.8,
+  hitStop: 0.065, critHitStop: 0.12,
+};
+
+// --- ARCHETYPE DATA ---
+const archetypes = [
+  { match: ['老板','领导','经理','主管','客户','需求','加班','kpi','KPI','方案','PPT','ppt','周末','开会','改版'], relation: '职场压力源', glyph: '卷', name: '周末吞噬者', title: '把休息日吃掉的人', level: '周日 23:47 的开放办公区', color: '#ff3b47', emotionType: 'rage', theme: 'office', skills: [['紧急需求','红色感叹号从天而降，逼你原地加班'],['再改一版','重置你的节奏，并把焦虑推到眼前'],['年轻人多锻炼','Boss 回血，同时甩出一排 KPI 飞刀']], drop: '已读不回耳塞', dropDesc: '受到语音类攻击时，有 35% 概率免疫' },
+  { match: ['前任','暧昧','冷暴力','分手','点赞','相亲','恋爱','感情'], relation: '情感回音', glyph: '念', name: '回忆倒放机', title: '把旧伤循环播放的影子', level: '雨夜消息未读走廊', color: '#b596ff', emotionType: 'melt', theme: 'rain', skills: [['突然点赞','召唤旧动态残影，短暂定住玩家'],['你想多了','发射三段回旋弹幕'],['回忆滤镜','让场景变暗，并隐藏下一次攻击预警']], drop: '放下遥控器', dropDesc: '闪避与技能冷却减少 18%' },
+  { match: ['考试','论文','老师','室友','作业','实习','答辩','deadline','Deadline','毕业'], relation: '校园压迫感', glyph: '卷', name: '截止日期追猎者', title: '永远提前一天出现的 Deadline', level: '凌晨两点的自习室', color: '#54d4e8', emotionType: 'anxiety', theme: 'campus', skills: [['格式不对','从屏幕边缘切出蓝色批注刀'],['明天就交','加速冲刺并留下拖延陷阱'],['参考文献风暴','召唤旋转纸页弹幕']], drop: '最后一页护符', dropDesc: '每次命中 Boss 回复 2 点生命' },
+];
+
+function pickArchetype(text) {
+  const n = text.toLowerCase();
+  const ranked = archetypes.map((a,i) => {
+    const score = a.match.reduce((s,w) => s + (n.includes(w.toLowerCase()) ? Math.max(1,Math.min(6,w.length)) : 0), 0);
+    return { a, score, i };
+  }).filter(e => e.score > 0).sort((a,b) => b.score - a.score || a.i - b.i);
+  return ranked[0]?.a || archetypes[0];
+}
+
+function sanitize(text) {
+  return text.replace(/1[3-9]\d{9}/g,'某个电话怪').replace(/\d{6,}/g,'一串神秘数字').replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi,'某个邮箱幽灵').replace(/([一-龥]{2,4})(总|经理|老师|主管|老板)/g,'X$2').trim();
+}
+
+// --- SCREEN MANAGEMENT ---
+function showScreen(name) {
+  if (currentScreen === name) return;
+  screenTransition.classList.add('active');
+  setTimeout(() => {
+    Object.values(screens).forEach(s => s.classList.remove('active'));
+    screens[name].classList.add('active');
+    currentScreen = name;
+    setTimeout(() => screenTransition.classList.remove('active'), 100);
+  }, 400);
+}
+
+// --- AUDIO ---
+function ensureAudio() {
+  if (!audioCtx) {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (AC) audioCtx = new AC();
+  }
+  if (audioCtx?.state === 'suspended') audioCtx.resume();
+}
+function playTone(freq, dur, type='sine', vol=0.2) {
+  if (!audioCtx) return;
+  try {
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.type = type;
+    o.frequency.setValueAtTime(freq, audioCtx.currentTime);
+    o.frequency.exponentialRampToValueAtTime(Math.max(20,freq*0.5), audioCtx.currentTime+dur);
+    g.gain.setValueAtTime(vol, audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime+dur);
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(); o.stop(audioCtx.currentTime+dur);
+  } catch(e) {}
+}
+const SFX = {
+  hit: () => playTone(120, 0.08, 'square', 0.2),
+  crit: () => playTone(420, 0.12, 'sawtooth', 0.25),
+  dodge: () => playTone(680, 0.1, 'sine', 0.14),
+  hurt: () => playTone(82, 0.16, 'sawtooth', 0.22),
+  skill: () => playTone(220, 0.22, 'triangle', 0.2),
+  gen: () => playTone(520, 0.08, 'sine', 0.08),
+};
+
+// --- UTILS ---
+function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+function rectsOverlap(a,b) { return a.x<b.x+b.w && a.x+a.w>b.x && a.y<b.y+b.h && a.y+a.h>b.y; }
+function circleRect(c,r) { const x=clamp(c.x,r.x,r.x+r.w), y=clamp(c.y,r.y,r.y+r.h); return Math.hypot(c.x-x,c.y-y)<c.r; }
+function hexToRGBA(hex, a) { const v=hex.replace('#',''); return `rgba(${parseInt(v.slice(0,2),16)},${parseInt(v.slice(2,4),16)},${parseInt(v.slice(4,6),16)},${a})`; }
+function rand(min,max) { return min+Math.random()*(max-min); }
+function seededRand(s) { const x=Math.sin(s||1)*10000; return x-Math.floor(x); }
+
+// ============================================================
+// MINI STAGE (Intro Page Background Animation)
+// ============================================================
+let miniStageTime = 0;
+function drawMiniStage() {
+  const c = miniCtx, w = 520, h = 220;
+  c.clearRect(0,0,w,h);
+  const t = miniStageTime;
+
+  // Gradient sky
+  const grad = c.createLinearGradient(0,0,0,h);
+  grad.addColorStop(0, '#0b1018'); grad.addColorStop(0.5, '#13141c'); grad.addColorStop(1, '#1a0e14');
+  c.fillStyle = grad; c.fillRect(0,0,w,h);
+
+  // City buildings
+  c.fillStyle = 'rgba(5,7,10,0.5)';
+  const buildings = [[20,40,60,140],[95,55,70,120],[180,30,50,160],[250,60,65,130],[330,35,55,150],[400,50,70,135],[475,25,45,165]];
+  buildings.forEach(([x, yOff, bw, bh]) => {
+    c.fillRect(x, h-140+yOff, bw, bh);
+    // Windows
+    c.fillStyle = 'rgba(255,200,87,0.15)';
+    for (let wy = h-130+yOff; wy < h-50; wy += 18) {
+      for (let wx = x+8; wx < x+bw-8; wx += 16) {
+        if (Math.random() > 0.3) c.fillRect(wx, wy, 8, 6);
+      }
+    }
+    c.fillStyle = 'rgba(5,7,10,0.5)';
+  });
+
+  // Floor line
+  c.fillStyle = 'rgba(255,59,71,0.5)';
+  c.fillRect(0, h-40, w, 2);
+
+  // Ground
+  const gGrad = c.createLinearGradient(0, h-40, 0, h);
+  gGrad.addColorStop(0, 'rgba(0,0,0,0.5)'); gGrad.addColorStop(1, 'rgba(0,0,0,0.9)');
+  c.fillStyle = gGrad; c.fillRect(0, h-40, w, 40);
+
+  // Boss shadow - breathing
+  const bossScale = 1 + Math.sin(t * 1.5) * 0.04;
+  c.save(); c.translate(w-120, h-100); c.scale(bossScale, bossScale);
+  c.shadowColor = 'rgba(255,59,71,0.6)'; c.shadowBlur = 40;
+  c.fillStyle = 'rgba(255,59,71,0.25)';
+  // Jagged boss body
+  c.beginPath();
+  c.moveTo(-50,-55); c.lineTo(50,-50); c.lineTo(45,45); c.lineTo(-40,50); c.closePath();
+  c.fill();
+  // Eye
+  c.fillStyle = 'rgba(255,255,255,0.9)';
+  c.beginPath(); c.arc(0,-8,16,0,Math.PI*2); c.fill();
+  c.fillStyle = '#07080a'; c.beginPath(); c.arc(0,-8,7,0,Math.PI*2); c.fill();
+  c.shadowBlur = 0;
+  // Arms
+  c.strokeStyle = 'rgba(255,59,71,0.4)'; c.lineWidth = 6; c.lineCap = 'round';
+  c.beginPath(); c.moveTo(-48,-10); c.lineTo(-90,10+Math.sin(t*3)*8); c.stroke();
+  c.beginPath(); c.moveTo(44,-10); c.lineTo(85,10-Math.sin(t*3)*8); c.stroke();
+  // Glyph
+  c.fillStyle = 'rgba(255,255,255,0.8)';
+  c.font = 'bold 40px sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle';
+  c.fillText('卷', 0, 10);
+  c.restore();
+
+  // Player shadow
+  c.save(); c.translate(75, h-80);
+  const pr = Math.sin(t * 2) * 2;
+  c.shadowColor = 'rgba(84,212,232,0.4)'; c.shadowBlur = 20;
+  c.fillStyle = 'rgba(84,212,232,0.3)';
+  c.fillRect(-10, pr-30, 20, 40);
+  // Head
+  c.fillStyle = '#e8eaf0';
+  c.beginPath(); c.arc(0, pr-38, 10, 0, Math.PI*2); c.fill();
+  // Scarf
+  c.fillStyle = '#ff3b47';
+  c.fillRect(-12, pr-22, 24, 5);
+  c.shadowBlur = 0;
+  c.restore();
+
+  // Slash effect
+  c.save(); c.globalAlpha = 0.4 + Math.sin(t * 3.2) * 0.3;
+  c.strokeStyle = 'rgba(255,200,87,0.7)'; c.lineWidth = 3;
+  c.beginPath(); c.moveTo(130, h-70); c.quadraticCurveTo(200, h-100, 260, h-65); c.stroke();
+  c.restore();
+
+  // Flying paper particles
+  for (let i = 0; i < 5; i++) {
+    const px = (t * 40 + i * 97) % w;
+    const py = 30 + Math.sin(t + i) * 40 + i * 25;
+    c.fillStyle = 'rgba(255,246,232,0.2)';
+    c.fillRect(px, py, 12, 8);
+  }
+
+  miniStageTime += 0.016;
+  requestAnimationFrame(() => { if (currentScreen === 'intro') drawMiniStage(); });
+}
+
+// ============================================================
+// BOSS PORTRAIT (Dossier Page - Animated)
+// ============================================================
+let portraitTime = 0;
+function drawBossPortrait() {
+  const c = portraitCtx, w = 340, h = 400;
+  c.clearRect(0,0,w,h);
+  const t = portraitTime;
+
+  // Dark bg
+  const bg = c.createRadialGradient(w/2, h*0.4, 20, w/2, h*0.4, 220);
+  bg.addColorStop(0, hexToRGBA(currentBoss?.color || '#ff3b47', 0.3));
+  bg.addColorStop(1, 'rgba(0,0,0,0)');
+  c.fillStyle = bg; c.fillRect(0,0,w,h);
+
+  const bossC = currentBoss?.color || '#ff3b47';
+
+  // Halo rings
+  c.strokeStyle = hexToRGBA(bossC, 0.2); c.lineWidth = 1;
+  for (let i = 0; i < 3; i++) {
+    c.beginPath();
+    c.ellipse(w/2, h*0.46, 90+i*20, 70+i*15, Math.sin(t+i)*0.1, 0, Math.PI*2);
+    c.stroke();
+  }
+
+  // Boss body - multi-part
+  const bx = w/2, by = h*0.52;
+  const breathe = 1 + Math.sin(t * 1.3) * 0.03;
+
+  c.save(); c.translate(bx, by); c.scale(breathe, breathe);
+
+  // Shadow
+  c.fillStyle = 'rgba(0,0,0,0.4)';
+  c.beginPath(); c.ellipse(0, 85, 75, 12, 0, 0, Math.PI*2); c.fill();
+
+  // Lower body
+  c.fillStyle = '#0a080c';
+  c.beginPath(); c.moveTo(-60,30); c.lineTo(65,25); c.lineTo(55,90); c.lineTo(-50,95); c.closePath(); c.fill();
+  c.fillStyle = bossC;
+  c.beginPath(); c.moveTo(-48,10); c.lineTo(52,6); c.lineTo(44,80); c.lineTo(-40,85); c.closePath(); c.fill();
+
+  // Wings (PPT slides)
+  c.fillStyle = hexToRGBA('#ffffff', 0.25);
+  c.save(); c.translate(-65,-5); c.rotate(-0.3 + Math.sin(t*2)*0.1);
+  c.fillRect(0,-20,70,50); c.strokeStyle = 'rgba(255,255,255,0.4)'; c.lineWidth=1; c.strokeRect(0,-20,70,50);
+  c.restore();
+  c.save(); c.translate(62,-8); c.rotate(0.3 - Math.sin(t*2)*0.1);
+  c.fillRect(-70,-18,70,48); c.strokeStyle = 'rgba(255,255,255,0.4)'; c.lineWidth=1; c.strokeRect(-70,-18,70,48);
+  c.restore();
+
+  // Main body (punch clock)
+  const bodyGrad = c.createLinearGradient(-40,-60,40,60);
+  bodyGrad.addColorStop(0, bossC); bodyGrad.addColorStop(1, '#4a0d14');
+  c.fillStyle = bodyGrad;
+  c.beginPath(); c.roundRect(-48,-65,96,130,20); c.fill();
+  c.strokeStyle = hexToRGBA('#ffffff', 0.3); c.lineWidth = 2;
+  c.beginPath(); c.roundRect(-48,-65,96,130,20); c.stroke();
+
+  // Eye (camera lens)
+  c.fillStyle = '#fff';
+  c.beginPath(); c.arc(0,-18,28,0,Math.PI*2); c.fill();
+  c.fillStyle = '#0a080c';
+  c.beginPath(); c.arc(0,-18,14,0,Math.PI*2); c.fill();
+  c.fillStyle = bossC;
+  c.beginPath(); c.arc(0,-18,8,0,Math.PI*2); c.fill();
+  c.fillStyle = '#fff';
+  c.beginPath(); c.arc(3,-21,3,0,Math.PI*2); c.fill();
+
+  // Glyph on chest
+  c.fillStyle = 'rgba(255,255,255,0.9)';
+  c.font = 'bold 52px sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle';
+  c.fillText(currentBoss?.glyph || '卷', 0, 32);
+
+  // Arms
+  c.strokeStyle = 'rgba(255,255,255,0.6)'; c.lineWidth = 8; c.lineCap = 'round';
+  c.beginPath(); c.moveTo(-50,-5); c.lineTo(-105,20+Math.sin(t*3)*8); c.stroke();
+  c.beginPath(); c.moveTo(50,-5); c.lineTo(105,20-Math.sin(t*3.3)*8); c.stroke();
+
+  // Hand props
+  c.fillStyle = '#f3bd58'; c.beginPath(); c.roundRect(-115,25,28,40,6); c.fill(); // Contract scroll (left)
+  c.fillStyle = '#e8eaf0'; c.beginPath(); c.roundRect(92,18,22,38,8); c.fill(); // Thermos (right)
+  c.fillStyle = '#ff3b47'; c.fillRect(96,16,14,10);
+
+  // Phase indicators
+  const phaseColors = ['#ffc857', '#ff3b47', '#ff3b47'];
+  phaseColors.forEach((pc, i) => {
+    c.fillStyle = pc;
+    c.beginPath(); c.arc(-20+i*20, -90, 5, 0, Math.PI*2); c.fill();
+  });
+
+  c.restore();
+  portraitTime += 0.016;
+  requestAnimationFrame(() => { if (currentScreen === 'dossier') drawBossPortrait(); });
+}
+
+// ============================================================
+// BOSS GENERATION & UI RENDERING
+// ============================================================
+function generateBoss() {
+  const raw = $('#rantInput').value.trim() || '老板周日晚上让我改方案，还说年轻人要多锻炼';
+  const safe = sanitize(raw);
+  const base = pickArchetype(raw);
+  const seed = Math.abs([...raw].reduce((s,c) => s + c.charCodeAt(0), 0));
+  const intensity = Math.min(99, Math.max(42, 52 + raw.length/6));
+
+  currentBoss = {
+    id: `BV-${String(seed).slice(0,4).padEnd(4,'8')}`,
+    raw, safe, relation: base.relation, glyph: base.glyph,
+    name: `${base.name}${intensity > 80 ? '·狂化版' : ''}`,
+    title: base.title, intro: `系统已把「${safe}」匿名化为 ${base.relation}。`,
+    level: base.level, color: base.color, theme: base.theme, emotionType: base.emotionType,
+    skills: base.skills.map(([n,d],i) => ({ id: `skill_${i+1}`, name: n, description: d })),
+    drop: base.drop, dropDesc: base.dropDesc,
+    emotion: { anger: Math.min(99,intensity+8), fatigue: Math.min(99,Math.round(intensity*0.78)), resilience: Math.max(24,100-Math.round(intensity*0.45)) },
+  };
+
+  document.documentElement.style.setProperty('--boss-color', currentBoss.color);
+
+  // Render dossier page
+  const caseId = currentBoss.id.replace('BV','SH');
+  $('#caseFileId').textContent = `CASE FILE #${caseId}`;
+  $('#caseStamp').textContent = `CASE #${caseId}`;
+  $('#bossName').textContent = currentBoss.name;
+  $('#bossTitle').textContent = currentBoss.title;
+  $('#bossIntro').textContent = currentBoss.intro;
+  $('#bossRelation').textContent = currentBoss.relation;
+  $('#bossEmotion').textContent = `愤怒 ${currentBoss.emotion.anger} / 疲惫 ${currentBoss.emotion.fatigue}`;
+  $('#bossStyle').textContent = $('#styleSelect').value;
+  $('#safeText').textContent = currentBoss.safe;
+  $('#dropPreview').textContent = `${currentBoss.drop}：${currentBoss.dropDesc}`;
+  $('#skillList').innerHTML = currentBoss.skills.map(s => `<li><strong>${s.name}</strong>：${s.description}</li>`).join('');
+  $('#levelChip').textContent = currentBoss.level;
+  $('#bossHudName').textContent = currentBoss.name;
+  $('#bossPortraitIcon').textContent = currentBoss.glyph;
+
+  // Threat bar
+  const tb = $('#threatBar');
+  tb.innerHTML = Array(7).fill(0).map(() => '<i></i>').join('');
+
+  // Show loading then navigate
+  showLoader(() => {
+    currentScreen = 'intro'; // force transition
+    showScreen('dossier');
+    portraitTime = 0;
+    drawBossPortrait();
+  });
+}
+
+function showLoader(cb) {
+  loaderOverlay.classList.remove('hidden');
+  const steps = ['扫描关键词...','匹配人生原型...','生成 Boss 战档案...','校准情绪强度...','副本就绪。'];
+  let i = 0;
+  const iv = setInterval(() => {
+    if (i < steps.length) { loaderDetail.textContent = steps[i]; SFX.gen(); i++; }
+    else { clearInterval(iv); setTimeout(() => { loaderOverlay.classList.add('hidden'); cb(); }, 200); }
+  }, 240);
+}
+
+// ============================================================
+// BATTLE ENGINE
+// ============================================================
+function initBattle() {
+  cancelAnimationFrame(animId);
+  ensureAudio();
+
+  const bossMaxHp = 360 + (currentBoss?.emotion?.anger || 50) * 2;
+
+  game = {
+    startedAt: performance.now(),
+    shake: { x:0, y:0, vx:0, vy:0, amp:0, life:0 },
+    hitStop: 0, flash: 0, cameraZoom: 1, cameraKick: 0,
+    particles: [], slashes: [], telegraphs: [], hitNumbers: [], sparks: [], messages: [],
+    introTimer: 2.0,
+    stats: { damage: 0, taken: 0, breaks: 0 },
+    waveIndex: 0, waveTimer: 0, waveTitleTimer: 2.0,
+    enemies: [], bossActive: false, projectiles: [], hazards: [],
+    state: 'playing',
+    player: {
+      x: 150, y: 372, w: 40, h: 60, vx: 0, vy: 0,
+      hp: 120, maxHp: 120, facing: 1, grounded: false,
+      attackCd: 0, skillCd: 0, dodgeCd: 0, invuln: 0,
+      state: 'idle', stateTime: 0, hurtFlash: 0,
+    },
+    boss: {
+      x: 710, y: 300, w: 100, h: 120, hp: bossMaxHp, maxHp: bossMaxHp,
+      phase: 0, atkTimer: 1.2, hurt: 0, quoteTimer: 0,
+    },
+  };
+
+  startWave(0);
+  showScreen('battle');
+  updateBattleHud();
+  lastFrame = performance.now();
+  animId = requestAnimationFrame(battleLoop);
+}
+
+function startWave(idx) {
+  const waves = [
+    { title: 'Wave 1 · 微信 99+', enemies: [{ type: 'bubble', count: 4 }], boss: false },
+    { title: 'Wave 2 · PPT 激光校对', enemies: [{ type: 'elite', count: 1 }, { type: 'bubble', count: 2 }], boss: false },
+    { title: 'Wave 3 · Boss 入场', enemies: [], boss: true },
+  ];
+  game.waveIndex = Math.min(idx, waves.length - 1);
+  game.waveTimer = 0;
+  game.waveTitleTimer = 2.0;
+  game.enemies = [];
+  game.bossActive = false;
+  const wave = waves[game.waveIndex];
+  if (!wave) return;
+
+  game.bossActive = wave.boss;
+  showWaveAnnounce(wave.title);
+
+  if (wave.enemies) {
+    wave.enemies.forEach((g, gi) => {
+      for (let i = 0; i < g.count; i++) {
+        spawnEnemy(g.type, 550 + gi * 80 + i * 70);
+      }
+    });
+  }
+}
+
+function spawnEnemy(type, x) {
+  const elite = type === 'elite';
+  game.enemies.push({
+    type, x, y: elite ? 340 : 368,
+    w: elite ? 50 : 34, h: elite ? 54 : 36,
+    hp: elite ? 90 : 40, maxHp: elite ? 90 : 40,
+    vx: elite ? -30 : -45, atkTimer: 0.8 + Math.random() * 1.4,
+    hurt: 0, color: elite ? (currentBoss?.color || '#ff3b47') : '#ffc857',
+  });
+}
+
+function showWaveAnnounce(title) {
+  waTitle.textContent = title;
+  waveAnnounce.classList.add('show');
+  setTimeout(() => waveAnnounce.classList.remove('show'), 1800);
+}
+
+function battleLoop(now) {
+  const rawDt = Math.min(0.033, (now - lastFrame) / 1000);
+  lastFrame = now;
+  game.hitStop = Math.max(0, game.hitStop - rawDt);
+  const dt = rawDt * (game.hitStop > 0 ? 0.05 : 1);
+  updateBattle(dt);
+  drawBattle();
+  if (game?.state === 'playing') animId = requestAnimationFrame(battleLoop);
+}
+
+function updateBattle(dt) {
+  const p = game.player, b = game.boss;
+  const left = keys.has('a') || keys.has('arrowleft') || touch.has('left');
+  const right = keys.has('d') || keys.has('arrowright') || touch.has('right');
+  const jump = keys.has('w') || keys.has(' ') || keys.has('arrowup') || touch.has('jump');
+  const attack = keys.has('j') || touch.has('attack');
+  const dodge = keys.has('k') || touch.has('dodge');
+  const skill = keys.has('l') || touch.has('skill');
+
+  // Cooldowns
+  p.attackCd = Math.max(0, p.attackCd - dt);
+  p.skillCd = Math.max(0, p.skillCd - dt);
+  p.dodgeCd = Math.max(0, p.dodgeCd - dt);
+  p.invuln = Math.max(0, p.invuln - dt);
+  p.hurtFlash = Math.max(0, p.hurtFlash - dt * 4);
+  game.introTimer = Math.max(0, game.introTimer - dt);
+  game.cameraKick = Math.max(0, game.cameraKick - dt * 6);
+  game.cameraZoom += (1 + game.cameraKick - game.cameraZoom) * Math.min(1, dt * 12);
+  game.flash = Math.max(0, game.flash - dt * 4);
+  updateShake(dt);
+
+  // Movement
+  p.vx = 0;
+  if (left) { p.vx = -BAL.playerSpeed; p.facing = -1; }
+  if (right) { p.vx = BAL.playerSpeed; p.facing = 1; }
+  if (jump && p.grounded) { p.vy = BAL.jumpVel; p.grounded = false; }
+
+  // Actions
+  if (dodge && p.dodgeCd <= 0) {
+    p.vx = p.facing * 620; p.invuln = 0.34;
+    p.dodgeCd = BAL.dodgeCd; SFX.dodge();
+    burst(p.x + p.w/2, p.y + p.h, '#54d4e8', 10, p.facing);
+  }
+  if (attack && p.attackCd <= 0) {
+    p.attackCd = BAL.attackCd;
+    performStrike(p.facing === 1 ? p.x + p.w : p.x - 50, p.y + 8, 54, 40, BAL.attackDmg);
+  }
+  if (skill && p.skillCd <= 0) {
+    p.skillCd = BAL.skillCd; SFX.skill();
+    game.projectiles.push({
+      x: p.x + p.w/2, y: p.y + 22, vx: p.facing * 520, r: 11,
+      damage: BAL.skillDmg, color: '#ffc857', from: 'player',
+    });
+  }
+
+  // Physics
+  p.vy += BAL.gravity * dt;
+  p.x += p.vx * dt; p.y += p.vy * dt;
+  if (p.y >= 372) { p.y = 372; p.vy = 0; p.grounded = true; }
+  p.x = clamp(p.x, 24, 900);
+
+  // Player state
+  let ns = 'idle';
+  if (p.invuln > 0 && p.dodgeCd > 0.7) ns = 'dodge';
+  else if (p.attackCd > 0.15) ns = 'attack';
+  else if (!p.grounded) ns = p.vy < 0 ? 'jump' : 'fall';
+  else if (Math.abs(p.vx) > 10) ns = 'run';
+  if (ns !== p.state) { p.state = ns; p.stateTime = 0; }
+  p.stateTime += dt;
+
+  // Wave management
+  game.waveTimer += dt;
+  game.waveTitleTimer = Math.max(0, game.waveTitleTimer - dt);
+  if (!game.bossActive && game.enemies.length === 0 && game.waveTimer > 3) {
+    startWave(game.waveIndex + 1);
+  }
+
+  // Enemies
+  updateEnemies(dt);
+
+  // Boss
+  if (game.bossActive) updateBoss(dt);
+
+  // Projectiles
+  updateProjectiles(dt);
+
+  // Hazards
+  updateHazards(dt);
+
+  // Effects
+  updateParticles(dt);
+  updateSlashes(dt);
+  updateTelegraphs(dt);
+  updateHitNumbers(dt);
+  updateSparks(dt);
+  game.messages.forEach(m => m.life -= dt * 0.8);
+  game.messages = game.messages.filter(m => m.life > 0);
+
+  updateBattleHud();
+
+  // Win/lose
+  if (game.bossActive && b.hp <= 0) finishBattle(true);
+  if (p.hp <= 0) finishBattle(false);
+}
+
+function performStrike(x, y, w, h, dmg) {
+  const box = { x, y, w, h };
+  const enemy = game.enemies.find(e => rectsOverlap(box, e));
+  const hitBoss = game.bossActive && rectsOverlap(box, game.boss);
+  const hit = !!(enemy || hitBoss);
+  game.flash = 0.14;
+  game.slashes.push({ x: x+w/2, y: y+h/2, facing: game.player.facing, life: 0.16, hit });
+  burst(x+w/2, y+h/2, hit ? '#ffc857' : '#fff6e8', hit ? 16 : 5, game.player.facing);
+  if (enemy) damageEnemy(enemy, dmg);
+  else if (hitBoss) damageBoss(dmg);
+}
+
+function updateEnemies(dt) {
+  game.enemies = game.enemies.filter(e => {
+    e.hurt = Math.max(0, e.hurt - dt);
+    e.atkTimer -= dt;
+    const dir = game.player.x < e.x ? -1 : 1;
+    e.x += dir * Math.abs(e.vx) * dt;
+    e.x = clamp(e.x, 80, 860);
+    if (e.atkTimer <= 0) {
+      e.atkTimer = e.type === 'elite' ? 1.6 : 2.2;
+      game.telegraphs.push({ x: e.x-14, y: e.y+12, w: e.w+28, h: 22, life: 0.3, color: e.color });
+      game.projectiles.push({
+        x: e.x+e.w/2, y: e.y+14, vx: dir * (e.type==='elite'?240:190),
+        r: e.type==='elite'?10:7, damage: e.type==='elite'?12:7,
+        color: e.color, from: 'enemy',
+      });
+    }
+    return e.hp > 0;
+  });
+}
+
+function updateBoss(dt) {
+  const b = game.boss;
+  const hpR = b.hp / b.maxHp;
+  b.phase = hpR < 0.33 ? 2 : hpR < 0.66 ? 1 : 0;
+  b.x += Math.sin(performance.now()/420) * dt * 16;
+  b.hurt = Math.max(0, b.hurt - dt);
+  b.atkTimer -= dt;
+  if (b.atkTimer > 0) return;
+
+  const cooldowns = [1.4, 1.2, 0.95];
+  b.atkTimer = cooldowns[b.phase];
+  const pattern = b.phase;
+  const skillName = currentBoss?.skills?.[pattern]?.name || '情绪暴走';
+  addMessage(skillName);
+
+  if (pattern === 0) {
+    // PPT laser sweep - horizontal telegraphed laser
+    const dir = game.player.x < b.x ? -1 : 1;
+    game.telegraphs.push({ x: b.x+dir*70, y: b.y+20, w: 110, h: 30, life: 0.35, color: currentBoss.color });
+    game.projectiles.push({ x: b.x+b.w/2, y: b.y+24, vx: dir*310, r: 15, damage: 16, color: currentBoss.color, from: 'boss' });
+  } else if (pattern === 1) {
+    // Meeting seal - falling hazards
+    for (let i = 0; i < 4; i++) {
+      game.telegraphs.push({ x: 140+i*190, y: 420, w: 50, h: 16, life: 0.5, color: currentBoss.color });
+      game.hazards.push({ x: 140+i*190, y: -30-i*24, w: 30, h: 50, vy: 360, damage: 13, ttl: 2, color: currentBoss.color });
+    }
+  } else {
+    // Overtime charge - dash attack
+    const dir = game.player.x < b.x ? -1 : 1;
+    game.telegraphs.push({ x: Math.min(game.player.x,b.x), y: 410, w: Math.abs(game.player.x-b.x)+100, h: 20, life: 0.22, color: currentBoss.color });
+    b.x += dir * 100;
+    if (rectsOverlap(b, game.player)) hurtPlayer(20);
+    triggerShake(8, dir);
+    burst(b.x+b.w/2, b.y+b.h/2, currentBoss.color, 18, dir);
+  }
+}
+
+function updateProjectiles(dt) {
+  game.projectiles = game.projectiles.filter(s => {
+    s.x += s.vx * dt;
+    if (s.from === 'player') {
+      const e = game.enemies.find(en => circleRect(s, en));
+      if (e) { damageEnemy(e, s.damage); return false; }
+      if (game.bossActive && circleRect(s, game.boss)) { damageBoss(s.damage); return false; }
+    }
+    if ((s.from === 'boss' || s.from === 'enemy') && circleRect(s, game.player)) {
+      hurtPlayer(s.damage); return false;
+    }
+    return s.x > -60 && s.x < 1020;
+  });
+}
+
+function updateHazards(dt) {
+  game.hazards = game.hazards.filter(hz => {
+    hz.y += hz.vy * dt; hz.ttl -= dt;
+    if (rectsOverlap(hz, game.player)) { hurtPlayer(hz.damage); hz.ttl = 0; burst(hz.x+hz.w/2, hz.y+hz.h/2, hz.color, 12); }
+    return hz.ttl > 0 && hz.y < 540;
+  });
+}
+
+function damageBoss(amt) {
+  const crit = Math.random() < 0.18;
+  const dmg = Math.round(crit ? amt*1.6 : amt);
+  game.boss.hp = Math.max(0, game.boss.hp - dmg);
+  game.stats.damage += dmg; game.stats.breaks += 1;
+  game.boss.hurt = 0.14;
+  game.hitStop = crit ? BAL.critHitStop : BAL.hitStop;
+  game.cameraKick = crit ? 0.022 : 0.01;
+  triggerShake(crit ? 12 : 7, game.player.facing);
+  spawnHitSpark(game.boss.x+game.boss.w/2, game.boss.y+44, crit);
+  crit ? SFX.crit() : SFX.hit();
+  addHitNumber(game.boss.x+game.boss.w/2, game.boss.y+14, dmg, crit ? '#FFC857' : '#fff6e8', crit ? 1.6 : 1, crit);
+  burst(game.boss.x+40, game.boss.y+40, '#ffc857', crit ? 30 : 16, game.player.facing);
+}
+
+function damageEnemy(e, amt) {
+  const dmg = Math.round(amt);
+  e.hp = Math.max(0, e.hp - dmg); e.hurt = 0.12;
+  game.stats.damage += dmg;
+  game.hitStop = BAL.hitStop * 0.7;
+  triggerShake(4, game.player.facing);
+  spawnHitSpark(e.x+e.w/2, e.y+e.h/2, false);
+  SFX.hit();
+  addHitNumber(e.x+e.w/2, e.y, dmg, '#fff6e8', 0.85, false);
+  burst(e.x+e.w/2, e.y+e.h/2, e.color, 10, game.player.facing);
+}
+
+function hurtPlayer(amt) {
+  const p = game.player;
+  if (p.invuln > 0) return;
+  const dmg = Math.max(1, Math.round(amt));
+  p.hp = Math.max(0, p.hp - dmg);
+  game.stats.taken += dmg;
+  p.invuln = 0.4; p.hurtFlash = 1;
+  triggerShake(7, -p.facing); SFX.hurt();
+  addHitNumber(p.x+p.w/2, p.y+2, `-${dmg}`, '#f0524f', 1, false);
+  burst(p.x+p.w/2, p.y+p.h/2, '#e5484d', 12, -p.facing);
+}
+
+// ============================================================
+// EFFECTS
+// ============================================================
+function burst(x, y, color, count, dirX=0) {
+  for (let i=0; i<count; i++) {
+    const cone = dirX ? dirX*(90+Math.random()*230) : (Math.random()-0.5)*280;
+    game.particles.push({
+      x, y, vx: cone+(Math.random()-0.5)*80, vy: (Math.random()-0.9)*250,
+      life: 0.4+Math.random()*0.26, color,
+    });
+  }
+}
+function updateParticles(dt) {
+  game.particles = game.particles.filter(d => {
+    d.x += d.vx*dt; d.y += d.vy*dt; d.vy += 500*dt; d.life -= dt;
+    return d.life > 0;
+  });
+}
+function updateSlashes(dt) { game.slashes = game.slashes.filter(s => { s.life-=dt; return s.life>0; }); }
+function updateTelegraphs(dt) { game.telegraphs = game.telegraphs.filter(t => { t.life-=dt; return t.life>0; }); }
+function updateHitNumbers(dt) {
+  game.hitNumbers = game.hitNumbers.filter(h => { h.age=(h.age||0)+dt; h.life-=dt; return h.life>0; });
+}
+function spawnHitSpark(x, y, crit) {
+  game.sparks.push({ x, y, rot: Math.random()*Math.PI*2, size: crit?80:50, life: 0.14, maxLife: 0.14, crit });
+}
+function updateSparks(dt) {
+  game.sparks = game.sparks.filter(s => { s.life-=dt; s.rot+=dt*7; return s.life>0; });
+}
+function addHitNumber(x, y, val, color, scale, crit) {
+  game.hitNumbers.push({ x: x+(Math.random()-0.5)*30, y, value: val, color, scale, crit, life: 0.7, age: 0 });
+}
+function addMessage(text) { game.messages.unshift({ text, life: 1.2 }); game.messages = game.messages.slice(0, 3); }
+function triggerShake(amp, dirX=0) {
+  const s = game.shake; s.amp = Math.max(s.amp, amp); s.life = 0.2;
+  s.vx += dirX*amp*3.8; s.vy += -amp*2.1;
+}
+function updateShake(dt) {
+  const s = game.shake;
+  if (s.life <= 0) { s.x+=(0-s.x)*Math.min(1,dt*16); s.y+=(0-s.y)*Math.min(1,dt*16); return; }
+  s.life-=dt;
+  const stiffness=480, damping=12;
+  s.vx+=(-stiffness*s.x-damping*s.vx)*dt; s.vy+=(-stiffness*s.y-damping*s.vy)*dt;
+  s.x+=s.vx*dt; s.y+=s.vy*dt;
+  const noise=s.amp*Math.max(0,s.life/0.2);
+  s.x+=(Math.random()-0.5)*noise*0.4; s.y+=(Math.random()-0.5)*noise*0.4;
+  s.amp*=0.9;
+}
+
+function updateBattleHud() {
+  const pr = clamp(game.player.hp/game.player.maxHp,0,1);
+  const br = game.bossActive ? clamp(game.boss.hp/game.boss.maxHp,0,1) : 1;
+  $('#playerHpBar').style.width = `${pr*100}%`;
+  $('#playerHpText').textContent = `${Math.ceil(game.player.hp)}/${game.player.maxHp}`;
+  $('#bossHpBar').style.width = `${br*100}%`;
+  $('#bossHpText').textContent = game.bossActive ? `${Math.ceil(game.boss.hp)}/${game.boss.maxHp}` : '—';
+  const phaseLabels = ['PHASE 1/3','PHASE 2/3','PHASE 3/3'];
+  const phase = game.bossActive ? game.boss.phase : 0;
+  const skillName = currentBoss?.skills?.[phase]?.name || '情绪暴走';
+  $('#bossPhaseText').textContent = game.bossActive ? `${phaseLabels[phase]} · ${skillName}` : `敌人 ${game.enemies.length}`;
+
+  // CD rings
+  const circ = 2*Math.PI*19;
+  const atkR = 1 - game.player.attackCd / BAL.attackCd;
+  const dodgeR = 1 - game.player.dodgeCd / BAL.dodgeCd;
+  const skillR = 1 - game.player.skillCd / BAL.skillCd;
+  const setRing = (el, r) => { el.setAttribute('stroke-dasharray', circ); el.setAttribute('stroke-dashoffset', circ*(1-clamp(r,0,1))); };
+  setRing($('#attackCdCircle'), atkR);
+  setRing($('#dodgeCdCircle'), dodgeR);
+  setRing($('#skillCdCircle'), skillR);
+  const ready = (el, r) => { el.classList.toggle('ready', r >= 0.99); };
+  ready($('#attackBtn'), atkR); ready($('#dodgeBtn'), dodgeR); ready($('#skillBtn'), skillR);
+}
+
+// ============================================================
+// CANVAS RENDERING
+// ============================================================
+function drawBattle() {
+  ctx.save();
+  ctx.clearRect(0, 0, 960, 540);
+  ctx.translate(480, 270);
+  ctx.scale(game.cameraZoom, game.cameraZoom);
+  ctx.translate(-480+game.shake.x, -270+game.shake.y);
+
+  drawBattleBg();
+  drawTelegraphs();
+  drawPlayer();
+  drawEnemies();
+  if (game.bossActive) drawBoss();
+  drawProjectiles();
+  drawHazards();
+  drawSlashes();
+  drawParticles();
+  drawSparks();
+  drawHitNumbers();
+  drawBattleMessages();
+  if (game.flash > 0) { ctx.fillStyle = `rgba(255,255,255,${game.flash*0.16})`; ctx.fillRect(0,0,960,540); }
+  drawBattleVignette();
+  drawBattleIntro();
+
+  ctx.restore();
+}
+
+function drawBattleBg() {
+  const t = performance.now()/1000;
+  const camOff = ((game.player.x||480)-480)*0.3;
+  const theme = currentBoss?.theme || 'office';
+  const bc = currentBoss?.color || '#ff3b47';
+
+  // Sky gradient
+  const palettes = {
+    office: ['#101116','#1b1717','#281014'],
+    rain: ['#111023','#151b2b','#20132c'],
+    campus: ['#081b20','#10252b','#141b22'],
+  };
+  const [sa, sb, sc] = palettes[theme] || palettes.office;
+  const grad = ctx.createLinearGradient(0,0,960,540);
+  grad.addColorStop(0, sa); grad.addColorStop(0.48, sb); grad.addColorStop(1, sc);
+  ctx.fillStyle = grad; ctx.fillRect(0,0,960,540);
+
+  // Boss glow
+  if (game.bossActive) {
+    const glow = ctx.createRadialGradient(game.boss.x+50, game.boss.y+20, 20, game.boss.x+50, game.boss.y+20, 320);
+    glow.addColorStop(0, hexToRGBA(bc, 0.3)); glow.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = glow; ctx.fillRect(0,0,960,540);
+  }
+
+  // Far bg - city buildings silhouettes
+  ctx.save(); ctx.translate(-camOff*0.15, 0);
+  ctx.fillStyle = 'rgba(3,4,6,0.6)';
+  for (let i = 0; i < 12; i++) {
+    const bx = i*82 - 40, bw = 34+Math.sin(i*2.7)*14, bh = 120+Math.sin(i*1.8)*60;
+    ctx.fillRect(bx, 410-bh, bw, bh);
+  }
+  // Building windows
+  ctx.fillStyle = 'rgba(255,200,87,0.08)';
+  for (let i = 0; i < 12; i++) {
+    const bx = i*82 - 40, bw = 34+Math.sin(i*2.7)*14, bh = 120+Math.sin(i*1.8)*60;
+    for (let wy = 430-bh+10; wy < 400; wy += 16) {
+      for (let wx = bx+5; wx < bx+bw-5; wx += 12) {
+        if ((wx+wy)%23 > 12) ctx.fillRect(wx, wy, 6, 5);
+      }
+    }
+  }
+  ctx.restore();
+
+  // Mid bg - office scenes
+  ctx.save(); ctx.translate(-camOff*0.4, 0);
+  if (theme === 'office') {
+    // Desks
+    ctx.fillStyle = '#1a1414';
+    ctx.fillRect(80, 370, 160, 16); ctx.fillRect(440, 368, 180, 16); ctx.fillRect(780, 372, 140, 16);
+    // Monitor silhouettes
+    ctx.fillStyle = 'rgba(5,5,8,0.7)';
+    ctx.fillRect(120, 315, 70, 55); ctx.fillRect(500, 310, 75, 58); ctx.fillRect(810, 318, 65, 54);
+    ctx.fillStyle = hexToRGBA(bc, 0.2);
+    ctx.fillRect(128, 322, 54, 6); ctx.fillRect(508, 317, 57, 6);
+  } else if (theme === 'rain') {
+    // Rain streaks
+    ctx.strokeStyle = 'rgba(84,212,232,0.1)';
+    for (let i=0; i<50; i++) {
+      const rx = (i*41+t*70)%980, ry = (i*37)%400;
+      ctx.beginPath(); ctx.moveTo(rx, ry); ctx.lineTo(rx-5, ry+18); ctx.stroke();
+    }
+  } else if (theme === 'campus') {
+    // Books
+    ['#54d4e8','#ffc857','#fff6e8'].forEach((c, idx) => {
+      ctx.fillStyle = c;
+      for (let i=0; i<8; i++) ctx.fillRect(60+i*110+idx*3, 370-idx*16, 70, 10);
+    });
+  }
+  ctx.restore();
+
+  // Floor
+  const fGrad = ctx.createLinearGradient(0, 430, 0, 540);
+  fGrad.addColorStop(0, 'rgba(255,246,232,0.1)');
+  fGrad.addColorStop(0.06, 'rgba(0,0,0,0.45)');
+  fGrad.addColorStop(1, 'rgba(0,0,0,0.85)');
+  ctx.fillStyle = fGrad; ctx.fillRect(0, 430, 960, 110);
+  // Floor edge glow
+  ctx.fillStyle = hexToRGBA(bc, 0.5); ctx.fillRect(0, 430, 960, 2);
+
+  // Foreground props
+  ctx.save(); ctx.translate(-camOff*0.9, 0);
+  if (theme === 'office') {
+    // Flying papers
+    for (let i=0; i<6; i++) {
+      ctx.fillStyle = 'rgba(255,246,232,0.3)';
+      const px = (t*50+i*150)%1000-40, py = 400+Math.sin(t+i)*20;
+      ctx.fillRect(px, py, 14, 9);
+    }
+  }
+  ctx.restore();
+}
+
+function drawPlayer() {
+  const p = game.player;
+  if (p.hp <= 0) return;
+  const t = p.stateTime;
+  ctx.save();
+  ctx.translate(p.x+p.w/2, p.y+p.h/2);
+  ctx.scale(p.facing, 1);
+
+  let bodyY = Math.sin(t*3)*1.2;
+  let bodyRot = 0;
+  let squashX = 1, squashY = 1;
+
+  if (p.state === 'jump') { squashY = p.vy<0?1.1:0.92; squashX = p.vy<0?0.95:1.06; }
+  else if (p.state === 'attack') { bodyRot = -0.2 + t*4; }
+  else if (p.state === 'dodge') { bodyRot = -0.5; bodyY = Math.sin(t*10)*5; }
+  else if (p.state === 'run') { bodyY = Math.sin(t*10)*1.8; }
+
+  ctx.translate(0, bodyY);
+  ctx.rotate(bodyRot);
+  ctx.scale(squashX, squashY);
+
+  // Invuln flash
+  if (p.invuln > 0) ctx.globalAlpha = 0.5 + Math.sin(performance.now()/25)*0.3;
+  // Hurt flash
+  if (p.hurtFlash > 0) { ctx.globalAlpha = 0.6 + Math.sin(performance.now()/15)*0.4; }
+
+  // Shadow
+  ctx.fillStyle = 'rgba(0,0,0,0.4)'; ctx.beginPath(); ctx.ellipse(0, 32, 16, 5, 0, 0, Math.PI*2); ctx.fill();
+
+  // Legs
+  const runOff = p.state==='run' ? Math.sin(t*12)*8 : 0;
+  ctx.fillStyle = '#1a1d22';
+  ctx.fillRect(-5, 8, 8, 26+runOff*0.3); ctx.fillRect(2, 8, 8, 26-runOff*0.3);
+  // Shoes
+  ctx.fillStyle = '#0d0f12';
+  ctx.fillRect(-6, 30, 10, 6); ctx.fillRect(1, 30, 10, 6);
+
+  // Body / Jacket
+  ctx.fillStyle = '#1e2028';
+  ctx.beginPath(); ctx.roundRect(-10,-16,20,30,6); ctx.fill();
+  // Jacket detail
+  ctx.fillStyle = '#2a2d36';
+  ctx.fillRect(-6,-14,3,28); ctx.fillRect(3,-14,3,28);
+
+  // Scarf
+  ctx.fillStyle = '#ff3b47';
+  ctx.fillRect(-12,-3,24,6);
+  ctx.fillStyle = '#e0303a';
+  ctx.fillRect(-6,3,12,8);
+
+  // Badge
+  ctx.fillStyle = '#ffc857'; ctx.fillRect(4,-6,6,8);
+  ctx.fillStyle = '#1a1204'; ctx.fillRect(5,-5,4,3);
+
+  // Arms
+  const armSwing = p.state==='run' ? Math.sin(t*12)*0.6 : (p.state==='attack' ? 0.9 : 0);
+  ctx.strokeStyle = '#1e2028'; ctx.lineWidth = 6; ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.moveTo(-8,-8); ctx.lineTo(-20,6+armSwing*10); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(8,-8); ctx.lineTo(20,6-armSwing*10); ctx.stroke();
+
+  // Weapon hand (right)
+  if (p.state === 'attack') {
+    ctx.strokeStyle = '#ffc857'; ctx.lineWidth = 4;
+    ctx.beginPath(); ctx.moveTo(18,6-armSwing*10); ctx.lineTo(40, -10-armSwing*20); ctx.stroke();
+    // Keyboard-sword
+    ctx.fillStyle = '#e8eaf0'; ctx.fillRect(36, -26, 6, 28);
+    ctx.fillStyle = '#0d0f12'; ctx.fillRect(37, -22, 4, 3); ctx.fillRect(37, -16, 4, 3);
+    ctx.fillRect(37, -10, 4, 3); ctx.fillRect(37, -4, 4, 3);
+  }
+
+  // Head
+  ctx.fillStyle = '#e8d5c0'; ctx.beginPath(); ctx.arc(0,-22,11,0,Math.PI*2); ctx.fill();
+  // Hair (spikey)
+  ctx.fillStyle = '#1a1816';
+  ctx.beginPath();
+  ctx.moveTo(-11,-22); ctx.lineTo(-12,-32); ctx.lineTo(-6,-28); ctx.lineTo(-1,-36);
+  ctx.lineTo(3,-30); ctx.lineTo(8,-34); ctx.lineTo(11,-25); ctx.lineTo(12,-20);
+  ctx.lineTo(-12,-18); ctx.closePath(); ctx.fill();
+  // Eyes
+  ctx.fillStyle = '#fff'; ctx.fillRect(-5,-24,4,3); ctx.fillRect(2,-24,4,3);
+  ctx.fillStyle = '#0d0f12'; ctx.fillRect(-3,-23,2,2); ctx.fillRect(4,-23,2,2);
+  // Mouth
+  ctx.fillStyle = '#c09080'; ctx.fillRect(-2,-16,5,1.5);
+
+  ctx.globalAlpha = 1;
+  ctx.restore();
+}
+
+function drawEnemies() {
+  game.enemies.forEach(e => {
+    ctx.save();
+    ctx.translate(e.x+e.w/2, e.y+e.h/2);
+    if (e.hurt > 0) ctx.translate(Math.sin(performance.now()/14)*4, 0);
+
+    if (e.type === 'bubble') {
+      // Chat bubble body
+      ctx.fillStyle = '#e8eaf0'; ctx.shadowColor = 'rgba(255,200,87,0.4)'; ctx.shadowBlur = 12;
+      ctx.beginPath(); ctx.roundRect(-e.w/2, -e.h/2+3, e.w, e.h-3, 10); ctx.fill();
+      // Tail
+      ctx.fillStyle = '#e8eaf0';
+      ctx.beginPath(); ctx.moveTo(-4, e.h/2-3); ctx.lineTo(2, e.h/2+10); ctx.lineTo(8, e.h/2-3); ctx.fill();
+      // Badge
+      ctx.fillStyle = '#ff3b47'; ctx.beginPath(); ctx.arc(e.w/2-2, -e.h/2+4, 9, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 9px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText('99+', e.w/2-2, -e.h/2+4);
+      // Eyes
+      ctx.fillStyle = '#0d0f12'; ctx.beginPath(); ctx.arc(-4, -2, 3, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(6, -2, 3, 0, Math.PI*2); ctx.fill();
+      ctx.shadowBlur = 0;
+    } else {
+      // PPT Elite
+      ctx.fillStyle = hexToRGBA(e.color, 0.85); ctx.shadowColor = e.color; ctx.shadowBlur = 16;
+      ctx.beginPath(); ctx.roundRect(-e.w/2, -e.h/2, e.w, e.h, 10); ctx.fill();
+      // Projector lens head
+      ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(0, -e.h/2+8, 10, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#0d0f12'; ctx.beginPath(); ctx.arc(0, -e.h/2+8, 5, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = e.color; ctx.beginPath(); ctx.arc(0, -e.h/2+8, 2.5, 0, Math.PI*2); ctx.fill();
+      ctx.shadowBlur = 0;
+      // Tripod legs
+      ctx.strokeStyle = '#666'; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.moveTo(-8, e.h/2); ctx.lineTo(-14, e.h/2+12); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(8, e.h/2); ctx.lineTo(14, e.h/2+12); ctx.stroke();
+    }
+
+    // HP bar
+    ctx.fillStyle = 'rgba(0,0,0,0.5)';
+    ctx.fillRect(-e.w/2, -e.h/2-10, e.w, 4);
+    ctx.fillStyle = '#62d28f';
+    ctx.fillRect(-e.w/2, -e.h/2-10, e.w*(e.hp/e.maxHp), 4);
+
+    ctx.restore();
+  });
+}
+
+function drawBoss() {
+  const b = game.boss;
+  const t = performance.now()/1000;
+  const bc = currentBoss?.color || '#ff3b47';
+
+  ctx.save();
+  ctx.translate(b.x+b.w/2, b.y+b.h/2);
+  if (b.hurt > 0) ctx.translate(Math.sin(performance.now()/16)*5, 0);
+
+  // Shadow
+  ctx.fillStyle = 'rgba(0,0,0,0.4)';
+  ctx.beginPath(); ctx.ellipse(0, 60, 70, 10, 0, 0, Math.PI*2); ctx.fill();
+
+  // Aura rings
+  ctx.strokeStyle = hexToRGBA(bc, 0.15);
+  for (let i=0; i<3; i++) {
+    ctx.beginPath();
+    ctx.ellipse(0, -10, 50+i*14, 40+i*10, Math.sin(t+i)*0.1, 0, Math.PI*2);
+    ctx.stroke();
+  }
+
+  // Wings (PPT slides) - appear in phase 1+
+  if (b.phase >= 1) {
+    ctx.fillStyle = 'rgba(255,255,255,0.2)';
+    ctx.save(); ctx.translate(-62, -5); ctx.rotate(-0.25+Math.sin(t*2)*0.08);
+    ctx.fillRect(0,-16,60,42); ctx.strokeStyle = 'rgba(255,255,255,0.3)'; ctx.lineWidth=1; ctx.strokeRect(0,-16,60,42);
+    ctx.restore();
+    ctx.save(); ctx.translate(58, -5); ctx.rotate(0.25-Math.sin(t*2)*0.08);
+    ctx.fillRect(-60,-16,60,42); ctx.strokeStyle = 'rgba(255,255,255,0.3)'; ctx.lineWidth=1; ctx.strokeRect(-60,-16,60,42);
+    ctx.restore();
+  }
+
+  // Main body
+  const bGrad = ctx.createLinearGradient(-44,-55,44,55);
+  bGrad.addColorStop(0, bc); bGrad.addColorStop(1, '#3a0a10');
+  ctx.fillStyle = bGrad; ctx.shadowColor = bc; ctx.shadowBlur = 30;
+  ctx.beginPath(); ctx.roundRect(-44,-55,88,115,18); ctx.fill();
+  ctx.shadowBlur = 0;
+  ctx.strokeStyle = 'rgba(255,255,255,0.25)'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.roundRect(-44,-55,88,115,18); ctx.stroke();
+
+  // Eye
+  ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(0,-14,24,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#0a080c'; ctx.beginPath(); ctx.arc(0,-14,12,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle = bc; ctx.beginPath(); ctx.arc(0,-14,6,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(3,-17,2.5,0,Math.PI*2); ctx.fill();
+
+  // Glyph
+  ctx.fillStyle = 'rgba(255,255,255,0.85)'; ctx.font = 'bold 44px sans-serif';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText(currentBoss?.glyph || '卷', 0, 24);
+
+  // Arms
+  ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 7; ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.moveTo(-46,-4); ctx.lineTo(-90,14+Math.sin(t*3)*6); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(44,-4); ctx.lineTo(88,14-Math.sin(t*3)*6); ctx.stroke();
+
+  // Phase indicator
+  const pi = ['Ⅰ','Ⅱ','Ⅲ'][b.phase];
+  ctx.fillStyle = bc; ctx.font = 'bold 14px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText(pi, 0, 62);
+
+  // Alert bg in phase 2+
+  if (b.phase >= 2) {
+    ctx.fillStyle = 'rgba(255,0,0,0.1)'; ctx.fillRect(-44,-65,88,10);
+  }
+
+  ctx.restore();
+}
+
+function drawProjectiles() {
+  game.projectiles.forEach(s => {
+    ctx.save();
+    const g = ctx.createRadialGradient(s.x,s.y,2,s.x,s.y,s.r*2.2);
+    g.addColorStop(0,'#fff6e8'); g.addColorStop(0.4,s.color); g.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle = g; ctx.shadowColor = s.color; ctx.shadowBlur = 20;
+    ctx.beginPath(); ctx.arc(s.x,s.y,s.r*2.2,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = s.color;
+    ctx.beginPath(); ctx.roundRect(s.x-s.r*1.3,s.y-s.r*0.4,s.r*2.6,s.r*0.8,s.r); ctx.fill();
+    ctx.restore();
+  });
+}
+
+function drawHazards() {
+  game.hazards.forEach(hz => {
+    ctx.save();
+    ctx.shadowColor = hz.color; ctx.shadowBlur = 16;
+    ctx.fillStyle = hz.color;
+    ctx.beginPath(); ctx.moveTo(hz.x+hz.w/2, hz.y); ctx.lineTo(hz.x+hz.w, hz.y+hz.h/2);
+    ctx.lineTo(hz.x+hz.w/2, hz.y+hz.h); ctx.lineTo(hz.x, hz.y+hz.h/2); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,0.6)';
+    ctx.fillRect(hz.x+8, hz.y+hz.h/2-3, hz.w-16, 5);
+    ctx.restore();
+  });
+}
+
+function drawTelegraphs() {
+  game.telegraphs.forEach(m => {
+    ctx.save();
+    ctx.globalAlpha = Math.min(0.65, m.life*2.2);
+    ctx.strokeStyle = m.color; ctx.fillStyle = hexToRGBA(m.color, 0.15); ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.roundRect(m.x, m.y, m.w, m.h, 8); ctx.fill(); ctx.stroke();
+    ctx.restore();
+  });
+}
+
+function drawSlashes() {
+  game.slashes.forEach(s => {
+    ctx.save();
+    ctx.translate(s.x, s.y); ctx.scale(s.facing, 1); ctx.rotate(-0.2);
+    ctx.globalAlpha = Math.min(1, s.life*8);
+    const g = ctx.createLinearGradient(-60,0,70,0);
+    g.addColorStop(0,'rgba(255,255,255,0)');
+    g.addColorStop(0.25, s.hit?'#ffc857':'#fff6e8');
+    g.addColorStop(0.6,'#fff6e8');
+    g.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.moveTo(-60,-12); ctx.quadraticCurveTo(14,-36,72,-4);
+    ctx.quadraticCurveTo(16,14,-60,12); ctx.closePath(); ctx.fill();
+    ctx.restore();
+  });
+}
+
+function drawParticles() {
+  game.particles.forEach(d => {
+    ctx.save(); ctx.globalAlpha = Math.max(0, d.life);
+    ctx.fillStyle = d.color; ctx.shadowColor = d.color; ctx.shadowBlur = 8;
+    ctx.fillRect(d.x, d.y, 4, 4); ctx.restore();
+  });
+}
+
+function drawSparks() {
+  game.sparks.forEach(s => {
+    ctx.save(); ctx.translate(s.x, s.y); ctx.rotate(s.rot);
+    const t = s.life/s.maxLife, sz = s.size*(1.4-t*0.3);
+    ctx.globalAlpha = t;
+    ctx.strokeStyle = s.crit?'#FFC857':'#fff'; ctx.fillStyle = s.crit?'#FFC857':'#fff';
+    ctx.shadowColor = ctx.strokeStyle; ctx.shadowBlur = 28; ctx.lineWidth = sz*0.08; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(-sz,0); ctx.lineTo(sz,0); ctx.moveTo(0,-sz*0.25); ctx.lineTo(0,sz*0.25); ctx.stroke();
+    ctx.beginPath(); ctx.arc(0,0,sz*0.12,0,Math.PI*2); ctx.fill(); ctx.restore();
+  });
+}
+
+function drawHitNumbers() {
+  game.hitNumbers.forEach(h => {
+    const progress = 1 - h.life/0.7;
+    const ease = progress<0.2 ? progress*5 : 1;
+    const yOff = -progress*50 + (progress>0.7?(progress-0.7)*80:0);
+    ctx.save();
+    ctx.globalAlpha = h.life>0.2?1:h.life*5;
+    ctx.translate(h.x, h.y+yOff);
+    ctx.scale((h.scale||1)*(ease+Math.sin(ease*Math.PI)*0.3), (h.scale||1)*(ease+Math.sin(ease*Math.PI)*0.3));
+    ctx.fillStyle = h.color; ctx.strokeStyle = 'rgba(0,0,0,0.7)'; ctx.lineWidth = 4;
+    ctx.font = `${h.crit?'950 32px':'900 22px'} "JetBrains Mono", monospace`;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.strokeText(String(h.value),0,0); ctx.fillText(String(h.value),0,0);
+    if (h.crit) { ctx.font = 'bold 12px sans-serif'; ctx.fillText('CRIT',0,-26); }
+    ctx.restore();
+  });
+}
+
+function drawBattleMessages() {
+  game.messages.forEach((m,i) => {
+    ctx.globalAlpha = Math.min(1,m.life);
+    ctx.fillStyle = 'rgba(8,9,11,0.72)';
+    ctx.beginPath(); ctx.roundRect(340, 38+i*38, 280, 30, 8); ctx.fill();
+    ctx.strokeStyle = hexToRGBA(currentBoss?.color||'#ff3b47', 0.5); ctx.stroke();
+    ctx.fillStyle = '#f6f0df'; ctx.font = 'bold 16px sans-serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(m.text, 480, 54+i*38);
+    ctx.globalAlpha = 1;
+  });
+}
+
+function drawBattleVignette() {
+  const vg = ctx.createRadialGradient(480,270,180,480,270,560);
+  vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(0.7,'rgba(0,0,0,0.2)'); vg.addColorStop(1,'rgba(0,0,0,0.55)');
+  ctx.fillStyle = vg; ctx.fillRect(0,0,960,540);
+}
+
+function drawBattleIntro() {
+  if (game.introTimer > 0) {
+    ctx.globalAlpha = Math.min(1, game.introTimer);
+    ctx.fillStyle = 'rgba(0,0,0,0.55)'; ctx.fillRect(0,0,960,540);
+    ctx.fillStyle = '#ffc857'; ctx.font = 'bold 14px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('BREAKVERSE DUNGEON', 480, 220);
+    ctx.fillStyle = '#fff'; ctx.font = '950 42px sans-serif';
+    ctx.fillText(currentBoss?.level || '副本', 480, 270);
+    ctx.fillStyle = 'rgba(255,246,232,0.7)'; ctx.font = 'bold 16px sans-serif';
+    ctx.fillText(`目标：击败 ${currentBoss?.name || 'Boss'}`, 480, 308);
+    ctx.globalAlpha = 1;
+  }
+}
+
+// ============================================================
+// BATTLE RESULT
+// ============================================================
+function finishBattle(won) {
+  game.state = 'done';
+  cancelAnimationFrame(animId);
+  const seconds = Math.max(12, Math.round((performance.now() - game.startedAt) / 1000));
+  const shareCode = `${currentBoss?.id || 'BV-0000'}-${won?'WIN':'TRY'}`;
+
+  const title = won ? '你夺回了今晚这三分钟' : '这次没赢，但 Boss 已经露血条了';
+  const summary = won
+    ? `你击败了「${currentBoss?.name}」，剩余生命 ${Math.ceil(game.player.hp)}。现实不一定立刻改变，但你已经把它变成了可处理的东西。`
+    : `你被「${currentBoss?.name}」打回入口，用时 ${seconds} 秒。下一局建议多用闪避和技能。`;
+  const share = `我把「${currentBoss?.safe}」做成了 Boss：${currentBoss?.name}。\n${won?'刚刚打爆了它':'这次差点打爆它'}。\n战报编号：${shareCode}`;
+
+  $('#resultTitle').textContent = title;
+  $('#resultSummary').textContent = summary;
+  $('#shareBossName').textContent = currentBoss?.name || '';
+  $('#shareDamage').textContent = `⚔ ${String(game.stats.damage).padStart(4,'0')}`;
+  $('#shareTime').textContent = `⏱ ${String(Math.floor(seconds/60)).padStart(2,'0')}:${String(seconds%60).padStart(2,'0')}`;
+  $('#shareBreaks').textContent = `💢 ${game.stats.breaks}`;
+  $('#shareDrop').textContent = won ? `掉落：${currentBoss?.drop || ''}` : '未掉落：下次再打回来';
+  $('#shareQuote').textContent = won ? '不是所有崩溃都要忍着，有些可以被打败。' : '失败不是结算，是第二阶段开场。';
+  $('#shareCode').textContent = `挑战码：${shareCode}`;
+  $('#lootName').textContent = won ? (currentBoss?.drop || '没有获得装备') : '没有获得装备';
+  $('#lootEffect').textContent = won ? (currentBoss?.dropDesc || '') : '失败时不会发放装备，下一局仍可挑战同一 Boss。';
+  $('#shareText').value = share;
+
+  // Save last run
+  lastRunData = { bossName: currentBoss?.name, won, at: Date.now(), dropName: currentBoss?.drop || '无掉落' };
+  updateLastRunBadge();
+
+  // Save to localStorage
+  try { localStorage.setItem('breakverse:lastRun', JSON.stringify(lastRunData)); } catch(e) {}
+
+  setTimeout(() => showScreen('result'), 600);
+}
+
+function updateLastRunBadge() {
+  const badge = $('#lastRunBadge');
+  if (lastRunData) {
+    badge.textContent = `上次副本：${lastRunData.bossName} · ${lastRunData.won?'已击败':'未通关'} · ${lastRunData.dropName}`;
+    badge.classList.remove('hidden');
+  }
+}
+
+// ============================================================
+// EVENT BINDINGS
+// ============================================================
+
+// Keyboard
+document.addEventListener('keydown', e => {
+  keys.add(e.key.toLowerCase());
+  if ([' ','arrowup','arrowdown','arrowleft','arrowright'].includes(e.key.toLowerCase())) e.preventDefault();
+});
+document.addEventListener('keyup', e => keys.delete(e.key.toLowerCase()));
+
+// Touch controls
+$$('[data-touch]').forEach(btn => {
+  const name = btn.dataset.touch;
+  btn.addEventListener('pointerdown', e => { e.preventDefault(); touch.add(name); });
+  btn.addEventListener('pointerup', e => { e.preventDefault(); touch.delete(name); });
+  btn.addEventListener('pointerleave', () => touch.delete(name));
+  btn.addEventListener('pointercancel', () => touch.delete(name));
+});
+
+// Chips
+$$('#identityChips .chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    $$('#identityChips .chip').forEach(c => c.classList.remove('is-active'));
+    chip.classList.add('is-active');
+    $('#identitySelect').value = chip.dataset.value;
+  });
+});
+
+// Rant counter
+$('#rantInput').addEventListener('input', () => {
+  const len = $('#rantInput').value.length;
+  $('#rantCounter').textContent = `${len}/180`;
+  $('#terminalInput').classList.toggle('is-hot', len > 80);
+});
+// Init counter
+$('#rantInput').value = '老板周日晚上让我改方案，还说年轻人要多锻炼，我真的快疯了。';
+$('#rantCounter').textContent = `${$('#rantInput').value.length}/180`;
+
+// Generate Boss
+$('#generateBtn').addEventListener('click', () => { ensureAudio(); generateBoss(); });
+$('#regenBtn').addEventListener('click', () => { ensureAudio(); generateBoss(); });
+
+// Enter battle
+$('#enterBattleBtn').addEventListener('click', () => {
+  ensureAudio();
+  setTimeout(() => initBattle(), 500);
+});
+
+// Again
+$('#againBtn').addEventListener('click', () => {
+  showScreen('intro');
+  $('#rantInput').focus();
+});
+
+// Copy
+$('#copyBtn').addEventListener('click', async () => {
+  const text = $('#shareText').value;
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(text);
+  } else {
+    $('#shareText').select(); document.execCommand('copy');
+  }
+  $('#copyBtn').textContent = '已复制';
+  setTimeout(() => { $('#copyBtn').textContent = '复制分享文案'; }, 1400);
+});
+
+// Download card
+$('#downloadCardBtn').addEventListener('click', () => {
+  const card = document.createElement('canvas');
+  card.width = 1080; card.height = 1440;
+  const c = card.getContext('2d');
+  const grad = c.createLinearGradient(0,0,1080,1440);
+  grad.addColorStop(0,'#0f1015'); grad.addColorStop(0.5,'#090a0d'); grad.addColorStop(1,'#1a0e12');
+  c.fillStyle = grad; c.fillRect(0,0,1080,1440);
+  c.strokeStyle = 'rgba(255,200,87,0.5)'; c.lineWidth = 3; c.strokeRect(60,60,960,1320);
+  c.fillStyle = '#ffc857'; c.font = 'bold 32px monospace'; c.fillText('BREAKVERSE', 90, 120);
+  c.fillStyle = '#fff'; c.font = '950 64px sans-serif'; c.fillText(`击败：${currentBoss?.name||''}`, 90, 230);
+  // Stats
+  c.fillStyle = 'rgba(255,255,255,0.08)'; c.beginPath(); c.roundRect(90, 820, 900, 130, 16); c.fill();
+  c.fillStyle = '#e8eaf0'; c.font = 'bold 36px sans-serif';
+  c.fillText($('#shareDamage').textContent, 120, 890);
+  c.fillText($('#shareTime').textContent, 400, 890);
+  c.fillText($('#shareBreaks').textContent, 680, 890);
+  // Drop
+  c.fillStyle = '#62d28f'; c.font = 'bold 40px sans-serif';
+  c.fillText(`掉落：${currentBoss?.drop||''}`, 90, 1030);
+  c.fillStyle = '#e8eaf0'; c.font = '700 28px sans-serif';
+  c.fillText('不是所有崩溃都要忍着，有些可以被打败。', 90, 1100);
+  c.fillStyle = '#ffc857'; c.font = 'bold 28px monospace';
+  c.fillText($('#shareCode').textContent.replace('挑战码：','#'), 90, 1280);
+
+  const link = document.createElement('a');
+  link.download = `${currentBoss?.id||'BV-0000'}-breakverse-card.png`;
+  link.href = card.toDataURL('image/png');
+  link.click();
+});
+
+// ============================================================
+// INIT
+// ============================================================
+function updateClock() {
+  const now = new Date();
+  $('#brandClock').textContent = now.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'});
+}
+updateClock();
+setInterval(updateClock, 30000);
+
+// Restore last run
+try {
+  lastRunData = JSON.parse(localStorage.getItem('breakverse:lastRun'));
+  if (lastRunData) updateLastRunBadge();
+} catch(e) {}
+
+// Start mini stage animation
+drawMiniStage();
+
+// Focus input on load
+$('#rantInput').focus();
+
+// Click-to-start audio context
+document.addEventListener('pointerdown', ensureAudio, { once: true });
+
+console.log('🔴 BREAKVERSE Design Proto · Ready');
+console.log('   Pages: Intro → Boss Dossier → Battle → Result');
+console.log('   Battle: A/D move · W jump · J attack · K dodge · L skill');
+console.log('   Style: HD Pixel + Dark Comedy + Stage Lighting');
+</script>
+</body>
+</html>
