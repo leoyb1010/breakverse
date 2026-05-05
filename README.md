@@ -28,6 +28,18 @@ python3 -m http.server 4173
 
 ---
 
+## 游戏截图
+
+| 首页 · 输入吐槽 | Boss 档案 · 通缉令 |
+|:---:|:---:|
+| ![首页](./screenshots/01-intro.png) | ![Boss档案](./screenshots/02-dossier.png) |
+
+| 战斗 · Canvas 横版动作 | 结算 · 战报分享 |
+|:---:|:---:|
+| ![战斗](./screenshots/03-battle.png) | ![结算](./screenshots/04-result.png) |
+
+---
+
 ## 操作说明
 
 ### 桌面端（键盘）
