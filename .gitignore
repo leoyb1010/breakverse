@@ -6,3 +6,5 @@ test-*.png
 breakverse-intro-check.png
 package.json
 package-lock.json
+data/*.json
+data/*.tmp

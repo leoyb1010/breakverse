@@ -25,10 +25,11 @@
   --shadow: 0 22px 70px rgba(0,0,0,0.42);
   --font: "Inter", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
   --mono: "JetBrains Mono", "SF Mono", Consolas, monospace;
+  --app-height: 100dvh;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html, body { height: 100%; margin: 0; overflow: hidden; }
+html, body { height: 100%; margin: 0; overflow: hidden; overscroll-behavior: none; }
 body {
   font-family: var(--font);
   color: var(--ink);
@@ -40,6 +41,7 @@ body {
 }
 button, textarea, select { font: inherit; }
 button { border: 0; }
+button { -webkit-tap-highlight-color: transparent; }
 .hidden { display: none !important; }
 
 .noise {
@@ -69,7 +71,7 @@ button { border: 0; }
   position: relative; z-index: 1; width: min(1220px, calc(100vw - 28px)); height: 100vh; margin: 0 auto;
   padding-top: 68px;
 }
-.screen { display: none; height: calc(100vh - 78px); animation: popIn 260ms cubic-bezier(.2,.9,.2,1) both; }
+.screen { display: none; height: calc(100vh - 78px); overflow-y: auto; animation: popIn 260ms cubic-bezier(.2,.9,.2,1) both; }
 .screen.active { display: block; }
 @keyframes popIn { from { opacity: 0; transform: translateY(10px) scale(0.99); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
@@ -152,7 +154,7 @@ select {
   border: 1px solid var(--line); border-radius: var(--radius); outline: none; cursor: pointer;
 }
 
-.dossier-layout { height: 100%; display: grid; grid-template-columns: 360px 1fr; gap: 20px; align-items: start; padding-top: 0; }
+.dossier-layout { display: grid; grid-template-columns: 360px 1fr; gap: 20px; align-items: start; padding-top: 0; }
 .poster { padding: 12px; position: relative; overflow: hidden; }
 .poster::before {
   content: ""; position: absolute; inset: 0 0 auto; height: 4px; background: linear-gradient(90deg, var(--boss), var(--electric), var(--green));
@@ -328,7 +330,7 @@ select {
 .skill-btn {
   width: 76px; height: 56px; border-radius: 10px; cursor: pointer; position: relative;
   color: var(--ink); background: rgba(255,255,255,0.08); border: 1px solid var(--line); font-weight: 950;
-  overflow: hidden;
+  overflow: hidden; touch-action: manipulation; user-select: none; -webkit-user-select: none;
 }
 .skill-btn.ready { border-color: rgba(53,242,255,0.75); box-shadow: 0 0 18px rgba(53,242,255,0.18); }
 .skill-btn.cooling { filter: saturate(.6); }
@@ -343,7 +345,7 @@ select {
 .touch-pad { display: none; grid-template-columns: repeat(8, 1fr); gap: 6px; }
 .touch-pad button {
   min-height: 42px; border-radius: var(--radius); color: var(--ink); background: rgba(255,255,255,0.08);
-  border: 1px solid var(--line); font-weight: 950; touch-action: manipulation;
+  border: 1px solid var(--line); font-weight: 950; touch-action: manipulation; user-select: none; -webkit-user-select: none;
 }
 
 .result-layout { height: 100%; display: grid; grid-template-columns: 1fr 410px; gap: 18px; align-items: center; }
@@ -444,6 +446,58 @@ textarea.share-text {
 }
 .mini-route b { color: var(--ink); font-size: 11px; }
 
+.account-layout { height: 100%; display: grid; grid-template-columns: 360px 1fr; gap: 14px; padding-top: 10px; align-items: start; }
+.account-stack { display: grid; gap: 12px; align-content: start; }
+.account-panel { padding: 16px; }
+.account-panel h2 { margin: 6px 0 8px; font-size: clamp(28px, 4vw, 44px); line-height: 1; }
+.account-panel p { margin: 0; color: var(--muted); line-height: 1.58; }
+.account-status {
+  margin-top: 14px; padding: 12px; border-left: 4px solid var(--electric);
+  background: rgba(53,242,255,0.08); border-radius: 0 var(--radius) var(--radius) 0;
+  color: var(--ink); font-weight: 900; line-height: 1.4;
+}
+.account-tabs { display: flex; gap: 8px; margin-bottom: 12px; }
+.account-tab {
+  min-height: 38px; padding: 0 14px; border-radius: var(--radius); cursor: pointer;
+  color: var(--muted); background: rgba(255,255,255,0.06); border: 1px solid var(--line); font-weight: 950;
+}
+.account-tab.active { color: #061018; background: linear-gradient(180deg, #9ff8ff, var(--electric)); border-color: transparent; }
+.account-form { display: grid; gap: 10px; }
+.account-field { display: grid; gap: 6px; }
+.account-field label { color: var(--muted); font-size: 12px; font-weight: 950; }
+.account-field input {
+  width: 100%; min-height: 42px; padding: 0 12px; outline: none;
+  color: var(--ink); background: rgba(0,0,0,0.24); border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.account-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.account-summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 12px 0; }
+.account-metric {
+  min-height: 72px; padding: 10px; border: 1px solid var(--line); border-radius: var(--radius);
+  background: rgba(255,255,255,0.06);
+}
+.account-metric b { display: block; color: var(--electric); font-size: 22px; line-height: 1.1; overflow-wrap: anywhere; }
+.account-metric span { display: block; margin-top: 6px; color: var(--muted); font-size: 12px; font-weight: 850; }
+.account-message { min-height: 18px; color: var(--green); font-size: 12px; font-weight: 900; }
+.account-message.error { color: #ff6b6b; }
+.admin-toolbar { display: flex; justify-content: space-between; gap: 8px; align-items: center; margin-bottom: 10px; }
+.account-list { display: grid; gap: 8px; max-height: calc(100vh - 270px); overflow: auto; padding-right: 4px; }
+.account-row {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center;
+  padding: 10px; border: 1px solid var(--line); border-radius: var(--radius); background: rgba(255,255,255,0.055);
+}
+.account-row strong { display: block; overflow-wrap: anywhere; }
+.account-row small { display: block; margin-top: 4px; color: var(--muted); line-height: 1.35; }
+.account-badges { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 7px; }
+.role-badge, .status-badge {
+  display: inline-grid; min-height: 22px; place-items: center; padding: 0 8px; border-radius: 999px;
+  font: 950 11px/1 var(--mono); border: 1px solid var(--line);
+}
+.role-badge { color: var(--electric); background: rgba(53,242,255,0.09); }
+.status-badge { color: var(--green); background: rgba(78,225,138,0.09); }
+.status-badge.disabled { color: #ff6b6b; background: rgba(255,107,107,0.09); }
+.account-row-actions { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+
 .loader {
   position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; background: rgba(9,11,19,0.88); backdrop-filter: blur(18px);
   transition: opacity 200ms ease;
@@ -462,14 +516,219 @@ textarea.share-text {
   .topbar { position: sticky; transform: none; left: auto; width: calc(100vw - 16px); margin: 0 auto; }
   .app { width: calc(100vw - 16px); height: auto; min-height: calc(100vh - 64px); padding-top: 12px; }
   .screen { height: auto; min-height: calc(100vh - 80px); }
-  .intro-grid, .dossier-layout, .result-layout, .universe-layout, .loadout-area { grid-template-columns: 1fr; }
+  .intro-grid, .dossier-layout, .result-layout, .universe-layout, .loadout-area, .account-layout { grid-template-columns: 1fr; }
   .hero h1 { font-size: clamp(40px, 12vw, 58px); }
   .setup-grid, .preset-row, .config-row, .hud, .controls { grid-template-columns: 1fr; }
   .info-grid, .gear-grid, .collection-grid, .gear-collection-grid, .chapter-map-grid, .achievement-grid, .monster-grid, .egg-grid, .run-progress { grid-template-columns: 1fr; }
+  .account-summary { grid-template-columns: 1fr; }
+  .account-list { max-height: none; }
+  .account-row { grid-template-columns: 1fr; }
+  .account-row-actions { justify-content: flex-start; }
   .touch-pad { display: grid; grid-template-columns: repeat(4, 1fr); }
   .route-strip { grid-template-columns: 1fr; }
   .help { display: none; }
   .poster { max-width: 360px; }
+}
+
+@media (max-width: 980px) and (pointer: coarse), (max-width: 740px) {
+  body.battle-mode {
+    overflow: hidden;
+    touch-action: none;
+    background: #090b13;
+  }
+  body.battle-mode .topbar { display: none; }
+  body.battle-mode .app {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: var(--app-height);
+    min-height: var(--app-height);
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  body.battle-mode #battleScreen {
+    height: var(--app-height);
+    min-height: var(--app-height);
+    overflow: hidden;
+    animation: none;
+  }
+  body.battle-mode .battle-layout {
+    --touch-size: clamp(54px, 15vmin, 72px);
+    position: relative;
+    display: block;
+    width: 100vw;
+    height: var(--app-height);
+    padding: 0;
+    gap: 0;
+    overflow: hidden;
+    isolation: isolate;
+    touch-action: none;
+  }
+  body.battle-mode .canvas-wrap {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background:
+      radial-gradient(circle at 50% 48%, rgba(53,242,255,0.09), transparent 58%),
+      #0b0d15;
+  }
+  body.battle-mode #battleCanvas {
+    width: min(100vw, calc(var(--app-height) * 1.7778));
+    max-width: 100vw;
+    height: auto;
+    max-height: var(--app-height);
+    aspect-ratio: 16 / 9;
+  }
+  body.battle-mode .hud {
+    position: absolute;
+    z-index: 6;
+    top: calc(env(safe-area-inset-top) + 8px);
+    left: calc(env(safe-area-inset-left) + 8px);
+    right: calc(env(safe-area-inset-right) + 8px);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(74px, .48fr) minmax(0, 1fr);
+    gap: 6px;
+    pointer-events: none;
+  }
+  body.battle-mode .hud-card {
+    min-width: 0;
+    padding: 6px 8px;
+    border-radius: 8px;
+    background: rgba(9,11,19,0.68);
+    backdrop-filter: blur(14px);
+  }
+  body.battle-mode .hud-row {
+    gap: 5px;
+    font-size: 11px;
+    line-height: 1.1;
+  }
+  body.battle-mode .hud-row span:first-child,
+  body.battle-mode #bossHudName {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  body.battle-mode .hud-num { font-size: 9px; }
+  body.battle-mode .bar { height: 7px; margin-top: 4px; }
+  body.battle-mode .center-hud { gap: 3px; }
+  body.battle-mode .combo { font-size: 22px; }
+  body.battle-mode .combo small,
+  body.battle-mode #modeHud { display: none; }
+  body.battle-mode #phaseText {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  body.battle-mode .big-text {
+    top: 34%;
+    width: min(72vw, 420px);
+  }
+  body.battle-mode .big-text b { font-size: clamp(30px, 8vw, 44px); }
+  body.battle-mode .big-text span { font-size: 13px; }
+  body.battle-mode .controls {
+    position: absolute;
+    inset: 0;
+    z-index: 8;
+    display: block;
+    pointer-events: none;
+    touch-action: none;
+  }
+  body.battle-mode .help { display: none; }
+  body.battle-mode .touch-pad {
+    position: absolute;
+    left: calc(env(safe-area-inset-left) + 10px);
+    bottom: calc(env(safe-area-inset-bottom) + 14px);
+    display: grid;
+    grid-template-columns: repeat(3, var(--touch-size));
+    grid-template-rows: repeat(2, var(--touch-size));
+    gap: 8px;
+    pointer-events: auto;
+  }
+  body.battle-mode .touch-pad button {
+    width: var(--touch-size);
+    min-height: 0;
+    height: var(--touch-size);
+    padding: 0;
+    border-radius: 14px;
+    color: var(--ink);
+    background: rgba(9,11,19,0.58);
+    border: 1px solid rgba(255,255,255,0.24);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.28);
+    backdrop-filter: blur(12px);
+    font: 950 22px/1 var(--mono);
+    touch-action: none;
+  }
+  body.battle-mode .touch-pad [data-touch="jump"] {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  body.battle-mode .touch-pad [data-touch="left"] {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  body.battle-mode .touch-pad [data-touch="right"] {
+    grid-column: 3;
+    grid-row: 2;
+  }
+  body.battle-mode .dock {
+    position: absolute;
+    right: calc(env(safe-area-inset-right) + 10px);
+    bottom: calc(env(safe-area-inset-bottom) + 14px);
+    display: grid;
+    grid-template-columns: repeat(2, var(--touch-size));
+    grid-template-areas:
+      "skill1 skill2"
+      "skill dodge"
+      "attack attack";
+    gap: 8px;
+    pointer-events: auto;
+  }
+  body.battle-mode .skill-btn {
+    width: var(--touch-size);
+    height: var(--touch-size);
+    border-radius: 14px;
+    background: rgba(9,11,19,0.58);
+    border-color: rgba(255,255,255,0.24);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.28);
+    backdrop-filter: blur(12px);
+    touch-action: none;
+  }
+  body.battle-mode .skill-btn[data-touch="attack"] {
+    grid-area: attack;
+    width: auto;
+  }
+  body.battle-mode .skill-btn[data-touch="dodge"] { grid-area: dodge; }
+  body.battle-mode .skill-btn[data-touch="skill"] { grid-area: skill; }
+  body.battle-mode .skill-btn[data-touch="skill1"] { grid-area: skill1; }
+  body.battle-mode .skill-btn[data-touch="skill2"] { grid-area: skill2; }
+  body.battle-mode .skill-icon { font-size: 20px; }
+  body.battle-mode .skill-name {
+    margin-top: 4px;
+    font-size: 11px;
+    line-height: 1.05;
+  }
+  body.battle-mode .skill-btn .key { display: none; }
+}
+
+@media (max-width: 980px) and (orientation: landscape) and (pointer: coarse), (max-width: 740px) and (orientation: landscape) {
+  body.battle-mode .battle-layout { --touch-size: clamp(48px, 13vmin, 60px); }
+  body.battle-mode #battleCanvas {
+    width: min(100vw, calc((var(--app-height) - env(safe-area-inset-top) - env(safe-area-inset-bottom)) * 1.7778));
+    max-height: calc(var(--app-height) - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  }
+  body.battle-mode .hud {
+    left: calc(env(safe-area-inset-left) + 94px);
+    right: calc(env(safe-area-inset-right) + 94px);
+  }
+  body.battle-mode .hud-card { padding: 5px 7px; }
+  body.battle-mode .skill-name { display: none; }
+  body.battle-mode .skill-icon { font-size: 22px; }
 }
 </style>
 </head>
@@ -480,6 +739,7 @@ textarea.share-text {
   <div class="top-actions">
     <button class="btn small ghost" data-nav="intro">开局</button>
     <button class="btn small ghost" data-nav="universe">我的爆破宇宙</button>
+    <button class="btn small ghost" data-nav="account" id="accountNavBtn">账号</button>
     <span class="clock" id="clock">00:00</span>
   </div>
 </header>
@@ -634,9 +894,7 @@ textarea.share-text {
         </div>
         <div class="touch-pad">
           <button data-touch="left">←</button><button data-touch="right">→</button>
-          <button data-touch="jump">↟</button><button data-touch="attack">✦</button>
-          <button data-touch="dodge">↯</button><button data-touch="skill">◇</button>
-          <button data-touch="skill1">技一</button><button data-touch="skill2">技二</button>
+          <button data-touch="jump">↟</button>
         </div>
       </div>
     </div>
@@ -723,6 +981,104 @@ textarea.share-text {
       </div>
     </div>
   </section>
+
+  <section class="screen" id="accountScreen">
+    <div class="account-layout">
+      <article class="panel account-panel">
+        <span class="kicker">账号系统</span>
+        <h2>账号与管理</h2>
+        <p>登录后可把当前存档同步到服务器；管理员可以查看账号、启停账号和调整角色。</p>
+        <div class="account-status" id="accountStatus">正在检查账号服务</div>
+      </article>
+
+      <div class="account-stack">
+        <section class="panel account-panel" id="authPanel">
+          <div class="account-tabs">
+            <button class="account-tab active" data-auth-mode="login">登录</button>
+            <button class="account-tab" data-auth-mode="register">注册</button>
+          </div>
+          <form class="account-form" id="loginForm">
+            <div class="account-field">
+              <label for="loginUsername">账号名</label>
+              <input id="loginUsername" autocomplete="username" maxlength="24">
+            </div>
+            <div class="account-field">
+              <label for="loginPassword">密码</label>
+              <input id="loginPassword" type="password" autocomplete="current-password" maxlength="128">
+            </div>
+            <div class="account-actions">
+              <button class="btn primary" type="submit">登录</button>
+              <span class="account-message" id="loginMessage"></span>
+            </div>
+          </form>
+          <form class="account-form hidden" id="registerForm">
+            <div class="account-field">
+              <label for="registerUsername">账号名</label>
+              <input id="registerUsername" autocomplete="username" maxlength="24">
+            </div>
+            <div class="account-field">
+              <label for="registerDisplayName">昵称</label>
+              <input id="registerDisplayName" autocomplete="nickname" maxlength="32">
+            </div>
+            <div class="account-field">
+              <label for="registerPassword">密码</label>
+              <input id="registerPassword" type="password" autocomplete="new-password" maxlength="128">
+            </div>
+            <div class="account-actions">
+              <button class="btn primary" type="submit">创建账号</button>
+              <span class="account-message" id="registerMessage"></span>
+            </div>
+          </form>
+        </section>
+
+        <section class="panel account-panel hidden" id="accountPanel">
+          <div class="hud-row">
+            <b id="accountTitle">账号</b>
+            <button class="btn small ghost" id="logoutBtn">退出</button>
+          </div>
+          <div class="account-summary">
+            <div class="account-metric"><b id="accountRole">玩家</b><span>角色</span></div>
+            <div class="account-metric"><b id="accountSaveState">本地</b><span>云存档</span></div>
+            <div class="account-metric"><b id="accountLastLogin">刚刚</b><span>最近登录</span></div>
+          </div>
+          <form class="account-form" id="profileForm">
+            <div class="account-field">
+              <label for="profileDisplayName">昵称</label>
+              <input id="profileDisplayName" autocomplete="nickname" maxlength="32">
+            </div>
+            <div class="account-actions">
+              <button class="btn green" type="submit">保存资料</button>
+              <button class="btn ghost" type="button" id="uploadSaveBtn">上传当前存档</button>
+              <button class="btn ghost" type="button" id="loadCloudSaveBtn">拉取云存档</button>
+              <span class="account-message" id="accountMessage"></span>
+            </div>
+          </form>
+          <form class="account-form" id="passwordForm" style="margin-top:14px;">
+            <div class="account-field">
+              <label for="currentPassword">当前密码</label>
+              <input id="currentPassword" type="password" autocomplete="current-password" maxlength="128">
+            </div>
+            <div class="account-field">
+              <label for="newPassword">新密码</label>
+              <input id="newPassword" type="password" autocomplete="new-password" maxlength="128">
+            </div>
+            <div class="account-actions">
+              <button class="btn ghost" type="submit">修改密码</button>
+              <span class="account-message" id="passwordMessage"></span>
+            </div>
+          </form>
+        </section>
+
+        <section class="panel account-panel hidden" id="adminPanel">
+          <div class="admin-toolbar">
+            <b>账号管理</b>
+            <button class="btn small ghost" id="refreshAccountsBtn">刷新</button>
+          </div>
+          <div class="account-list" id="adminAccountList"></div>
+        </section>
+      </div>
+    </div>
+  </section>
 </main>
 
 <div class="loader hidden" id="loader">
@@ -742,6 +1098,7 @@ const screens = {
   battle: $('#battleScreen'),
   result: $('#resultScreen'),
   universe: $('#universeScreen'),
+  account: $('#accountScreen'),
 };
 
 const canvas = $('#battleCanvas');
@@ -1006,6 +1363,12 @@ let keys = new Set();
 let pressed = new Set();
 let touch = new Set();
 let particlePool = [];
+let accountState = { ready:false, available:true, user:null, authMode:'login', accounts:[], saveTimer:0 };
+
+function updateViewportHeight() {
+  const h = window.visualViewport?.height || window.innerHeight || document.documentElement.clientHeight;
+  if (h) document.documentElement.style.setProperty('--app-height', `${h}px`);
+}
 
 function defaultSave() {
   return {
@@ -1013,34 +1376,44 @@ function defaultSave() {
     equipped:{ weapon1:'keyboard', weapon2:'loudspeaker', skill1:'milkTea', skill2:'memeBelt' },
     fragments:{ unread:0, joke:0, sticker:0, idea:0, ticket:0 },
     stats:{ battles:0, wins:0, bosses:0, damage:0, bestCombo:0, perfect:0, supers:0, eggs:0, shares:0 },
-    codex:{}, achievements:[], chapterWins:{}, history:[],
+    codex:{}, achievements:[], chapterWins:{}, history:[], updatedAt:0,
+  };
+}
+function normalizeSave(raw) {
+  const base = defaultSave();
+  const old = raw?.equipped || {};
+  const equipped = {
+    weapon1: old.weapon1 || old.weapon || base.equipped.weapon1,
+    weapon2: old.weapon2 || base.equipped.weapon2,
+    skill1: old.skill1 || old.armor || old.charm1 || base.equipped.skill1,
+    skill2: old.skill2 || old.charm2 || base.equipped.skill2,
+  };
+  return {
+    ...base, ...(raw || {}),
+    unlocked:[...new Set([...(base.unlocked || []), ...((raw?.unlocked) || [])])],
+    equipped,
+    stats:{...base.stats, ...(raw?.stats || {})},
+    fragments:{...base.fragments, ...(raw?.fragments || {})},
+    codex:{...(raw?.codex || {})},
+    achievements:Array.isArray(raw?.achievements) ? raw.achievements : [],
+    chapterWins:{...(raw?.chapterWins || {})},
+    history:Array.isArray(raw?.history) ? raw.history : [],
+    updatedAt: raw?.updatedAt || 0,
   };
 }
 function loadSave() {
   try {
     const raw = JSON.parse(localStorage.getItem(SAVE_KEY));
-    const base = defaultSave();
-    const old = raw?.equipped || {};
-    const equipped = {
-      weapon1: old.weapon1 || old.weapon || base.equipped.weapon1,
-      weapon2: old.weapon2 || base.equipped.weapon2,
-      skill1: old.skill1 || old.armor || old.charm1 || base.equipped.skill1,
-      skill2: old.skill2 || old.charm2 || base.equipped.skill2,
-    };
-    return {
-      ...base, ...raw,
-      unlocked:[...new Set([...(base.unlocked || []), ...((raw?.unlocked) || [])])],
-      equipped,
-      stats:{...base.stats, ...(raw?.stats || {})},
-      fragments:{...base.fragments, ...(raw?.fragments || {})},
-      codex:{...(raw?.codex || {})},
-      achievements:Array.isArray(raw?.achievements) ? raw.achievements : [],
-      chapterWins:{...(raw?.chapterWins || {})},
-      history:Array.isArray(raw?.history) ? raw.history : [],
-    };
+    return normalizeSave(raw);
   } catch(e) { return defaultSave(); }
 }
-function saveNow() { try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch(e) {} }
+function saveNow() {
+  try {
+    save.updatedAt = Date.now();
+    localStorage.setItem(SAVE_KEY, JSON.stringify(save));
+    scheduleCloudSave();
+  } catch(e) {}
+}
 
 function clamp(v,min,max){ return Math.max(min, Math.min(max, v)); }
 function rand(min,max){ return min + Math.random() * (max-min); }
@@ -1133,7 +1506,11 @@ function screenTo(name) {
   Object.values(screens).forEach(s => s.classList.remove('active'));
   screens[name].classList.add('active');
   currentScreen = name;
+  document.body.classList.toggle('battle-mode', name === 'battle');
+  if (name === 'battle') updateViewportHeight();
+  else touch.clear();
   if (name === 'universe') renderUniverse();
+  if (name === 'account') renderAccount();
   if (name === 'dossier') drawPortrait();
 }
 
@@ -2819,6 +3196,234 @@ function renderUniverse() {
   ].join('');
 }
 
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function shortDate(value) {
+  if (!value) return '暂无';
+  const d = new Date(value);
+  return Number.isNaN(d.getTime()) ? '暂无' : d.toLocaleString('zh-CN', { month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' });
+}
+async function apiFetch(path, options={}) {
+  const init = { credentials:'same-origin', ...options };
+  init.headers = { ...(options.body ? {'Content-Type':'application/json'} : {}), ...(options.headers || {}) };
+  if (options.body && typeof options.body !== 'string') init.body = JSON.stringify(options.body);
+  const res = await fetch(path, init);
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || `请求失败 ${res.status}`);
+  return data;
+}
+function setAccountMessage(id, text='', error=false) {
+  const el = $(id);
+  if (!el) return;
+  el.textContent = text;
+  el.classList.toggle('error', !!error);
+}
+function scheduleCloudSave() {
+  if (!accountState?.user) return;
+  clearTimeout(accountState.saveTimer);
+  accountState.saveTimer = setTimeout(() => uploadCloudSave('云存档已自动同步', true), 1200);
+}
+function updateAccountNav() {
+  const btn = $('#accountNavBtn');
+  if (!btn) return;
+  btn.textContent = accountState.user ? `账号 · ${accountState.user.displayName}` : '账号';
+}
+async function loadAccount() {
+  try {
+    const data = await apiFetch('/api/auth/me');
+    accountState.available = true;
+    accountState.ready = true;
+    accountState.user = data.user;
+    updateAccountNav();
+    renderAccount();
+    if (accountState.user?.role === 'admin') fetchAdminAccounts();
+  } catch(e) {
+    accountState.available = false;
+    accountState.ready = true;
+    accountState.user = null;
+    updateAccountNav();
+    renderAccount('账号服务未连接，当前仍可游客游玩');
+  }
+}
+function renderAccount(message='') {
+  const logged = !!accountState.user;
+  $('#authPanel').classList.toggle('hidden', logged || !accountState.available);
+  $('#accountPanel').classList.toggle('hidden', !logged);
+  $('#adminPanel').classList.toggle('hidden', !logged || accountState.user?.role !== 'admin');
+  $$('.account-tab').forEach(tab => tab.classList.toggle('active', tab.dataset.authMode === accountState.authMode));
+  $('#loginForm').classList.toggle('hidden', accountState.authMode !== 'login');
+  $('#registerForm').classList.toggle('hidden', accountState.authMode !== 'register');
+  const status = !accountState.available
+    ? '账号服务未连接，当前为游客模式'
+    : logged
+      ? `已登录：${accountState.user.displayName}（${accountState.user.username}）`
+      : '未登录：可注册账号或继续游客模式';
+  $('#accountStatus').textContent = message || status;
+  if (!logged) return;
+  $('#accountTitle').textContent = `${accountState.user.displayName} · ${accountState.user.username}`;
+  $('#accountRole').textContent = accountState.user.role === 'admin' ? '管理员' : '玩家';
+  $('#accountSaveState').textContent = accountState.user.hasCloudSave ? '已同步' : '未上传';
+  $('#accountLastLogin').textContent = shortDate(accountState.user.lastLoginAt);
+  $('#profileDisplayName').value = accountState.user.displayName || '';
+}
+async function submitLogin(e) {
+  e.preventDefault();
+  setAccountMessage('#loginMessage', '登录中...');
+  try {
+    const data = await apiFetch('/api/auth/login', { method:'POST', body:{
+      username: $('#loginUsername').value,
+      password: $('#loginPassword').value,
+    }});
+    accountState.user = data.user;
+    updateAccountNav();
+    renderAccount(data.cloudSave ? '已登录，发现云存档，可按需拉取' : '已登录，当前存档可上传到账号');
+    setAccountMessage('#loginMessage', '');
+    if (!data.user.hasCloudSave) uploadCloudSave('当前存档已绑定到账号', true);
+    if (data.user.role === 'admin') fetchAdminAccounts();
+  } catch(err) {
+    setAccountMessage('#loginMessage', err.message, true);
+  }
+}
+async function submitRegister(e) {
+  e.preventDefault();
+  setAccountMessage('#registerMessage', '创建中...');
+  try {
+    const data = await apiFetch('/api/auth/register', { method:'POST', body:{
+      username: $('#registerUsername').value,
+      displayName: $('#registerDisplayName').value,
+      password: $('#registerPassword').value,
+    }});
+    accountState.user = data.user;
+    updateAccountNav();
+    renderAccount(data.firstAdmin ? '首个账号已成为管理员' : '账号已创建');
+    setAccountMessage('#registerMessage', '');
+    uploadCloudSave('当前存档已绑定到账号', true);
+    if (data.user.role === 'admin') fetchAdminAccounts();
+  } catch(err) {
+    setAccountMessage('#registerMessage', err.message, true);
+  }
+}
+async function logoutAccount() {
+  try { await apiFetch('/api/auth/logout', { method:'POST' }); } catch(e) {}
+  accountState.user = null;
+  accountState.accounts = [];
+  updateAccountNav();
+  renderAccount('已退出账号，当前为游客模式');
+}
+async function saveProfile(e) {
+  e.preventDefault();
+  setAccountMessage('#accountMessage', '保存中...');
+  try {
+    const data = await apiFetch('/api/account/profile', { method:'PUT', body:{ displayName: $('#profileDisplayName').value }});
+    accountState.user = data.user;
+    updateAccountNav();
+    renderAccount('资料已保存');
+    setAccountMessage('#accountMessage', '资料已保存');
+  } catch(err) {
+    setAccountMessage('#accountMessage', err.message, true);
+  }
+}
+async function changePassword(e) {
+  e.preventDefault();
+  setAccountMessage('#passwordMessage', '修改中...');
+  try {
+    await apiFetch('/api/account/password', { method:'PUT', body:{
+      currentPassword: $('#currentPassword').value,
+      newPassword: $('#newPassword').value,
+    }});
+    $('#currentPassword').value = '';
+    $('#newPassword').value = '';
+    setAccountMessage('#passwordMessage', '密码已修改');
+  } catch(err) {
+    setAccountMessage('#passwordMessage', err.message, true);
+  }
+}
+async function uploadCloudSave(message='云存档已上传', quiet=false) {
+  if (!accountState.user) return;
+  if (!quiet) setAccountMessage('#accountMessage', '上传中...');
+  try {
+    const data = await apiFetch('/api/save', { method:'PUT', body:{ save }});
+    accountState.user.hasCloudSave = true;
+    accountState.user.saveUpdatedAt = data.saveUpdatedAt;
+    renderAccount(message);
+    if (!quiet) setAccountMessage('#accountMessage', message);
+  } catch(err) {
+    if (!quiet) setAccountMessage('#accountMessage', err.message, true);
+  }
+}
+async function loadCloudSave() {
+  if (!accountState.user) return;
+  setAccountMessage('#accountMessage', '拉取中...');
+  try {
+    const data = await apiFetch('/api/save');
+    if (!data.save) {
+      setAccountMessage('#accountMessage', '这个账号还没有云存档', true);
+      return;
+    }
+    save = normalizeSave(data.save);
+    saveNow();
+    renderUniverse();
+    renderAccount('云存档已载入本机');
+    updateLastRunBadge();
+    setAccountMessage('#accountMessage', '云存档已载入本机');
+  } catch(err) {
+    setAccountMessage('#accountMessage', err.message, true);
+  }
+}
+async function fetchAdminAccounts(message='') {
+  if (accountState.user?.role !== 'admin') return;
+  try {
+    const data = await apiFetch('/api/admin/accounts');
+    accountState.accounts = data.accounts || [];
+    renderAdminAccounts();
+    if (message) $('#accountStatus').textContent = message;
+  } catch(err) {
+    $('#adminAccountList').innerHTML = `<div class="account-message error">${escapeHtml(err.message)}</div>`;
+  }
+}
+function renderAdminAccounts() {
+  const me = accountState.user?.id;
+  const list = accountState.accounts || [];
+  $('#adminAccountList').innerHTML = list.map(acc => {
+    const isSelf = acc.id === me;
+    const active = acc.status === 'active';
+    const admin = acc.role === 'admin';
+    return `<article class="account-row">
+      <div>
+        <strong>${escapeHtml(acc.displayName)} <span class="hud-num">@${escapeHtml(acc.username)}</span></strong>
+        <small>创建 ${shortDate(acc.createdAt)} · 最近登录 ${shortDate(acc.lastLoginAt)} · 存档 ${Math.round((acc.saveBytes || 0) / 1024)} KB</small>
+        <div class="account-badges">
+          <span class="role-badge">${admin ? 'ADMIN' : 'PLAYER'}</span>
+          <span class="status-badge ${active ? '' : 'disabled'}">${active ? 'ACTIVE' : 'DISABLED'}</span>
+        </div>
+      </div>
+      <div class="account-row-actions">
+        <button class="btn small ghost" data-admin-action="role" data-account-id="${acc.id}" ${isSelf ? 'disabled' : ''}>${admin ? '设为玩家' : '设为管理员'}</button>
+        <button class="btn small ghost" data-admin-action="status" data-account-id="${acc.id}" ${isSelf ? 'disabled' : ''}>${active ? '停用' : '启用'}</button>
+      </div>
+    </article>`;
+  }).join('') || '<div class="account-message">暂无账号</div>';
+  $$('#adminAccountList [data-admin-action]').forEach(btn => btn.addEventListener('click', handleAdminAction));
+}
+async function handleAdminAction(e) {
+  const btn = e.currentTarget;
+  const id = btn.dataset.accountId;
+  const acc = accountState.accounts.find(item => item.id === id);
+  if (!acc) return;
+  const patch = btn.dataset.adminAction === 'role'
+    ? { role: acc.role === 'admin' ? 'player' : 'admin' }
+    : { status: acc.status === 'active' ? 'disabled' : 'active' };
+  btn.disabled = true;
+  try {
+    await apiFetch(`/api/admin/accounts/${id}`, { method:'PATCH', body:patch });
+    await fetchAdminAccounts('账号管理已更新');
+  } catch(err) {
+    $('#accountStatus').textContent = err.message;
+    btn.disabled = false;
+  }
+}
+
 function downloadCard() {
   const card = document.createElement('canvas');
   card.width = 1080; card.height = 1440;
@@ -2886,6 +3491,18 @@ function bindEvents() {
     setTimeout(() => $('#copyBtn').textContent = '复制文案', 1200);
   });
   $('#downloadCardBtn').addEventListener('click', downloadCard);
+  $$('.account-tab').forEach(tab => tab.addEventListener('click', () => {
+    accountState.authMode = tab.dataset.authMode;
+    renderAccount();
+  }));
+  $('#loginForm').addEventListener('submit', submitLogin);
+  $('#registerForm').addEventListener('submit', submitRegister);
+  $('#logoutBtn').addEventListener('click', logoutAccount);
+  $('#profileForm').addEventListener('submit', saveProfile);
+  $('#passwordForm').addEventListener('submit', changePassword);
+  $('#uploadSaveBtn').addEventListener('click', () => uploadCloudSave());
+  $('#loadCloudSaveBtn').addEventListener('click', loadCloudSave);
+  $('#refreshAccountsBtn').addEventListener('click', () => fetchAdminAccounts('账号列表已刷新'));
 
   document.addEventListener('keydown', e => {
     const k = e.key.toLowerCase();
@@ -2903,6 +3520,10 @@ function bindEvents() {
     btn.addEventListener('pointerup', e => { e.preventDefault(); touch.delete(a); });
     btn.addEventListener('pointercancel', () => touch.delete(a));
     btn.addEventListener('pointerleave', () => { if (a==='left'||a==='right') touch.delete(a); });
+  });
+  window.addEventListener('blur', () => { keys.clear(); touch.clear(); pressed.clear(); });
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { keys.clear(); touch.clear(); pressed.clear(); }
   });
   document.addEventListener('pointerdown', ensureAudio, { once:true });
 }
@@ -2937,11 +3558,18 @@ function updateClock() {
 }
 
 function init() {
+  updateViewportHeight();
+  window.addEventListener('resize', updateViewportHeight);
+  window.visualViewport?.addEventListener('resize', updateViewportHeight);
+  window.visualViewport?.addEventListener('scroll', updateViewportHeight);
+  $('#rantInput').value = '老板让我周末改PPT，还说只是顺手微调一下';
+  $('#rantCounter').textContent = `${$('#rantInput').value.length}/180`;
   bindEvents();
   applyPreset('melee');
   updateClock(); setInterval(updateClock, 30000);
   updateLastRunBadge();
   renderUniverse();
+  loadAccount();
   drawMini();
   console.log('今日烦人兽爆破局已就绪');
 }
