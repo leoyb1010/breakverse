@@ -135,7 +135,18 @@ button { border: 0; }
   color: var(--muted); background: rgba(255,255,255,0.08); border: 1px solid var(--line); font-weight: 900;
 }
 .chip.active { color: #061018; background: linear-gradient(180deg, #9ff8ff, var(--electric)); border-color: transparent; }
-.config-row { display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px; margin-top: 12px; }
+.setup-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
+.field { display: grid; gap: 5px; }
+.field span { color: var(--muted); font: 900 11px/1 var(--font); }
+.preset-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
+.preset-btn {
+  min-height: 54px; padding: 8px 10px; border-radius: var(--radius); cursor: pointer;
+  color: var(--ink); background: rgba(255,255,255,0.07); border: 1px solid var(--line); text-align: left;
+}
+.preset-btn b { display: block; font-size: 13px; line-height: 1.1; }
+.preset-btn small { display: block; margin-top: 5px; color: var(--muted); line-height: 1.25; }
+.preset-btn.active { border-color: rgba(78,225,138,.76); background: rgba(78,225,138,.1); }
+.config-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; margin-top: 12px; }
 select {
   min-height: 42px; padding: 0 12px; color: var(--ink); background: rgba(255,255,255,0.08);
   border: 1px solid var(--line); border-radius: var(--radius); outline: none; cursor: pointer;
@@ -183,6 +194,7 @@ select {
 }
 .route-card strong { display: block; font-size: 13px; }
 .route-card small { display: block; margin-top: 3px; color: var(--muted); font-size: 11px; }
+.route-card em { display: inline-block; margin-top: 4px; color: var(--green); font-style: normal; font: 900 10px/1 var(--font); }
 .loadout-area { display: grid; grid-template-columns: 300px 1fr; gap: 10px; }
 .slot-list { display: grid; gap: 6px; }
 .slot-btn {
@@ -231,6 +243,26 @@ select {
 .gear-belt::after { left: 21px; top: 17px; width: 14px; height: 22px; border-radius: 6px; background: #e7fbff; box-shadow: inset 0 0 0 4px #0b1020; }
 .gear-jet::before { left: 15px; top: 11px; width: 24px; height: 30px; border-radius: 9px 9px 4px 4px; background: #8b5cf6; }
 .gear-jet::after { left: 17px; top: 39px; width: 20px; height: 13px; background: linear-gradient(#35f2ff, transparent); clip-path: polygon(18% 0, 82% 0, 100% 100%, 0 100%); }
+.gear-hammer::before { left: 8px; top: 14px; width: 34px; height: 17px; border-radius: 5px; background: #4ee18a; transform: rotate(-14deg); }
+.gear-hammer::after { left: 29px; top: 27px; width: 7px; height: 25px; border-radius: 999px; background: #e7fbff; transform: rotate(-14deg); }
+.gear-laser::before { left: 12px; top: 25px; width: 31px; height: 8px; border-radius: 999px; background: #ff4fd8; }
+.gear-laser::after { left: 36px; top: 22px; width: 16px; height: 14px; border-radius: 50%; background: #35f2ff; box-shadow: 0 0 14px #35f2ff; }
+.gear-crossbow::before { left: 9px; top: 24px; width: 38px; height: 8px; border-radius: 999px; background: #e7fbff; }
+.gear-crossbow::after { left: 18px; top: 12px; width: 22px; height: 31px; border: 5px solid #ff4fd8; border-left-color: transparent; border-radius: 50%; }
+.gear-pens::before { left: 15px; top: 9px; width: 8px; height: 38px; border-radius: 999px; background: #35f2ff; transform: rotate(24deg); }
+.gear-pens::after { left: 31px; top: 9px; width: 8px; height: 38px; border-radius: 999px; background: #ff4fd8; transform: rotate(-24deg); }
+.gear-wand::before { left: 12px; top: 31px; width: 34px; height: 6px; border-radius: 999px; background: #e7fbff; transform: rotate(-30deg); }
+.gear-wand::after { left: 11px; top: 11px; width: 20px; height: 20px; border-radius: 50%; border: 4px solid #4de0ff; box-shadow: 0 0 12px #4de0ff; }
+.gear-mine::before { left: 13px; top: 20px; width: 28px; height: 20px; border-radius: 8px; background: #ff5aa5; }
+.gear-mine::after { left: 23px; top: 12px; width: 8px; height: 13px; border-radius: 999px; background: #4ee18a; box-shadow: 0 0 10px #4ee18a; }
+.gear-boots::before { left: 9px; top: 30px; width: 38px; height: 14px; border-radius: 4px 11px 5px 5px; background: #35f2ff; }
+.gear-boots::after { left: 15px; top: 15px; width: 25px; height: 22px; border-radius: 8px; background: #8b5cf6; }
+.gear-drone::before { left: 14px; top: 15px; width: 26px; height: 24px; border-radius: 8px; background: #4ee18a; }
+.gear-drone::after { left: 6px; top: 18px; width: 10px; height: 10px; border-radius: 50%; background: #e7fbff; box-shadow: 38px 0 #e7fbff, 19px 22px #ff4fd8; }
+.gear-coffee::before { left: 16px; top: 13px; width: 22px; height: 31px; border-radius: 6px 6px 10px 10px; background: linear-gradient(#e7fbff 0 18%, #35f2ff 18% 100%); }
+.gear-coffee::after { left: 39px; top: 22px; width: 10px; height: 14px; border: 4px solid #e7fbff; border-left: 0; border-radius: 0 9px 9px 0; }
+.gear-confetti::before { left: 11px; top: 17px; width: 34px; height: 23px; border-radius: 50%; background: radial-gradient(circle at 45% 45%, #e7fbff 0 18%, #ff4fd8 20% 36%, #35f2ff 38% 100%); }
+.gear-confetti::after { left: 8px; top: 9px; width: 6px; height: 6px; background: #4ee18a; box-shadow: 18px -2px #ff5aa5, 34px 5px #35f2ff, 25px 32px #4ee18a; }
 .stat-icons { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
 .stat-glyph {
   min-width: 22px; height: 18px; padding: 0 5px; display: inline-grid; place-items: center;
@@ -338,6 +370,9 @@ textarea.share-text {
 .collection-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; max-height: calc(100vh - 116px); overflow: auto; padding-right: 4px; }
 .collect-card { padding: 12px; border: 1px solid var(--line); border-radius: var(--radius); background: rgba(255,255,255,0.06); min-height: 118px; }
 .collect-card.locked { opacity: 0.38; }
+.collect-card.achievement { border-color: rgba(182,109,255,.32); }
+.collect-card.achievement.unlocked { background: rgba(182,109,255,.12); }
+.collect-card.chapter-collect { border-color: rgba(78,225,138,.26); }
 .collect-card strong { display: block; }
 .collect-card small { display: block; margin-top: 7px; color: var(--muted); line-height: 1.45; }
 .collect-card.gear-collect {
@@ -369,7 +404,7 @@ textarea.share-text {
   .screen { height: auto; min-height: calc(100vh - 80px); }
   .intro-grid, .dossier-layout, .result-layout, .universe-layout, .loadout-area { grid-template-columns: 1fr; }
   .hero h1 { font-size: clamp(40px, 12vw, 58px); }
-  .config-row, .hud, .controls { grid-template-columns: 1fr; }
+  .setup-grid, .preset-row, .config-row, .hud, .controls { grid-template-columns: 1fr; }
   .info-grid, .gear-grid, .collection-grid { grid-template-columns: 1fr; }
   .touch-pad { display: grid; grid-template-columns: repeat(4, 1fr); }
   .route-strip { grid-template-columns: 1fr; }
@@ -419,21 +454,49 @@ textarea.share-text {
             <button class="chip" data-topic="commute">路途奇遇</button>
             <button class="chip" data-topic="creative">创意堵车</button>
           </div>
+          <div class="setup-grid">
+            <label class="field"><span>大关卡</span>
+              <select id="chapterSelect">
+                <option value="melee">第一关 · 近战器械库</option>
+                <option value="ranged">第二关 · 远程吐槽台</option>
+                <option value="hybrid">第三关 · 远近混合站</option>
+                <option value="dodge">第四关 · 躲避跑酷塔</option>
+              </select>
+            </label>
+            <label class="field"><span>难度</span>
+              <select id="difficultySelect">
+                <option value="roll">卷</option>
+                <option value="very">很卷</option>
+                <option value="super">非常卷</option>
+                <option value="dead">卷死</option>
+              </select>
+            </label>
+            <label class="field"><span>开局物种</span>
+              <select id="speciesSelect">
+                <option value="knight">键帽小骑士</option>
+                <option value="bubble">奶茶能量体</option>
+                <option value="shadow">社交隐形人</option>
+                <option value="skater">电梯滑板客</option>
+                <option value="guardian">锅盖守门员</option>
+              </select>
+            </label>
+            <label class="field"><span>玩法模式</span>
+              <select id="modeSelect">
+                <option value="normal">标准爆破</option>
+                <option value="daily">今日挑战</option>
+                <option value="practice">练习模式</option>
+                <option value="endless">无尽试玩</option>
+                <option value="random">随机种子</option>
+              </select>
+            </label>
+          </div>
+          <div class="preset-row" id="presetChips">
+            <button class="preset-btn active" data-preset="melee"><b>近战开荒</b><small>键盘贴脸，适合第一关</small></button>
+            <button class="preset-btn" data-preset="ranged"><b>远程冷场</b><small>拉开距离，把场面冻住</small></button>
+            <button class="preset-btn" data-preset="hybrid"><b>远近双修</b><small>先喷后敲，节奏很忙</small></button>
+            <button class="preset-btn" data-preset="dodge"><b>闪避跑酷</b><small>像素脚法，专治机关</small></button>
+          </div>
           <div class="config-row">
-            <select id="identitySelect">
-              <option value="打工人">打工人</option>
-              <option value="学生党">学生党</option>
-              <option value="创作者">创作者</option>
-              <option value="家庭发言人">家庭发言人</option>
-              <option value="路上观察员">路上观察员</option>
-            </select>
-            <select id="modeSelect">
-              <option value="normal">标准爆破</option>
-              <option value="daily">今日挑战</option>
-              <option value="practice">练习模式</option>
-              <option value="endless">无尽试玩</option>
-              <option value="random">随机种子</option>
-            </select>
             <button class="btn primary" id="generateBtn">生成海报</button>
           </div>
         </div>
@@ -563,10 +626,10 @@ textarea.share-text {
         <article class="panel stat-card"><span class="kicker">怪兽档案</span><b id="statBosses">0</b><small>已登记的烦人兽</small></article>
         <article class="panel stat-card"><span class="kicker">累计敲打</span><b id="statDamage">0</b><small>累计像素教育值</small></article>
         <article class="panel stat-card"><span class="kicker">最高连击</span><b id="statCombo">0</b><small>最高连击</small></article>
-        <article class="panel stat-card"><span class="kicker">奶茶指数</span><b id="statTea">0</b><small>约等于省下的奶茶口数</small></article>
+        <article class="panel stat-card"><span class="kicker">收集进度</span><b id="statTea">0</b><small>装备收集进度</small></article>
       </div>
       <div class="panel" style="padding:12px;">
-        <div class="hud-row" style="margin-bottom:10px;"><b>装备与图鉴</b><button class="btn small ghost" data-nav="intro">回去开局</button></div>
+        <div class="hud-row" style="margin-bottom:10px;"><b>装备 · 大关卡 · 成就 · 图鉴</b><button class="btn small ghost" data-nav="intro">回去开局</button></div>
         <div class="collection-grid" id="collectionGrid"></div>
       </div>
     </div>
@@ -632,6 +695,83 @@ const CONTENT = {
       backdrop: ['日历山', '闹钟云', '倒计时星星'], enemy: '日程小块'
     },
   },
+  chapters: {
+    melee: {
+      name:'第一关 · 近战器械库', short:'近战器械库', need:'近战武器', color:'#4ee18a',
+      intro:'贴脸敲、打断前摇、第三段收尾。这里奖励敢上去讲道理的人。',
+      route:[
+        {world:'office', label:'键盘热身房', type:'melee', recommend:'近战', mechanic:'近战命中加成，远程伤害降低'},
+        {world:'family', label:'拖鞋回旋廊', type:'melee', recommend:'近战', mechanic:'精英怪会贴脸插话'},
+        {world:'creative', label:'章鱼路障阵', type:'melee', recommend:'破甲', mechanic:'第三段攻击更容易打出弱点'},
+        {world:'social', label:'红点肉搏场', type:'hybrid', recommend:'近战+闪避', mechanic:'连击越高怒气越快'},
+        {world:'office', label:'近战总复盘', type:'boss', recommend:'近战武器', mechanic:'Boss 弱点更靠近身体'}
+      ]
+    },
+    ranged: {
+      name:'第二关 · 远程吐槽台', short:'远程吐槽台', need:'远程武器', color:'#35f2ff',
+      intro:'别急着冲，先拉开距离，冷笑话、激光笔和小票弩会帮你把场面按住。',
+      route:[
+        {world:'social', label:'弹幕靶场', type:'ranged', recommend:'远程', mechanic:'远程伤害加成，近战容易空挥'},
+        {world:'commute', label:'验证码狙击巷', type:'ranged', recommend:'穿透', mechanic:'小怪会站远处发弹'},
+        {world:'office', label:'激光笔走廊', type:'ranged', recommend:'副武器', mechanic:'打掉红点可刷新副武器'},
+        {world:'time', label:'闹钟飞盘台', type:'dodge', recommend:'远程+闪避', mechanic:'弹幕密度提高'},
+        {world:'social', label:'远程总复盘', type:'boss', recommend:'远程武器', mechanic:'Boss 弱点会短暂远离身体'}
+      ]
+    },
+    hybrid: {
+      name:'第三关 · 远近混合站', short:'远近混合站', need:'远程+近战', color:'#ff5aa5',
+      intro:'先远程开罐，再近战收尾。像炒饭，锅气要有，手速也要有。',
+      route:[
+        {world:'creative', label:'先喷后敲训练', type:'hybrid', recommend:'远近切换', mechanic:'近战和远程交替命中会多给怒气'},
+        {world:'office', label:'需求反复横跳', type:'hybrid', recommend:'主副武器', mechanic:'敌人会频繁换站位'},
+        {world:'family', label:'问题泡回收站', type:'ranged', recommend:'远程打回', mechanic:'投射物反弹更有价值'},
+        {world:'social', label:'表情包贴脸赛', type:'melee', recommend:'近战爆发', mechanic:'近战清场更快'},
+        {world:'creative', label:'混合总复盘', type:'boss', recommend:'远程+近战', mechanic:'Boss 每阶段切换抗性'}
+      ]
+    },
+    dodge: {
+      name:'第四关 · 躲避跑酷塔', short:'躲避跑酷塔', need:'闪避/跑酷装备', color:'#b66dff',
+      intro:'这关不是谁打得响，是谁脚下不乱。像超级马里奥误入公司群。',
+      route:[
+        {world:'commute', label:'电梯夹夹桥', type:'dodge', recommend:'闪避', mechanic:'机关密集，完美闪避奖励翻倍'},
+        {world:'time', label:'闹钟跳台', type:'dodge', recommend:'二段跳', mechanic:'地面机关会连环弹起'},
+        {world:'creative', label:'路障跑酷街', type:'dodge', recommend:'喷射', mechanic:'顺风区和滑倒区交替出现'},
+        {world:'family', label:'汤碗弹簧房', type:'hybrid', recommend:'闪避+控场', mechanic:'汤碗会弹回投射物'},
+        {world:'commute', label:'跑酷总复盘', type:'boss', recommend:'闪避装备', mechanic:'Boss 招式更依赖预判'}
+      ]
+    }
+  },
+  difficulties: {
+    roll: { name:'卷', hp:.9, dmg:.85, speed:.92, rate:.92, loot:.16, score:1, note:'适合轻松爆破' },
+    very: { name:'很卷', hp:1.1, dmg:1, speed:1, rate:1, loot:.22, score:1.25, note:'有点忙，但还能笑' },
+    super: { name:'非常卷', hp:1.34, dmg:1.18, speed:1.12, rate:1.12, loot:.3, score:1.55, note:'手会热，嘴会硬' },
+    dead: { name:'卷死', hp:1.65, dmg:1.38, speed:1.24, rate:1.25, loot:.42, score:2.1, note:'给硬核玩家的离谱试卷' },
+  },
+  species: {
+    knight:{ name:'键帽小骑士', title:'会把 Enter 当锤子', stats:{attack:5, maxHp:8}, color:'#35f2ff' },
+    bubble:{ name:'奶茶能量体', title:'被珍珠保护的圆润战士', stats:{shield:18, maxHp:12, speed:-.03}, color:'#4ee18a' },
+    shadow:{ name:'社交隐形人', title:'只要没被看见就很强', stats:{dodgeInvuln:.11, speed:.06, maxHp:-8}, color:'#b66dff' },
+    skater:{ name:'电梯滑板客', title:'开门前已经滑走', stats:{speed:.12, doubleJump:1, maxHp:-10}, color:'#4de0ff' },
+    guardian:{ name:'锅盖守门员', title:'主打一个礼貌反弹', stats:{projectileResist:.18, maxHp:18, speed:-.05}, color:'#ff5aa5' },
+  },
+  presets: {
+    melee:{ name:'近战开荒', topic:'office', chapter:'melee', species:'knight', difficulty:'roll', rant:'老板让我周末改PPT，还说只是顺手微调一下', equip:{weapon1:'keyboard', weapon2:'slipper', skill1:'milkTea', skill2:'memeBelt'}, unlock:['slipper'] },
+    ranged:{ name:'远程冷场', topic:'social', chapter:'ranged', species:'shadow', difficulty:'very', rant:'群里未读消息一直冒红点，还每个人都在问在吗', equip:{weapon1:'loudspeaker', weapon2:'laserPointer', skill1:'clientRadar', skill2:'redPacketDrone'}, unlock:['laserPointer','clientRadar','redPacketDrone'] },
+    hybrid:{ name:'远近双修', topic:'creative', chapter:'hybrid', species:'knight', difficulty:'very', rant:'灵感卡住了，需求还在反复横跳，素材像在躲猫猫', equip:{weapon1:'dualPens', weapon2:'receiptCrossbow', skill1:'stickyMine', skill2:'coffeeDash'}, unlock:['dualPens','receiptCrossbow','stickyMine','coffeeDash'] },
+    dodge:{ name:'闪避跑酷', topic:'commute', chapter:'dodge', species:'skater', difficulty:'super', rant:'电梯等不来，验证码过期，路上每一步都像小关卡', equip:{weapon1:'slipper', weapon2:'bubbleWand', skill1:'alarmBoots', skill2:'jetpack'}, unlock:['slipper','bubbleWand','alarmBoots','jetpack'] },
+  },
+  achievements: [
+    {id:'firstWin', name:'第一只被说服', desc:'完成任意一局胜利。', reward:'表情包碎片 +2'},
+    {id:'combo30', name:'手速像在抢电梯', desc:'单局最高连击达到 30。', reward:'解锁称号：连击嘴替'},
+    {id:'perfect3', name:'擦边但很礼貌', desc:'单局完美闪避 3 次。', reward:'门缝通行证'},
+    {id:'collector12', name:'杂物间馆长', desc:'收集 12 件装备。', reward:'装备卡闪光边框'},
+    {id:'meleeClear', name:'贴脸讲道理', desc:'通关近战器械库。', reward:'盖章锤掉率提升'},
+    {id:'rangedClear', name:'远程阴阳师', desc:'通关远程吐槽台。', reward:'激光笔掉率提升'},
+    {id:'hybridClear', name:'左右互搏办公版', desc:'通关远近混合站。', reward:'双笔掉率提升'},
+    {id:'dodgeClear', name:'脚底抹了咖啡', desc:'通关躲避跑酷塔。', reward:'跑酷装备掉率提升'},
+    {id:'deadClear', name:'卷死也要下班', desc:'在卷死难度胜利。', reward:'分享卡专属抬头'},
+    {id:'eggHunter', name:'彩蛋不是早餐', desc:'打破一个随机关卡彩蛋。', reward:'彩蛋计数 +1'},
+  ],
   equipment: [
     { id:'keyboard', name:'冒烟键盘', short:'键盘', slot:'weapon', icon:'键', stats:{attack:6, attackSpeed:.08}, source:'初始装备', visual:'keyboard',
       effect:'第三段攻击喷出键帽散弹，连续命中会哒哒补刀。', flavor:'别问，问就是机械轴的正义。' },
@@ -639,6 +779,16 @@ const CONTENT = {
       effect:'完美闪避后下一击变成精准拖鞋制裁，击退并加倍好笑。', flavor:'全家最古老的远程武器。' },
     { id:'loudspeaker', name:'冷笑话扩音器', short:'冷话', slot:'weapon', icon:'冷', stats:{projectileCd:-.2, attack:2}, source:'社交碎片合成', visual:'speaker',
       effect:'远程命中会短暂冻住对方节奏，浮字会变得很尴尬。', flavor:'伤害不高，气氛很低。' },
+    { id:'stampHammer', name:'盖章锤', short:'盖章', slot:'weapon', icon:'章', stats:{attack:12, attackSpeed:-.08, reach:.12}, source:'近战器械库掉落', visual:'hammer',
+      effect:'第三段攻击会砸出“已阅”冲击波，适合贴脸清场。', flavor:'章盖下去，争议暂时不存在。' },
+    { id:'laserPointer', name:'激光笔', short:'激光', slot:'weapon', icon:'光', stats:{projectileCd:-.28, crit:.05}, source:'远程吐槽台掉落', visual:'laser',
+      effect:'副武器发射高速激光点，打中弱点会多给怒气。', flavor:'指哪儿哪儿开始心虚。' },
+    { id:'receiptCrossbow', name:'小票弩', short:'小票', slot:'weapon', icon:'票', stats:{projectileCd:-.12, reach:.12, crit:.04}, source:'远程吐槽台精英掉落', visual:'crossbow',
+      effect:'发射会拐弯的小票箭，远处命中伤害更高。', flavor:'每一张小票都写着“这也能报？”' },
+    { id:'dualPens', name:'双笔流', short:'双笔', slot:'weapon', icon:'双', stats:{attack:4, attackSpeed:.16, comboGrace:.28}, source:'远近混合站掉落', visual:'pens',
+      effect:'近战命中后短时间提高副武器伤害，适合远近切换。', flavor:'左手改需求，右手写备注。' },
+    { id:'bubbleWand', name:'反问泡泡杖', short:'泡杖', slot:'weapon', icon:'泡', stats:{projectileCd:-.05, weakBonus:.18}, source:'跑酷塔彩蛋', visual:'wand',
+      effect:'副武器吐出追踪问题泡，命中后让目标短暂迷糊。', flavor:'你说得对，那然后呢？' },
     { id:'milkTea', name:'奶茶护盾杯', short:'奶盾', slot:'skill', icon:'茶', cooldown:7.5, stats:{shield:26, maxHp:8}, source:'初始装备', visual:'cup',
       effect:'站着喘口气会回一点血，护盾碎裂时喷出珍珠弹。', flavor:'半糖，三分命，去冰加盾。' },
     { id:'overtimeCape', name:'加班披风', short:'冲刺', slot:'skill', icon:'披', cooldown:12, stats:{maxHp:30, speed:-.04}, source:'办公室掉落', visual:'cape',
@@ -653,6 +803,16 @@ const CONTENT = {
       effect:'每 12 连击自动放出表情包冲击波。', flavor:'沉默不是金，是还没找到图。' },
     { id:'jetpack', name:'灵感喷射背包', short:'喷射', slot:'skill', icon:'喷', cooldown:5.5, stats:{airDamage:.22, doubleJump:1}, source:'创意碎片合成', visual:'jet',
       effect:'二段跳喷出便利贴弹，落地会稍微滑一下。', flavor:'起飞靠灵感，刹车靠缘分。' },
+    { id:'stickyMine', name:'便利贴地雷', short:'地雷', slot:'skill', icon:'贴', cooldown:6.8, stats:{attack:3, comboGrace:.2}, source:'远近混合站掉落', visual:'mine',
+      effect:'在脚边贴一张爆炸便利贴，怪兽踩到会被弹成会议纪要。', flavor:'这不是陷阱，这是待办。' },
+    { id:'alarmBoots', name:'准点弹簧鞋', short:'弹鞋', slot:'skill', icon:'跳', cooldown:5.2, stats:{speed:.08, dodgeInvuln:.05, doubleJump:1}, source:'躲避跑酷塔掉落', visual:'boots',
+      effect:'向上弹跳并刷新闪避手感，跑酷关卡额外好用。', flavor:'迟到不可怕，落地要优雅。' },
+    { id:'redPacketDrone', name:'红包无人机', short:'红包', slot:'skill', icon:'红', cooldown:8.2, stats:{projectileCd:-.1, weakBonus:.12}, source:'社交风暴彩蛋', visual:'drone',
+      effect:'召唤 6 个红包弹自动追踪，重复命中会掉更多碎片。', flavor:'打开不是钱，是一点点战斗热情。' },
+    { id:'coffeeDash', name:'咖啡滑步杯', short:'滑步', slot:'skill', icon:'咖', cooldown:6.2, stats:{speed:.1, dodgeInvuln:.04}, source:'办公室风云精英掉落', visual:'coffee',
+      effect:'向前滑步并留下一条咖啡轨迹，路过的怪会脚下一紧。', flavor:'提神醒脑，顺便漂移。' },
+    { id:'confettiShield', name:'彩带护盾球', short:'彩盾', slot:'skill', icon:'彩', cooldown:9.5, stats:{shield:18, maxHp:10}, source:'卷死难度掉落', visual:'confetti',
+      effect:'获得彩带护盾，护盾碎裂时全屏撒花并震退敌人。', flavor:'防御可以很浮夸。' },
   ],
   bosses: [
     {
@@ -662,7 +822,7 @@ const CONTENT = {
       intro:'它每次受击都会认真点头，然后补一句“这里再微调一下”。',
       tags:['文件雨','激光笔','版本复制'], weak:'它切换模板时，背后的插头会发光；打插头，立刻安静三秒。',
       attacks:[['激光笔横扫','一道认真过头的红线扫过地面。','sweep'],['最终版坠落','很多个“最终版”从天而降。','rain'],['再微调冲刺','抱着投影仪横向冲刺。','dash']],
-      death:'纸片雨、彩带和一个自动保存提示同时弹出。', drops:['keyboard','clientRadar','overtimeCape']
+      death:'纸片雨、彩带和一个自动保存提示同时弹出。', drops:['keyboard','clientRadar','overtimeCape','stampHammer','coffeeDash']
     },
     {
       id:'unread-octo', world:'social', glyph:'99', color:'#b66dff',
@@ -671,7 +831,7 @@ const CONTENT = {
       intro:'它最大的本事是用八种语气发“在吗”，但走路会自己绊自己。',
       tags:['红点雨','转发链条','已读蓝勾'], weak:'它发“在吗”后头顶出现蓝勾，打蓝勾会让它进入反省模式。',
       attacks:[['红点雨','一串红点落地爆开。','rain'],['转发链条','旋转气泡链横扫。','bubbles'],['在吗诱导','假装可怜然后小跑撞人。','dash']],
-      death:'爆成一地已读回执和点赞小烟花。', drops:['socialCharm','memeBelt','loudspeaker']
+      death:'爆成一地已读回执和点赞小烟花。', drops:['socialCharm','memeBelt','loudspeaker','redPacketDrone','bubbleWand']
     },
     {
       id:'dinner-pot', world:'family', glyph:'锅', color:'#4ee18a',
@@ -680,7 +840,7 @@ const CONTENT = {
       intro:'一口表情严肃的鸳鸯锅，喜欢把所有问题煮成气泡。',
       tags:['筷子夹击','问题泡','汤底喷泉'], weak:'问题泡可以被远程打回去，怪兽会被自己的礼貌噎住。',
       attacks:[['问题泡追踪','慢悠悠的问题泡跟着你。','homing'],['筷子夹击','两根巨筷从两侧合拢。','clamp'],['汤底喷泉','热气小柱从地面冒出。','rain']],
-      death:'变成一锅甜豆花，还送你一张免问券。', drops:['slipper','potLid','milkTea']
+      death:'变成一锅甜豆花，还送你一张免问券。', drops:['slipper','potLid','milkTea','stampHammer']
     },
     {
       id:'elevator-king', world:'commute', glyph:'叮', color:'#4de0ff',
@@ -689,7 +849,7 @@ const CONTENT = {
       intro:'它总能在你赶时间时显示“即将到达”，然后去隔壁楼层兜风。',
       tags:['楼层故障','门夹夹','满员冲撞'], weak:'它发出“叮”之前顶灯会亮，跳起来敲灯能让它开门冷静。',
       attacks:[['楼层数字弹幕','数字方块沿直线飞来。','bubbles'],['门夹夹','左右门板同步合拢。','clamp'],['满员冲撞','整座电梯横向平移。','dash']],
-      death:'叮一声开门，里面飘出袜子、彩纸和一个空座位。', drops:['jetpack','potLid','loudspeaker']
+      death:'叮一声开门，里面飘出袜子、彩纸和一个空座位。', drops:['jetpack','potLid','loudspeaker','alarmBoots']
     },
     {
       id:'idea-cone', world:'creative', glyph:'灯', color:'#ff5aa5',
@@ -698,7 +858,7 @@ const CONTENT = {
       intro:'它把所有好点子拦在路口，自己却戴着反光背心跳方块舞。',
       tags:['路障阵','井盖弹起','绕路箭头'], weak:'连续三连段会把路牌打反，怪兽会短暂找不到借口。',
       attacks:[['路障掉落','三角路障从上面蹦下来。','rain'],['脑洞井盖','地面井盖突然弹起。','floor'],['绕路箭头','箭头风把你推到奇怪位置。','gust']],
-      death:'喷出彩色灯泡和“就这？”便利贴。', drops:['jetpack','clientRadar','memeBelt']
+      death:'喷出彩色灯泡和“就这？”便利贴。', drops:['jetpack','clientRadar','memeBelt','dualPens','stickyMine']
     },
     {
       id:'alarm-rooster', world:'time', glyph:'闹', color:'#8b5cf6',
@@ -707,7 +867,7 @@ const CONTENT = {
       intro:'穿西装的闹钟鸡，喜欢把“再睡五分钟”翻译成十个日程块。',
       tags:['音波圈','贪睡飞盘','日程砸地'], weak:'完美闪避音波后，它会打嗝露出电池仓。',
       attacks:[['起床音波','圆形音波横向扩散。','sweep'],['贪睡飞盘','按钮飞盘来回弹。','bubbles'],['日程砸地','日程块排队落下。','rain']],
-      death:'变成周末抱枕，顺便帮你关掉三个提醒。', drops:['overtimeCape','socialCharm','jetpack']
+      death:'变成周末抱枕，顺便帮你关掉三个提醒。', drops:['overtimeCape','socialCharm','jetpack','alarmBoots','confettiShield']
     },
     {
       id:'locker-riddle', world:'commute', glyph:'码', color:'#2ec4b6',
@@ -716,7 +876,7 @@ const CONTENT = {
       intro:'它每个格口都很热情，除了你真正需要打开的那个。',
       tags:['柜门弹幕','验证码墙','超时收费'], weak:'打亮三个同色柜门会触发开锁眩晕。',
       attacks:[['柜门弹幕','彩色柜门轮流弹出。','bubbles'],['验证码墙','数字墙向前滚动。','sweep'],['超时提醒','收费小牌从天而降。','rain']],
-      death:'柜门全开，掉出袜子、贴纸和一张“辛苦了”。', drops:['loudspeaker','potLid','clientRadar']
+      death:'柜门全开，掉出袜子、贴纸和一张“辛苦了”。', drops:['loudspeaker','potLid','clientRadar','receiptCrossbow']
     },
     {
       id:'meeting-mic', world:'office', glyph:'麦', color:'#ff6b6b',
@@ -725,7 +885,7 @@ const CONTENT = {
       intro:'它说一句话会回响七遍，但每次都忘记自己没开降噪。',
       tags:['回音波','静音陷阱','头像冲撞'], weak:'远程攻击打掉降噪耳机后，近战伤害翻倍。',
       attacks:[['回音波','矩形音浪横扫。','sweep'],['头像冲撞','会议头像排队冲过来。','dash'],['静音按钮雨','静音图标从上面掉下。','rain']],
-      death:'静音图标碎成彩带，大家终于听见掌声。', drops:['keyboard','loudspeaker','socialCharm']
+      death:'静音图标碎成彩带，大家终于听见掌声。', drops:['keyboard','loudspeaker','socialCharm','laserPointer']
     },
   ],
   loaderLines:['把小事搓成圆滚滚怪兽','给它贴上今日最烦标签','校准拖鞋弹道','检查彩带库存','海报可以出摊了'],
@@ -763,8 +923,8 @@ function defaultSave() {
     unlocked:['keyboard','loudspeaker','milkTea','memeBelt'],
     equipped:{ weapon1:'keyboard', weapon2:'loudspeaker', skill1:'milkTea', skill2:'memeBelt' },
     fragments:{ unread:0, joke:0, sticker:0, idea:0, ticket:0 },
-    stats:{ battles:0, wins:0, bosses:0, damage:0, bestCombo:0, perfect:0, supers:0 },
-    codex:{}, history:[],
+    stats:{ battles:0, wins:0, bosses:0, damage:0, bestCombo:0, perfect:0, supers:0, eggs:0, shares:0 },
+    codex:{}, achievements:[], chapterWins:{}, history:[],
   };
 }
 function loadSave() {
@@ -785,6 +945,8 @@ function loadSave() {
       stats:{...base.stats, ...(raw?.stats || {})},
       fragments:{...base.fragments, ...(raw?.fragments || {})},
       codex:{...(raw?.codex || {})},
+      achievements:Array.isArray(raw?.achievements) ? raw.achievements : [],
+      chapterWins:{...(raw?.chapterWins || {})},
       history:Array.isArray(raw?.history) ? raw.history : [],
     };
   } catch(e) { return defaultSave(); }
@@ -800,16 +962,53 @@ function circleRect(c,r){ const x=clamp(c.x,r.x,r.x+r.w), y=clamp(c.y,r.y,r.y+r.
 function rgba(hex,a){ const h=hex.replace('#',''); return `rgba(${parseInt(h.slice(0,2),16)},${parseInt(h.slice(2,4),16)},${parseInt(h.slice(4,6),16)},${a})`; }
 function fmtTime(sec){ return `${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`; }
 
-function buildRoute(home, rng=Math.random) {
-  const keys = Object.keys(CONTENT.worlds);
-  const labels = ['热身街区', '精英岔路', '技能试炼', '装备小卖部', '今日最烦'];
-  const route = [home];
-  while (route.length < 4) {
-    const k = keys[Math.floor(rng()*keys.length)];
-    if (route[route.length-1] !== k) route.push(k);
-  }
-  route.push(home);
-  return route.map((world, i) => ({ world, label: labels[i], boss: i === 4 }));
+function selectedChapterId() { return $('#chapterSelect')?.value || 'melee'; }
+function selectedDifficultyId() { return $('#difficultySelect')?.value || 'roll'; }
+function selectedSpeciesId() { return $('#speciesSelect')?.value || 'knight'; }
+function chapterInfo(id=currentBoss?.chapter || selectedChapterId()) { return CONTENT.chapters[id] || CONTENT.chapters.melee; }
+function difficultyInfo(id=currentBoss?.difficulty || selectedDifficultyId()) { return CONTENT.difficulties[id] || CONTENT.difficulties.roll; }
+function speciesInfo(id=currentBoss?.species || selectedSpeciesId()) { return CONTENT.species[id] || CONTENT.species.knight; }
+
+function buildRoute(home, rng=Math.random, chapterId=selectedChapterId()) {
+  const chapter = chapterInfo(chapterId);
+  const route = chapter.route.map((node, i) => ({
+    ...node,
+    chapter: chapterId,
+    boss: i === chapter.route.length - 1,
+    egg: false,
+  }));
+  const eggIndex = 1 + Math.floor(rng() * Math.max(1, route.length - 2));
+  if (rng() < .52 && route[eggIndex]) route[eggIndex].egg = true;
+  route[route.length-1].world = home;
+  return route;
+}
+
+function chapterDropPool(chapterId, baseDrops=[]) {
+  const pools = {
+    melee:['keyboard','slipper','stampHammer','coffeeDash','memeBelt'],
+    ranged:['loudspeaker','laserPointer','receiptCrossbow','clientRadar','redPacketDrone'],
+    hybrid:['dualPens','receiptCrossbow','stickyMine','bubbleWand','coffeeDash'],
+    dodge:['alarmBoots','jetpack','socialCharm','confettiShield','bubbleWand'],
+  };
+  return [...new Set([...(baseDrops || []), ...(pools[chapterId] || [])])];
+}
+
+function stageDamageMultiplier(kind) {
+  if (!game?.stageNode) return 1;
+  const type = game.stageNode.type;
+  if (type === 'melee') return kind === 'melee' ? 1.35 : .76;
+  if (type === 'ranged') return kind === 'ranged' ? 1.35 : .78;
+  if (type === 'hybrid') return kind === 'melee' || kind === 'ranged' ? 1.12 + Math.min(.22, game.player.combo * .006) : 1;
+  if (type === 'dodge') return kind === 'perfect' ? 1.55 : 1;
+  return 1;
+}
+
+function unlockAchievement(id) {
+  if (!id || save.achievements.includes(id)) return false;
+  save.achievements.push(id);
+  const a = CONTENT.achievements.find(x => x.id === id);
+  if (a && game?.state === 'playing') addFloat(game.player.x+game.player.w/2, game.player.y-28, `成就：${a.name}`, '#b66dff', 1.05);
+  return true;
 }
 
 function safeRewrite(text) {
@@ -872,6 +1071,14 @@ function hasEquip(id) { return loadoutIds().includes(id); }
 function getLoadout() { return loadoutIds().map(id => EQUIP[id]).filter(Boolean); }
 function derivedStats() {
   const s = { maxHp:140, shield:0, attack:28, speed:250, attackCd:.31, reach:1, crit:.1, dodgeInvuln:.34, projectileCd:1.6, projectileResist:0, weakBonus:1.55, comboGrace:1.25, airDamage:0, doubleJump:0 };
+  const sp = speciesInfo().stats || {};
+  if (sp.maxHp) s.maxHp += sp.maxHp;
+  if (sp.shield) s.shield += sp.shield;
+  if (sp.attack) s.attack += sp.attack;
+  if (sp.speed) s.speed *= 1 + sp.speed;
+  if (sp.dodgeInvuln) s.dodgeInvuln += sp.dodgeInvuln;
+  if (sp.projectileResist) s.projectileResist += sp.projectileResist;
+  if (sp.doubleJump) s.doubleJump += sp.doubleJump;
   getLoadout().forEach(e => {
     const st = e.stats || {};
     if (st.maxHp) s.maxHp += st.maxHp;
@@ -895,9 +1102,12 @@ function derivedStats() {
 
 function makeBoss() {
   const mode = $('#modeSelect').value;
+  const chapterId = selectedChapterId();
+  const difficultyId = selectedDifficultyId();
+  const speciesId = selectedSpeciesId();
   const raw = $('#rantInput').value;
   const safe = safeRewrite(raw);
-  const seedBase = mode === 'daily' ? `${new Date().toISOString().slice(0,10)}:${currentTopic}` : `${safe}:${Date.now()}`;
+  const seedBase = mode === 'daily' ? `${new Date().toISOString().slice(0,10)}:${currentTopic}:${chapterId}:${difficultyId}` : `${safe}:${chapterId}:${difficultyId}:${Date.now()}`;
   const seed = hashText(mode === 'random' ? `${seedBase}:${Math.random()}` : seedBase);
   const rng = seeded(seed);
   const low = safe.toLowerCase();
@@ -908,17 +1118,21 @@ function makeBoss() {
   let base = ranked[0].score > 0 && mode !== 'random' ? ranked[0].boss : CONTENT.bosses[Math.floor(rng()*CONTENT.bosses.length)];
   const variants = ['圆滚滚版','嘴硬版','加戏版','彩带版','超会找借口版'];
   const posterNo = String(seed % 10000).padStart(4,'0');
-  const drop = base.drops[Math.floor(rng()*base.drops.length)] || base.drops[0];
+  const dropPool = chapterDropPool(chapterId, base.drops);
+  const drop = dropPool[Math.floor(rng()*dropPool.length)] || base.drops[0];
   currentBoss = {
     ...base,
     safe,
     seed,
     posterNo,
     mode,
+    chapter: chapterId,
+    difficulty: difficultyId,
+    species: speciesId,
     displayName: `${base.name} · ${variants[Math.floor(rng()*variants.length)]}`,
-    hpScale: mode === 'practice' ? .72 : mode === 'daily' ? 1.08 : 1,
+    hpScale: (mode === 'practice' ? .72 : mode === 'daily' ? 1.08 : 1) * difficultyInfo(difficultyId).hp,
     drop,
-    route: buildRoute(base.world, rng),
+    route: buildRoute(base.world, rng, chapterId),
     patterns: [...base.attacks.map(a => a[2]), 'summon', base.world === 'social' ? 'bubbles' : 'floor'],
   };
   currentDrop = EQUIP[drop];
@@ -943,15 +1157,18 @@ function showLoader(done) {
 
 function renderDossier() {
   const w = CONTENT.worlds[currentBoss.world];
+  const chapter = chapterInfo(currentBoss.chapter);
+  const diff = difficultyInfo(currentBoss.difficulty);
+  const species = speciesInfo(currentBoss.species);
   document.documentElement.style.setProperty('--boss', currentBoss.color);
   $('#caseId').textContent = `海报 #${currentBoss.posterNo}`;
-  $('#worldName').textContent = `${w.name} · ${w.mechanic}`;
+  $('#worldName').textContent = `${chapter.name} · ${diff.name} · ${species.name}`;
   $('#bossName').textContent = currentBoss.displayName;
-  $('#bossIntro').textContent = `已把“${currentBoss.safe}”登记成：${currentBoss.intro}`;
-  $('#bossTags').innerHTML = currentBoss.tags.map(t => `<span class="pill">${t}</span>`).join('');
+  $('#bossIntro').textContent = `已把“${currentBoss.safe}”登记成：${currentBoss.intro} 本关推荐：${chapter.need}。`;
+  $('#bossTags').innerHTML = [...currentBoss.tags, w.name, diff.note].map(t => `<span class="pill">${t}</span>`).join('');
   $('#skillList').innerHTML = currentBoss.attacks.map(a => `<li><span class="pattern-badge">${patternIcon(a[2])}</span><span><strong>${a[0]}</strong><br>${a[1]}</span></li>`).join('');
   $('#weakHint').textContent = currentBoss.weak;
-  $('#dropPreview').textContent = `${currentDrop.name}：${currentDrop.effect}`;
+  $('#dropPreview').textContent = `${currentDrop.name}：${currentDrop.effect} 通关还会结算大关卡收集。`;
   $('#bossHudName').textContent = currentBoss.displayName;
   renderRoute();
   renderLoadout();
@@ -960,11 +1177,11 @@ function renderDossier() {
 
 function renderRoute() {
   const route = currentBoss.route || buildRoute(currentBoss.world);
-  $('#routeStrip').innerHTML = `<div class="route-title"><b>闯关路线</b><span>${route.length} 站连拆</span></div>` + route.map((r, i) => {
+  $('#routeStrip').innerHTML = `<div class="route-title"><b>大关卡路线</b><span>${route.length} 个小关</span></div>` + route.map((r, i) => {
     const w = CONTENT.worlds[r.world];
     return `<article class="route-card">
       <span class="route-glyph" style="background:${w.accent};">${r.boss ? '烦' : i+1}</span>
-      <span><strong>${r.label}</strong><small>${w.name}</small></span>
+      <span><strong>${r.label}${r.egg ? ' · 彩蛋?' : ''}</strong><small>${w.name} · ${r.mechanic}</small><em>${r.recommend}</em></span>
     </article>`;
   }).join('');
 }
@@ -1036,22 +1253,28 @@ function initBattle() {
   const maxHp = Math.round(stats.maxHp);
   const bossMax = Math.round((480 + (currentBoss.seed % 120)) * currentBoss.hpScale);
   const modeName = $('#modeSelect').selectedOptions[0].textContent;
+  const chapter = chapterInfo(currentBoss.chapter);
+  const diff = difficultyInfo(currentBoss.difficulty);
+  const species = speciesInfo(currentBoss.species);
   game = {
     mode: currentBoss.mode,
+    chapter: currentBoss.chapter,
+    difficulty: diff,
+    species,
     startedAt: performance.now(),
     state:'playing',
     stats:{ damage:0, taken:0, maxCombo:0, perfect:0, supers:0, hits:0 },
     shake:{x:0,y:0,life:0,amp:0}, flash:0, hitStop:0, slowMo:0, camera:1, bigTimer:0, bigTitle:'开打', bigSub:'把它教育得明明白白',
     particles:[], floats:[], slashes:[], telegraphs:[], projectiles:[], hazards:[], pending:[], enemies:[], props:[], zones:[], confetti:[],
-    wave:0, waveTimer:0, bossActive:false, endlessClears:0, stageWorld:currentBoss.world,
+    wave:0, waveTimer:0, bossActive:false, endlessClears:0, stageWorld:currentBoss.world, stageNode:null, eggsFound:0,
     gear:getLoadout(), derived:stats,
     player:{ x:135,y:368,w:38,h:62,vx:0,vy:0,facing:1,grounded:false,jumps:0,maxJumps:1+stats.doubleJump,
       hp:maxHp,maxHp,shield:stats.shield,maxShield:stats.shield,rage:0,combo:0,comboTtl:0,attackCd:0,projectileCd:0,dodgeCd:0,activeCd:{skill1:0,skill2:0},invuln:0,dodgeTime:0,dodgePerfect:0,
       attackTime:0,comboStep:0,comboTimer:0,hurtFlash:0,idle:0,deathSave:false,overclock:0,perfectCharge:0,reflectCd:0,memeAt:0,slide:0 },
     boss:{ x:700,y:300,w:110,h:126,hp:bossMax,maxHp:bossMax,phase:0,lastPhase:0,attackTimer:1.2,patternIndex:0,hurt:0,weakTimer:1.2,slow:0,stun:0,face:'ಠ_ಠ' },
   };
-  $('#modeHud').textContent = modeName;
-  $('#playerName').textContent = `你 · ${$('#identitySelect').value}`;
+  $('#modeHud').textContent = `${chapter.short} · ${diff.name} · ${modeName}`;
+  $('#playerName').textContent = `你 · ${species.name}`;
   startWave(0);
   screenTo('battle');
   showBig('开打', currentBoss.displayName);
@@ -1067,33 +1290,61 @@ function setupWorldProps() {
     { type:world, label:propNames[world], x:385, y:386, w:62, h:42, hp:2, live:true, pulse:0 },
     { type:world, label:propNames[world], x:575, y:386, w:62, h:42, hp:2, live:true, pulse:1.2 },
   ];
+  if (game.stageNode?.egg) {
+    game.props.push({ type:'egg', label:'离谱彩蛋', x:760, y:360, w:46, h:46, hp:1, live:true, pulse:2.1, egg:true });
+  }
 }
 
 function startWave(i) {
   const route = currentBoss.route || buildRoute(currentBoss.world);
   const last = route.length - 1;
   const stop = route[Math.min(i, last)];
-  game.wave = i; game.waveTimer = 0; game.enemies = []; game.bossActive = false; game.stageWorld = stop.world;
+  game.wave = i; game.waveTimer = 0; game.enemies = []; game.bossActive = false; game.stageWorld = stop.world; game.stageNode = stop;
   setupWorldProps();
   const w = CONTENT.worlds[stop.world];
   if (i < last) {
     showBig(`第 ${i+1} 站`, `${w.name} · ${stop.label}`);
-    const smallCount = 3 + Math.min(i, 2);
-    for (let n=0;n<smallCount;n++) spawnEnemy('small', 500+n*74+rand(-20,20));
-    if (i >= 1) spawnEnemy('elite', 690 + rand(-50,40));
-    if (i >= 3) spawnEnemy('elite', 560);
+    const smallCount = stop.type === 'dodge' ? 2 + i : 3 + Math.min(i, 2);
+    for (let n=0;n<smallCount;n++) spawnEnemy(stop.type === 'ranged' ? 'turret' : 'small', 500+n*74+rand(-20,20));
+    if (i >= 1) spawnEnemy(stop.type === 'dodge' ? 'jumper' : 'elite', 690 + rand(-50,40));
+    if (i >= 3) spawnEnemy(stop.type === 'ranged' ? 'turret' : 'elite', 560);
+    setupStageMechanics(stop, i);
   } else {
     game.bossActive = true;
     showBig('今日最烦', currentBoss.displayName);
   }
 }
 
+function setupStageMechanics(stop, i) {
+  const color = CONTENT.worlds[stop.world]?.accent || currentBoss.color;
+  if (stop.type === 'dodge') {
+    for (let n=0;n<3+i;n++) {
+      game.pending.push({ t:.55+n*.45, fn:() => {
+        const x = 170 + ((n*180 + currentBoss.seed) % 620);
+        addTelegraph(x-28, 410, 56, 22, .28, color);
+        game.hazards.push({type:'pop', x:x-28, y:390, w:56, h:40, damage:10+i*2, ttl:.55, color, perfect:false});
+      }});
+    }
+    game.zones.push({type:'bounce', x:260, y:408, w:90, h:20, ttl:12, color:'#4de0ff'});
+    game.zones.push({type:'bounce', x:640, y:408, w:90, h:20, ttl:12, color:'#4de0ff'});
+  }
+  if (stop.type === 'ranged') {
+    game.zones.push({type:'focus', x:90, y:408, w:130, h:20, ttl:12, color:'#35f2ff'});
+  }
+  if (stop.type === 'hybrid') {
+    game.zones.push({type:'tempo', x:420, y:408, w:130, h:20, ttl:12, color:'#ff5aa5'});
+  }
+}
+
 function spawnEnemy(type, x) {
   const elite = type === 'elite';
+  const turret = type === 'turret';
+  const jumper = type === 'jumper';
   const world = game.stageWorld || currentBoss.world;
+  const hpMul = game?.difficulty?.hp || 1;
   game.enemies.push({
-    type, world, x, y: elite?344:372, w: elite?52:36, h: elite?58:38,
-    hp: elite?105:42, maxHp: elite?105:42, atk: elite?13:7, cd: rand(.5,1.5), hurt:0,
+    type, world, x, y: elite?344:turret?356:jumper?350:372, w: elite?52:turret?42:jumper?42:36, h: elite?58:turret?50:jumper?48:38,
+    hp: Math.round((elite?105:turret?62:jumper?72:42)*hpMul), maxHp: Math.round((elite?105:turret?62:jumper?72:42)*hpMul), atk: elite?13:turret?10:jumper?11:7, cd: rand(.5,1.5), hurt:0,
     color: elite ? CONTENT.worlds[world].color : CONTENT.worlds[world].accent,
   });
 }
@@ -1218,7 +1469,7 @@ function tryMelee() {
   const box = { x:p.facing>0 ? p.x+p.w-4 : p.x-reach+4, y:p.y+8, w:reach, h };
   p.x += p.facing * [5,10,16][step-1];
   const base = game.derived.attack * [1,1.14,1.42][step-1] * (p.overclock>0 ? 1.35 : 1);
-  performHitbox(box, base, { step, air:!p.grounded });
+  performHitbox(box, base, { step, air:!p.grounded, kind:'melee' });
   game.slashes.push({ x:box.x+box.w/2, y:box.y+box.h/2, facing:p.facing, step, life:.16, hit:false });
   game.hitStop = Math.max(game.hitStop, .025);
   SFX.clack();
@@ -1232,12 +1483,19 @@ function trySkill() {
   const secondary = save.equipped.weapon2 || 'loudspeaker';
   const cold = secondary === 'loudspeaker';
   const slipper = secondary === 'slipper';
+  const laser = secondary === 'laserPointer';
+  const receipt = secondary === 'receiptCrossbow';
+  const bubble = secondary === 'bubbleWand';
+  const dual = secondary === 'dualPens';
   game.projectiles.push({
-    from:'player', type:cold?'cold':slipper?'slipper':'keyshot',
-    x:p.x+p.w/2+p.facing*22, y:p.y+25, vx:p.facing*(cold?430:slipper?500:560), vy:slipper?-40:0,
-    r:cold?15:slipper?17:10, damage:cold?34:slipper?42:28, color:cold?'#4de0ff':slipper?'#ff4fd8':'#35f2ff', ttl:1.8
+    from:'player', type:cold?'cold':slipper?'slipper':laser?'laserDot':receipt?'receipt':bubble?'homingBubble':dual?'pen':'keyshot',
+    x:p.x+p.w/2+p.facing*22, y:p.y+25, vx:p.facing*(laser?720:cold?430:slipper?500:receipt?580:bubble?380:560), vy:slipper?-40:receipt?-20:0,
+    r:laser?8:cold?15:slipper?17:bubble?14:10, damage:laser?38:cold?34:slipper?42:receipt?36:bubble?30:dual?32:28,
+    color:laser?'#ff4fd8':cold?'#4de0ff':slipper?'#ff4fd8':receipt?'#4ee18a':bubble?'#b66dff':'#35f2ff',
+    ttl:laser?1.1:receipt?1.7:bubble?2.2:1.8,
+    homing:bubble
   });
-  addFloat(p.x+p.w/2, p.y, cold ? '冷场发射' : slipper ? '拖鞋飞行' : '键帽飞行', cold?'#4de0ff':slipper?'#ff4fd8':'#35f2ff', .9);
+  addFloat(p.x+p.w/2, p.y, laser ? '激光点名' : receipt ? '小票发射' : bubble ? '反问泡泡' : cold ? '冷场发射' : slipper ? '拖鞋飞行' : '键帽飞行', laser?'#ff4fd8':receipt?'#4ee18a':bubble?'#b66dff':cold?'#4de0ff':slipper?'#ff4fd8':'#35f2ff', .9);
   SFX.boing();
 }
 
@@ -1274,6 +1532,29 @@ function castActiveSkill(slot) {
     p.vy = -690; p.grounded = false; p.jumps = Math.max(p.jumps, 1);
     for (let i=0;i<8;i++) game.projectiles.push({ from:'player', type:'note', x:cx, y:cy, vx:rand(-240,240), vy:rand(-260,-80), r:8, damage:12, color:'#ff5aa5', ttl:1.15 });
     addFloat(cx, p.y, '灵感喷射!', '#ff5aa5', 1.05);
+  } else if (id === 'stickyMine') {
+    game.zones.push({type:'mine', x:p.x-18, y:400, w:76, h:22, ttl:5.8, color:'#ff5aa5', armed:true});
+    addFloat(cx, p.y, '便利贴地雷!', '#ff5aa5', 1.05);
+  } else if (id === 'alarmBoots') {
+    p.vy = -760; p.grounded = false; p.jumps = 0; p.dodgeCd = 0; p.invuln = Math.max(p.invuln, .5);
+    burst(cx, cy, '#35f2ff', 26, 0, 'dash');
+    addFloat(cx, p.y, '准点弹跳!', '#35f2ff', 1.05);
+  } else if (id === 'redPacketDrone') {
+    for (let i=0;i<6;i++) game.pending.push({t:i*.16, fn:() => {
+      const target = game.enemies[0] || game.boss;
+      const dir = target && target.x < p.x ? -1 : 1;
+      game.projectiles.push({from:'player', type:'receipt', x:p.x+p.w/2, y:p.y+6, vx:dir*rand(420,560), vy:rand(-120,30), r:9, damage:18, color:'#4ee18a', ttl:1.5});
+    }});
+    addFloat(cx, p.y, '红包无人机起飞!', '#4ee18a', 1.05);
+  } else if (id === 'coffeeDash') {
+    p.vx = p.facing * 780; p.dodgeTime = .2; p.invuln = Math.max(p.invuln, .55);
+    game.zones.push({type:'coffee', x:p.x-p.facing*18, y:410, w:150, h:16, ttl:3.6, color:'#35f2ff'});
+    addFloat(cx, p.y, '咖啡滑步!', '#35f2ff', 1.05);
+  } else if (id === 'confettiShield') {
+    p.shield = Math.min(p.maxShield + 44, p.shield + 44);
+    shockwave(cx, cy);
+    burst(cx, cy, '#ff4fd8', 42, 0, 'confetti');
+    addFloat(cx, p.y, '彩带护盾!', '#ff4fd8', 1.05);
   } else if (id === 'overtimeCape') {
     p.overclock = Math.max(p.overclock, 5);
     p.rage = Math.min(100, p.rage + 30);
@@ -1297,6 +1578,18 @@ function castSuper() {
     showBig('冷笑话扩音', '全场短暂安静');
     game.boss.slow = Math.max(game.boss.slow, 3.2); game.boss.weakTimer = Math.max(game.boss.weakTimer, 2.2);
     damageAll(86, '#4de0ff', '哈哈哈...哈?');
+  } else if (weapon === 'stampHammer') {
+    showBig('全员已阅', '章盖到桌子冒烟');
+    damageAll(132, '#4ee18a', '已阅!');
+    shockwave(p.x+p.w/2, p.y+18);
+  } else if (weapon === 'laserPointer') {
+    showBig('激光点名', '弱点请自觉站出来');
+    if (game.bossActive) game.boss.weakTimer = Math.max(game.boss.weakTimer, 4.2);
+    for (let i=0;i<10;i++) game.pending.push({ t:i*.05, fn:() => game.projectiles.push({from:'player', type:'laserDot', x:p.x+p.w/2, y:p.y+22+rand(-20,20), vx:p.facing*760, vy:rand(-20,20), r:8, damage:20, color:'#ff4fd8', ttl:1}) });
+  } else if (weapon === 'receiptCrossbow' || weapon === 'dualPens' || weapon === 'bubbleWand') {
+    showBig('远近混合批注', '它被你改到不会了');
+    damageAll(96, '#ff5aa5', '批注爆破!');
+    for (let i=0;i<12;i++) game.projectiles.push({from:'player', type:weapon==='bubbleWand'?'homingBubble':'receipt', x:p.x+p.w/2, y:p.y+20, vx:p.facing*rand(360,560), vy:rand(-180,80), r:10, damage:16, color:weapon==='bubbleWand'?'#b66dff':'#4ee18a', ttl:1.6, homing:weapon==='bubbleWand'});
   } else {
     showBig('键帽暴雨', 'Enter 键说它先上');
     for (let i=0;i<16;i++) game.pending.push({ t:i*.035, fn:() => game.projectiles.push({from:'player', type:'key', x:rand(120,860), y:40, vx:rand(-40,40), vy:rand(420,580), r:9, damage:18, color:'#35f2ff', ttl:1.3}) });
@@ -1311,7 +1604,7 @@ function damageAll(amount, color, text) {
 function performHitbox(box, amount, meta={}) {
   let hit = false;
   game.enemies.forEach(e => {
-    if (e.hp > 0 && rects(box,e)) { damageEnemy(e, amount); hit = true; }
+    if (e.hp > 0 && rects(box,e)) { damageEnemy(e, amount, meta); hit = true; }
   });
   game.props.forEach(prop => {
     if (prop.live && rects(box, prop)) { hitProp(prop); hit = true; }
@@ -1327,12 +1620,18 @@ function performHitbox(box, amount, meta={}) {
     for (let i=-2;i<=2;i++) game.projectiles.push({ from:'player', type:'key', x:p.x+p.w/2, y:p.y+22+i*3, vx:p.facing*(420+Math.abs(i)*30), vy:i*55, r:7, damage:10, color:'#35f2ff', ttl:1.1 });
     addFloat(p.x+p.w/2, p.y, '键帽×5', '#35f2ff', .9);
   }
+  if (hit && meta.step === 3 && hasEquip('stampHammer')) {
+    shockwave(game.player.x+game.player.w/2, game.player.y+18);
+  }
+  if (hit && hasEquip('dualPens')) {
+    game.player.projectileCd = Math.max(0, game.player.projectileCd - .18);
+  }
 }
 
 function damageBoss(amount, box, meta={}) {
   const b = game.boss, p = game.player;
   const weak = meta.weak || b.weakTimer > 0 || rects(box || {}, getWeakRect());
-  let mul = weak ? game.derived.weakBonus : 1;
+  let mul = (weak ? game.derived.weakBonus : 1) * stageDamageMultiplier(meta.kind || 'melee');
   if (meta.air && hasEquip('jetpack')) mul += game.derived.airDamage;
   if (p.perfectCharge > 0 && hasEquip('slipper')) { mul += .8; p.perfectCharge = 0; addFloat(b.x+b.w/2, b.y, '精准拖鞋制裁!', '#35f2ff', 1.2); b.x += p.facing * 38; }
   const crit = Math.random() < game.derived.crit + (weak ? .12 : 0);
@@ -1354,8 +1653,8 @@ function damageBoss(amount, box, meta={}) {
   crit ? SFX.crit() : SFX.hit();
 }
 
-function damageEnemy(e, amount) {
-  const dmg = Math.round(amount);
+function damageEnemy(e, amount, meta={}) {
+  const dmg = Math.round(amount * stageDamageMultiplier(meta.kind || 'melee'));
   e.hp = Math.max(0, e.hp - dmg); e.hurt = .12;
   game.stats.damage += dmg;
   addCombo(1);
@@ -1388,6 +1687,16 @@ function hitProp(prop) {
   prop.live = false;
   const cx = prop.x+prop.w/2;
   const type = prop.type;
+  if (type === 'egg') {
+    game.eggsFound += 1;
+    save.stats.eggs = (save.stats.eggs || 0) + 1;
+    save.fragments.joke += 3;
+    unlockAchievement('eggHunter');
+    addFloat(cx, prop.y, '彩蛋：老板的撤回键!', '#b66dff', 1.1);
+    for (let i=0;i<26;i++) burst(cx, prop.y+20, i%2?'#4ee18a':'#ff4fd8', 1, 0, 'confetti');
+    saveNow();
+    return;
+  }
   if (type === 'office') game.zones.push({type:'slip', x:prop.x-20, y:410, w:110, h:18, ttl:4, color:'#f4fbff'});
   if (type === 'social') { game.player.rage = Math.min(100, game.player.rage+18); addFloat(cx, prop.y, '红点变怒气!', '#ff5aa5', 1); }
   if (type === 'family') game.zones.push({type:'soup', x:prop.x-10, y:410, w:90, h:18, ttl:4, color:'#4ee18a'});
@@ -1407,11 +1716,13 @@ function updateEnemies(dt) {
       return false;
     }
     const dir = p.x < e.x ? -1 : 1;
-    e.x += dir * (e.type==='elite'?38:56) * dt;
+    const speedMul = game?.difficulty?.speed || 1;
+    if (e.type !== 'turret') e.x += dir * (e.type==='elite'?38:e.type==='jumper'?72:56) * speedMul * dt;
+    if (e.type === 'jumper') e.y = 350 + Math.sin(performance.now()/180 + e.x*.02) * 18;
     e.cd -= dt;
     if (e.cd <= 0) {
-      e.cd = e.type==='elite' ? 1.4 : 2.1;
-      game.projectiles.push({ from:'enemy', type:'dot', x:e.x+e.w/2, y:e.y+18, vx:dir*(e.type==='elite'?270:210), vy:0, r:e.type==='elite'?11:8, damage:e.atk, color:e.color, ttl:2, perfect:false });
+      e.cd = (e.type==='elite' ? 1.4 : e.type==='turret' ? 1.15 : 2.1) / (game?.difficulty?.rate || 1);
+      game.projectiles.push({ from:'enemy', type:e.type==='turret'?'receipt':'dot', x:e.x+e.w/2, y:e.y+18, vx:dir*(e.type==='elite'?270:e.type==='turret'?330:210), vy:e.type==='turret'?rand(-35,35):0, r:e.type==='elite'?11:8, damage:e.atk, color:e.color, ttl:2, perfect:false });
       addTelegraph(e.x-10, e.y+8, e.w+20, 18, .22, e.color);
     }
     if (rects(e, p)) hurtPlayer(e.type==='elite'?12:6, e);
@@ -1422,12 +1733,12 @@ function updateEnemies(dt) {
 function rollEnemyDrop(e) {
   if (e.dropped) return;
   e.dropped = true;
-  const chance = e.type === 'elite' ? .62 : .16;
+  const chance = (e.type === 'elite' ? .62 : e.type === 'turret' ? .22 : .16) + (game?.difficulty?.loot || 0);
   if (Math.random() > chance) return;
   const worldPool = CONTENT.equipment
     .filter(item => item.source.includes(CONTENT.worlds[e.world]?.name || '') || currentBoss.drops.includes(item.id))
     .map(item => item.id);
-  const pool = [...new Set([...worldPool, ...currentBoss.drops, 'memeBelt','milkTea','loudspeaker'])];
+  const pool = [...new Set([...worldPool, ...chapterDropPool(currentBoss.chapter, currentBoss.drops), 'memeBelt','milkTea','loudspeaker'])];
   const id = pool[Math.floor(Math.random()*pool.length)];
   const eq = EQUIP[id];
   if (!eq) return;
@@ -1462,7 +1773,7 @@ function updateBoss(dt) {
   const p = game.player;
   b.x += Math.sin(performance.now()/520) * dt * 18;
   b.x = clamp(b.x, 520, 820);
-  b.attackTimer -= dt * (b.slow > 0 ? .46 : 1);
+  b.attackTimer -= dt * (b.slow > 0 ? .46 : 1) * (game?.difficulty?.rate || 1);
   if (b.attackTimer > 0) return;
   const pool = currentBoss.patterns;
   const type = pool[(b.patternIndex + b.phase) % pool.length];
@@ -1546,10 +1857,10 @@ function updateProjectiles(dt) {
     if (s.type === 'key' || s.type === 'note') s.vy += 620 * dt;
     if (s.from === 'player') {
       const e = game.enemies.find(en => en.hp > 0 && circleRect(s,en));
-      if (e) { damageEnemy(e, s.damage); return false; }
+      if (e) { damageEnemy(e, s.damage, {kind:'ranged'}); return false; }
       if (game.bossActive && circleRect(s, game.boss)) {
         if (s.type === 'cold') { game.boss.slow = Math.max(game.boss.slow, 1.4); addFloat(game.boss.x+55, game.boss.y, '场面冷住了', '#4de0ff', .85); }
-        damageBoss(s.damage, {x:s.x-s.r,y:s.y-s.r,w:s.r*2,h:s.r*2}, {weak:s.type==='note'});
+        damageBoss(s.damage, {x:s.x-s.r,y:s.y-s.r,w:s.r*2,h:s.r*2}, {weak:s.type==='note' || s.type==='laserDot', kind:'ranged'});
         return false;
       }
     } else if (circleRect(s, p)) {
@@ -1576,9 +1887,27 @@ function updateHazards(dt) {
 
 function updateProps(dt) {
   const b = game.boss;
+  const p = game.player;
   game.props.forEach(prop => prop.pulse += dt);
   game.zones = game.zones.filter(z => {
     z.ttl -= dt;
+    if (rects(z, p)) {
+      if (z.type === 'bounce') { p.vy = Math.min(p.vy, -620); p.grounded = false; addFloat(p.x+p.w/2, p.y, '弹簧脚感!', '#4de0ff', .8); z.ttl -= .25; }
+      if (z.type === 'focus') { p.rage = Math.min(100, p.rage + dt*16); }
+      if (z.type === 'tempo') { p.comboTtl = Math.max(p.comboTtl, game.derived.comboGrace + .3); }
+    }
+    if (z.type === 'mine' || z.type === 'coffee') {
+      game.enemies.forEach(e => {
+        if (e.hp > 0 && rects(z, e)) {
+          damageEnemy(e, z.type === 'mine' ? 24 : 10, {kind:'ranged'});
+          if (z.type === 'mine') z.ttl = Math.min(z.ttl, .08);
+        }
+      });
+      if (game.bossActive && rects(z, b)) {
+        damageBoss(z.type === 'mine' ? 28 : 12, z, {kind:'ranged', text:z.type === 'mine' ? '便利贴爆' : '咖啡打滑'});
+        z.ttl = Math.min(z.ttl, z.type === 'mine' ? .08 : z.ttl);
+      }
+    }
     if (game.bossActive && rects(z, b)) {
       b.weakTimer = Math.max(b.weakTimer, 1.8);
       b.stun = Math.max(b.stun, .35);
@@ -1601,7 +1930,7 @@ function hurtPlayer(amount, source={}) {
     addFloat(p.x+p.w/2, p.y, '社恐护符：我先下了', '#b66dff', .9);
     p.invuln = .4; return;
   }
-  let dmg = Math.max(1, Math.round(amount * (1 - game.derived.projectileResist)));
+  let dmg = Math.max(1, Math.round(amount * (game?.difficulty?.dmg || 1) * (1 - game.derived.projectileResist)));
   if (p.shield > 0) {
     const used = Math.min(p.shield, dmg);
     p.shield -= used; dmg -= used;
@@ -1627,6 +1956,10 @@ function perfectDodge() {
   p.dodgePerfect = 0; p.perfectCharge = 1.4; p.rage = Math.min(100, p.rage + 18);
   game.stats.perfect++; game.slowMo = .22; game.hitStop = .06;
   addFloat(p.x+p.w/2, p.y-10, '漂亮!', '#4de0ff', 1.25);
+  if (game.stageNode?.type === 'dodge') {
+    p.rage = Math.min(100, p.rage + 12);
+    addFloat(p.x+p.w/2, p.y-34, '跑酷关奖励!', '#b66dff', .9);
+  }
   burst(p.x+p.w/2, p.y+p.h/2, '#4de0ff', 24, -p.facing, 'dash');
   SFX.dodge();
 }
@@ -1675,25 +2008,30 @@ function finishBattle(won) {
   save.stats.damage += game.stats.damage;
   save.stats.bestCombo = Math.max(save.stats.bestCombo, game.stats.maxCombo);
   save.stats.perfect += game.stats.perfect;
+  if (won) save.chapterWins[currentBoss.chapter] = (save.chapterWins[currentBoss.chapter] || 0) + 1;
+  const newAchievements = checkAchievements(won);
   save.codex[currentBoss.id] = { name:currentBoss.displayName, world:currentBoss.world, wins:(save.codex[currentBoss.id]?.wins||0)+(won?1:0), at:Date.now() };
-  save.history.unshift({ boss:currentBoss.displayName, won, drop:drop.name, damage:game.stats.damage, combo:game.stats.maxCombo, time:seconds, at:Date.now() });
+  save.history.unshift({ boss:currentBoss.displayName, won, drop:drop.name, damage:game.stats.damage, combo:game.stats.maxCombo, time:seconds, chapter:currentBoss.chapter, difficulty:currentBoss.difficulty, achievements:newAchievements, at:Date.now() });
   save.history = save.history.slice(0, 10);
   saveNow();
   updateLastRunBadge();
 
   const title = won ? '烦人兽已完成礼貌反省' : '这局它先保住了面子';
+  const chapter = chapterInfo(currentBoss.chapter);
+  const diff = difficultyInfo(currentBoss.difficulty);
   const summary = won
-    ? `你用 ${fmtTime(seconds)} 给「${currentBoss.displayName}」上完一堂轻松课程，最高连击 ${game.stats.maxCombo}，完美闪避 ${game.stats.perfect} 次。`
+    ? `你用 ${fmtTime(seconds)} 打完「${chapter.short}」的 ${diff.name} 难度，最高连击 ${game.stats.maxCombo}，完美闪避 ${game.stats.perfect} 次。`
     : `你把「${currentBoss.displayName}」打到还剩 ${Math.ceil(game.boss.hp)} 点体面。下一局多抓弱点发光和完美闪避，胜算很高。`;
-  const share = `我今天把「${currentBoss.safe}」登记成了烦人兽：${currentBoss.displayName}。\n${won ? '五站连拆，已完成像素教育' : '它暂时保住了面子'}，用时 ${fmtTime(seconds)}，最高连击 ${game.stats.maxCombo}。\n${lootText}。\n${code} #今日烦人兽爆破局`;
+  const brag = buildShareHook(won, seconds, newAchievements);
+  const share = `${brag}\n我今天把「${currentBoss.safe}」登记成了烦人兽：${currentBoss.displayName}。\n${won ? `${chapter.short} · ${diff.name} 难度完成` : '它暂时保住了面子'}，用时 ${fmtTime(seconds)}，最高连击 ${game.stats.maxCombo}。\n${lootText}。\n${code} #今日烦人兽爆破局 #谁来接力`;
   $('#resultKicker').textContent = won ? '结算出炉' : '下次更响亮';
   $('#resultTitle').textContent = title;
   $('#resultSummary').textContent = summary;
   $('#shareGlyph').textContent = currentBoss.glyph;
-  $('#shareStage').textContent = won ? '五站连拆 · 完成' : '五站挑战 · 再来';
+  $('#shareStage').textContent = won ? `${chapter.short} · ${diff.name}` : `${chapter.short} · 再来`;
   $('#shareBossName').textContent = currentBoss.displayName;
   $('#shareTitleLine').textContent = won
-    ? `今天的离谱小事被你做成海报，又被你一路拆到只剩礼貌。`
+    ? brag
     : `这只烦人兽暂时没服，但它已经开始整理发言稿了。`;
   $('#shareDamage').textContent = `伤害 ${String(game.stats.damage).padStart(4,'0')}`;
   $('#shareTime').textContent = fmtTime(seconds);
@@ -1704,6 +2042,32 @@ function finishBattle(won) {
   $('#shareCode').textContent = `战报号 ${code}`;
   $('#shareText').value = share;
   screenTo('result');
+}
+
+function checkAchievements(won) {
+  const before = new Set(save.achievements);
+  if (won) unlockAchievement('firstWin');
+  if (game.stats.maxCombo >= 30) unlockAchievement('combo30');
+  if (game.stats.perfect >= 3) unlockAchievement('perfect3');
+  if (save.unlocked.length >= 12) unlockAchievement('collector12');
+  if (won && currentBoss.chapter === 'melee') unlockAchievement('meleeClear');
+  if (won && currentBoss.chapter === 'ranged') unlockAchievement('rangedClear');
+  if (won && currentBoss.chapter === 'hybrid') unlockAchievement('hybridClear');
+  if (won && currentBoss.chapter === 'dodge') unlockAchievement('dodgeClear');
+  if (won && currentBoss.difficulty === 'dead') unlockAchievement('deadClear');
+  return save.achievements.filter(id => !before.has(id));
+}
+
+function buildShareHook(won, seconds, achievements=[]) {
+  if (!won) return '今日烦人兽暂时逃过一劫，但它已经被我打到开始写检讨。';
+  if (achievements.includes('deadClear')) return '我在「卷死」难度把烦人兽打成了可收藏物，建议朋友圈给我发一张虚拟奖状。';
+  if (achievements.length) {
+    const a = CONTENT.achievements.find(x => x.id === achievements[0]);
+    return `刚解锁成就「${a?.name || '离谱操作'}」，这把不发出来都对不起我的手指。`;
+  }
+  if (game.stats.maxCombo >= 30) return `我打出了 ${game.stats.maxCombo} 连击，烦人兽全程只来得及说“等一下”。`;
+  if (seconds <= 90) return '我把今天的小破事速通成了战报，爽感来得比下班提醒还快。';
+  return '今天的离谱小事被我做成海报，又被我一路拆到只剩礼貌。';
 }
 
 function updateHud() {
@@ -1878,7 +2242,11 @@ function drawProps() {
   });
 }
 function drawPropIcon(type, w, h) {
-  if (type === 'office') {
+  if (type === 'egg') {
+    ctx.fillStyle = '#b66dff'; ctx.beginPath(); ctx.roundRect(-22,-22,44,44,14); ctx.fill();
+    ctx.fillStyle = '#f4fbff'; ctx.font='950 24px sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('?',0,1);
+    ctx.fillStyle = '#4ee18a'; ctx.beginPath(); ctx.arc(13,-14,5,0,Math.PI*2); ctx.fill();
+  } else if (type === 'office') {
     for (let i=0;i<4;i++) {
       ctx.save(); ctx.translate(-20+i*12, 8-i*8); ctx.rotate((i-1.5)*.08);
       ctx.fillStyle = i%2 ? '#e7fbff' : '#35f2ff';
@@ -1921,6 +2289,7 @@ function drawTelegraphs() {
 }
 function drawPlayer() {
   const p = game.player, t = performance.now()/1000;
+  const species = speciesInfo(currentBoss?.species);
   ctx.save(); ctx.translate(p.x+p.w/2, p.y+p.h/2); ctx.scale(p.facing,1);
   if (p.invuln>0) ctx.globalAlpha = .62 + Math.sin(t*42)*.25;
   if (p.hurtFlash>0) ctx.translate(Math.sin(t*80)*3,0);
@@ -1948,15 +2317,19 @@ function drawPlayer() {
 
   ctx.fillStyle = p.overclock>0 ? '#ff4fd8' : '#20283d';
   ctx.beginPath(); ctx.roundRect(-15,-17,30,38,9); ctx.fill();
-  ctx.fillStyle='rgba(53,242,255,.22)'; ctx.fillRect(-12,-12,24,6);
+  ctx.fillStyle=rgba(species.color || '#35f2ff', .26); ctx.fillRect(-12,-12,24,6);
   ctx.fillStyle='#ff4fd8'; ctx.beginPath(); ctx.roundRect(-18,-5,36,8,4); ctx.fill();
 
   ctx.fillStyle='#e7fbff'; ctx.beginPath(); ctx.roundRect(-16,-45,32,28,11); ctx.fill();
   ctx.fillStyle='#101525'; ctx.beginPath(); ctx.roundRect(-14,-38,28,13,6); ctx.fill();
   const visor = ctx.createLinearGradient(-13,-38,14,-25);
-  visor.addColorStop(0,'#35f2ff'); visor.addColorStop(1,'#ff4fd8');
+  visor.addColorStop(0,species.color || '#35f2ff'); visor.addColorStop(1,'#ff4fd8');
   ctx.fillStyle=visor; ctx.beginPath(); ctx.roundRect(-11,-36,22,9,5); ctx.fill();
   ctx.fillStyle='#182033'; ctx.beginPath(); ctx.moveTo(-15,-42); ctx.lineTo(-8,-55); ctx.lineTo(0,-47); ctx.lineTo(8,-56); ctx.lineTo(16,-42); ctx.closePath(); ctx.fill();
+  if (currentBoss?.species === 'bubble') { ctx.fillStyle='#4ee18a'; ctx.beginPath(); ctx.arc(0,-58,7,0,Math.PI*2); ctx.fill(); }
+  if (currentBoss?.species === 'shadow') { ctx.globalAlpha *= .92; ctx.strokeStyle='#b66dff'; ctx.lineWidth=3; ctx.strokeRect(-18,-46,36,32); }
+  if (currentBoss?.species === 'skater') { ctx.fillStyle='#4de0ff'; ctx.fillRect(-22,43,45,5); }
+  if (currentBoss?.species === 'guardian') { ctx.fillStyle='#4ee18a'; ctx.beginPath(); ctx.arc(-23,-6,9,0,Math.PI*2); ctx.fill(); }
   ctx.fillStyle='#ff4fd8'; ctx.fillRect(-3,-22,9,3);
 
   ctx.strokeStyle='#20283d'; ctx.lineWidth=7; ctx.lineCap='round';
@@ -1981,6 +2354,21 @@ function drawWeapon(p) {
   } else if (weapon === 'loudspeaker') {
     ctx.fillStyle='#35f2ff'; ctx.fillRect(0,-8,18,16); ctx.beginPath(); ctx.moveTo(18,-12); ctx.lineTo(45,-23); ctx.lineTo(45,23); ctx.lineTo(18,12); ctx.fill();
     ctx.strokeStyle='rgba(53,242,255,.55)'; ctx.lineWidth=3; ctx.beginPath(); ctx.arc(48,0,12,-.5,.5); ctx.arc(51,0,20,-.5,.5); ctx.stroke();
+  } else if (weapon === 'stampHammer') {
+    ctx.fillStyle='#4ee18a'; ctx.beginPath(); ctx.roundRect(5,-15,38,22,6); ctx.fill();
+    ctx.fillStyle='#e7fbff'; ctx.fillRect(23,6,8,32);
+  } else if (weapon === 'laserPointer') {
+    ctx.fillStyle='#ff4fd8'; ctx.beginPath(); ctx.roundRect(5,-6,42,12,6); ctx.fill();
+    ctx.fillStyle='#35f2ff'; ctx.beginPath(); ctx.arc(48,0,6,0,Math.PI*2); ctx.fill();
+  } else if (weapon === 'receiptCrossbow') {
+    ctx.strokeStyle='#4ee18a'; ctx.lineWidth=7; ctx.beginPath(); ctx.arc(22,0,22,-1.1,1.1); ctx.stroke();
+    ctx.fillStyle='#e7fbff'; ctx.fillRect(4,-4,48,8);
+  } else if (weapon === 'dualPens') {
+    ctx.strokeStyle='#35f2ff'; ctx.lineWidth=7; ctx.beginPath(); ctx.moveTo(8,-18); ctx.lineTo(42,10); ctx.stroke();
+    ctx.strokeStyle='#ff4fd8'; ctx.beginPath(); ctx.moveTo(8,16); ctx.lineTo(42,-10); ctx.stroke();
+  } else if (weapon === 'bubbleWand') {
+    ctx.strokeStyle='#e7fbff'; ctx.lineWidth=6; ctx.beginPath(); ctx.moveTo(6,16); ctx.lineTo(42,-14); ctx.stroke();
+    ctx.strokeStyle='#b66dff'; ctx.lineWidth=5; ctx.beginPath(); ctx.arc(11,-17,11,0,Math.PI*2); ctx.stroke();
   } else {
     ctx.fillStyle='#e7fbff'; ctx.beginPath(); ctx.roundRect(0,-10,50,20,5); ctx.fill();
     ctx.fillStyle='#101525'; for(let i=0;i<5;i++) ctx.fillRect(6+i*8,-4,5,4);
@@ -2026,7 +2414,28 @@ function drawBoss() {
   if (currentBoss.id.includes('unread')) drawTentacles(color,t);
   if (currentBoss.id.includes('dinner')) drawSteamBoss(color,t);
   const grad = ctx.createLinearGradient(-54,-62,54,64); grad.addColorStop(0,color); grad.addColorStop(1,'#272034');
-  ctx.fillStyle=grad; ctx.shadowColor=color; ctx.shadowBlur=24; ctx.beginPath(); ctx.roundRect(-52,-62,104,126,20); ctx.fill(); ctx.shadowBlur=0;
+  ctx.fillStyle=grad; ctx.shadowColor=color; ctx.shadowBlur=24; ctx.beginPath();
+  if (currentBoss.id.includes('dinner')) {
+    ctx.ellipse(0,2,70,58,0,0,Math.PI*2);
+  } else if (currentBoss.id.includes('elevator') || currentBoss.id.includes('locker')) {
+    ctx.roundRect(-46,-72,92,142,10);
+  } else if (currentBoss.id.includes('idea')) {
+    ctx.moveTo(0,-78); ctx.lineTo(66,58); ctx.lineTo(-66,58); ctx.closePath();
+  } else if (currentBoss.id.includes('alarm')) {
+    ctx.arc(0,0,66,0,Math.PI*2);
+  } else if (currentBoss.id.includes('meeting')) {
+    ctx.roundRect(-44,-76,88,132,44);
+  } else {
+    ctx.roundRect(-52,-62,104,126,20);
+  }
+  ctx.fill(); ctx.shadowBlur=0;
+  if (currentBoss.id.includes('elevator') || currentBoss.id.includes('locker')) {
+    ctx.fillStyle='rgba(244,251,255,.18)';
+    for(let yy=-52; yy<46; yy+=28) for(let xx=-27; xx<30; xx+=28) ctx.fillRect(xx, yy, 18, 12);
+  }
+  if (currentBoss.id.includes('alarm')) {
+    ctx.strokeStyle='#f4fbff'; ctx.lineWidth=5; ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(0,-28); ctx.moveTo(0,0); ctx.lineTo(24,12); ctx.stroke();
+  }
   ctx.strokeStyle='rgba(255,255,255,.24)'; ctx.lineWidth=2; ctx.stroke();
   ctx.fillStyle='#f4fbff'; ctx.beginPath(); ctx.arc(-15,-22,17,0,Math.PI*2); ctx.arc(20,-20,15,0,Math.PI*2); ctx.fill();
   ctx.fillStyle='#111525'; ctx.beginPath(); ctx.arc(-12+Math.sin(t*2)*3,-22,7,0,Math.PI*2); ctx.arc(23+Math.sin(t*2)*3,-20,6,0,Math.PI*2); ctx.fill();
@@ -2054,6 +2463,9 @@ function drawProjectiles() {
     ctx.fillStyle=s.color; ctx.shadowColor=s.color; ctx.shadowBlur=14;
     if (s.type==='key') { ctx.beginPath(); ctx.roundRect(-10,-6,20,12,3); ctx.fill(); ctx.fillStyle='#111525'; ctx.fillRect(-4,-2,8,4); }
     else if (s.type==='note') { ctx.rotate(Math.sin(performance.now()/120)*.4); ctx.fillRect(-9,-7,18,14); }
+    else if (s.type==='receipt') { ctx.fillStyle='#e7fbff'; ctx.beginPath(); ctx.roundRect(-12,-7,24,14,3); ctx.fill(); ctx.fillStyle='#111525'; ctx.fillRect(-7,-2,13,3); }
+    else if (s.type==='laserDot') { ctx.fillRect(-18,-3,36,6); ctx.fillStyle='#f4fbff'; ctx.beginPath(); ctx.arc(15,0,5,0,Math.PI*2); ctx.fill(); }
+    else if (s.type==='slipper') { ctx.beginPath(); ctx.ellipse(0,0,17,8,-.2,0,Math.PI*2); ctx.fill(); }
     else { ctx.beginPath(); ctx.arc(0,0,s.r,0,Math.PI*2); ctx.fill(); ctx.fillStyle='rgba(255,255,255,.6)'; ctx.beginPath(); ctx.arc(-s.r*.25,-s.r*.25,s.r*.32,0,Math.PI*2); ctx.fill(); }
     ctx.restore();
   });
@@ -2150,7 +2562,8 @@ function renderUniverse() {
   $('#statBosses').textContent = save.stats.bosses;
   $('#statDamage').textContent = save.stats.damage;
   $('#statCombo').textContent = save.stats.bestCombo;
-  $('#statTea').textContent = Math.max(0, Math.round(save.stats.damage / 360));
+  $('#statTea').textContent = `${save.unlocked.length}/${CONTENT.equipment.length}`;
+  $('#statTea').nextElementSibling.textContent = '装备收集进度';
   const gearCards = CONTENT.equipment.map(e => {
     const on = save.unlocked.includes(e.id);
     return `<article class="collect-card gear-collect ${on?'':'locked'}">${gearArtHtml(e)}<strong>${e.name}</strong><div class="stat-icons">${statGlyphs(e)}</div><small>${on ? effectShort(e, true) : `未解锁 · ${e.source}`}</small></article>`;
@@ -2160,7 +2573,15 @@ function renderUniverse() {
     const world = CONTENT.worlds[b.world];
     return `<article class="collect-card ${item?'':'locked'}"><strong style="color:${b.color}">${b.glyph} ${item?.name || b.name}</strong><small>${world.name} · ${item ? `胜场 ${item.wins}` : '等待登记'}</small><small>${b.title}</small></article>`;
   }).join('');
-  $('#collectionGrid').innerHTML = gearCards + bossCards;
+  const chapterCards = Object.entries(CONTENT.chapters).map(([id,ch]) => {
+    const wins = save.chapterWins[id] || 0;
+    return `<article class="collect-card chapter-collect ${wins?'':'locked'}"><strong style="color:${ch.color}">${ch.short}</strong><small>${ch.need} · ${wins ? `通关 ${wins} 次` : '等待通关'}</small><small>${ch.intro}</small></article>`;
+  }).join('');
+  const achievementCards = CONTENT.achievements.map(a => {
+    const on = save.achievements.includes(a.id);
+    return `<article class="collect-card achievement ${on?'unlocked':'locked'}"><strong>${on?'✓':'?'} ${a.name}</strong><small>${a.desc}</small><small>${on ? a.reward : '未解锁'}</small></article>`;
+  }).join('');
+  $('#collectionGrid').innerHTML = gearCards + chapterCards + achievementCards + bossCards;
 }
 
 function downloadCard() {
@@ -2208,6 +2629,7 @@ function bindEvents() {
     chip.classList.add('active'); currentTopic = chip.dataset.topic;
     if (currentScreen === 'intro') { miniTime = 0; drawMini(); }
   }));
+  $$('#presetChips [data-preset]').forEach(btn => btn.addEventListener('click', () => applyPreset(btn.dataset.preset)));
   $('#rantInput').addEventListener('input', () => $('#rantCounter').textContent = `${$('#rantInput').value.length}/180`);
   $('#generateBtn').addEventListener('click', () => { ensureAudio(); makeBoss(); });
   $('#regenBtn').addEventListener('click', () => { ensureAudio(); makeBoss(); });
@@ -2216,6 +2638,7 @@ function bindEvents() {
   $('#copyBtn').addEventListener('click', async () => {
     const txt = $('#shareText').value;
     try { await navigator.clipboard.writeText(txt); } catch(e) { $('#shareText').select(); document.execCommand('copy'); }
+    save.stats.shares = (save.stats.shares || 0) + 1; saveNow();
     $('#copyBtn').textContent = '已复制';
     setTimeout(() => $('#copyBtn').textContent = '复制文案', 1200);
   });
@@ -2240,6 +2663,23 @@ function bindEvents() {
   });
   document.addEventListener('pointerdown', ensureAudio, { once:true });
 }
+
+function applyPreset(id) {
+  const preset = CONTENT.presets[id] || CONTENT.presets.melee;
+  $$('#presetChips [data-preset]').forEach(btn => btn.classList.toggle('active', btn.dataset.preset === id));
+  $('#rantInput').value = preset.rant;
+  $('#rantCounter').textContent = `${$('#rantInput').value.length}/180`;
+  $('#chapterSelect').value = preset.chapter;
+  $('#difficultySelect').value = preset.difficulty;
+  $('#speciesSelect').value = preset.species;
+  currentTopic = preset.topic;
+  $$('#topicChips .chip').forEach(c => c.classList.toggle('active', c.dataset.topic === preset.topic));
+  preset.unlock.forEach(id => { if (!save.unlocked.includes(id)) save.unlocked.push(id); });
+  save.equipped = {...save.equipped, ...preset.equip};
+  saveNow();
+  miniTime = 0;
+  drawMini();
+}
 function keyAction(k) {
   if (k === 'j') return 'attack';
   if (k === 'k') return 'dodge';
@@ -2255,9 +2695,8 @@ function updateClock() {
 }
 
 function init() {
-  $('#rantInput').value = '老板让我周末改PPT，还说只是顺手微调一下';
-  $('#rantCounter').textContent = `${$('#rantInput').value.length}/180`;
   bindEvents();
+  applyPreset('melee');
   updateClock(); setInterval(updateClock, 30000);
   updateLastRunBadge();
   renderUniverse();
