@@ -214,8 +214,15 @@ select {
 }
 .gear-card.locked { opacity: 0.42; filter: grayscale(0.5); cursor: not-allowed; }
 .gear-card.equipped { border-color: rgba(78,225,138,0.74); background: rgba(78,225,138,0.1); }
+.gear-card.recommended { border-color: rgba(53,242,255,0.54); box-shadow: inset 0 0 0 1px rgba(53,242,255,.14); }
 .gear-card strong { display: block; font-size: 13px; }
 .gear-card small { display: block; color: var(--muted); line-height: 1.34; margin-top: 4px; }
+.gear-copy { min-width: 0; }
+.gear-copy strong { line-height: 1.18; overflow-wrap: anywhere; }
+.gear-note {
+  display: inline-grid; place-items: center; min-height: 18px; padding: 0 6px; margin-left: 5px;
+  border-radius: 999px; color: #071018; background: var(--electric); font: 950 10px/1 var(--font);
+}
 .gear-art {
   width: 54px; height: 54px; display: block; flex: 0 0 auto; border-radius: 10px; position: relative; overflow: hidden;
   background: radial-gradient(circle at 32% 24%, rgba(255,255,255,0.22), transparent 18px), linear-gradient(145deg, rgba(53,242,255,0.2), rgba(255,79,216,0.2));
@@ -278,6 +285,24 @@ select {
 }
 .hud-row { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; font-weight: 950; }
 .hud-num { color: var(--muted); font: 900 11px/1 var(--mono); white-space: nowrap; }
+.run-progress {
+  min-height: 50px; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px;
+  padding: 7px; border: 1px solid var(--line); border-radius: var(--radius);
+  background: rgba(9,11,19,.66); backdrop-filter: blur(14px);
+}
+.run-node {
+  min-width: 0; display: grid; grid-template-columns: 28px 1fr; align-items: center; gap: 7px;
+  padding: 6px 7px; border-radius: 7px; border: 1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,.045);
+}
+.run-node.done { border-color: rgba(78,225,138,.35); background: rgba(78,225,138,.1); }
+.run-node.active { border-color: rgba(53,242,255,.7); background: rgba(53,242,255,.1); box-shadow: 0 0 18px rgba(53,242,255,.13); }
+.run-node-glyph {
+  width: 26px; height: 26px; display: grid; place-items: center; border-radius: 7px;
+  color: #061018; background: var(--electric); font: 950 12px/1 var(--mono);
+}
+.run-node strong { display: block; font-size: 12px; line-height: 1.12; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.run-node small { display: block; color: var(--muted); font-size: 10px; line-height: 1.2; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .bar { height: 12px; margin-top: 7px; border-radius: 999px; border: 1px solid var(--line); background: rgba(0,0,0,0.35); overflow: hidden; }
 .fill { height: 100%; width: 100%; border-radius: 999px; transition: width 90ms ease; }
 #playerHpFill { background: linear-gradient(90deg, var(--green), #baffc9); box-shadow: 0 0 12px rgba(78,225,138,0.42); }
@@ -363,26 +388,61 @@ textarea.share-text {
   color: var(--ink); background: rgba(0,0,0,0.24); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px; line-height: 1.6;
 }
 
-.universe-layout { height: 100%; display: grid; grid-template-columns: 340px 1fr; gap: 14px; padding-top: 10px; }
+.universe-layout { height: 100%; display: grid; grid-template-columns: 270px 1fr; gap: 12px; padding-top: 8px; }
 .stat-stack { display: grid; gap: 10px; align-content: start; }
-.stat-card { padding: 16px; }
-.stat-card b { display: block; font-size: 32px; color: var(--electric); }
-.collection-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; max-height: calc(100vh - 116px); overflow: auto; padding-right: 4px; }
-.collect-card { padding: 12px; border: 1px solid var(--line); border-radius: var(--radius); background: rgba(255,255,255,0.06); min-height: 118px; }
+.stat-card { padding: 14px; min-height: 94px; }
+.stat-card b { display: block; font-size: 30px; color: var(--electric); line-height: 1.05; }
+.stat-card small { color: var(--muted); line-height: 1.35; }
+.collection-panel { padding: 12px; display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.collection-tabs { display: flex; flex-wrap: wrap; gap: 7px; margin: 10px 0 12px; }
+.collection-tab {
+  min-height: 34px; padding: 0 11px; border-radius: 999px; cursor: pointer;
+  color: var(--muted); background: rgba(255,255,255,.06); border: 1px solid var(--line); font-weight: 950;
+}
+.collection-tab.active { color: #061018; background: linear-gradient(180deg, #9ff8ff, var(--electric)); border-color: transparent; }
+.collection-body { min-height: 0; overflow: auto; padding-right: 4px; }
+.collection-section { display: none; }
+.collection-section.active { display: block; animation: popIn 180ms ease both; }
+.section-head { display: flex; justify-content: space-between; gap: 10px; align-items: end; margin-bottom: 10px; }
+.section-head h3 { margin: 0; font-size: 18px; }
+.section-head p { margin: 4px 0 0; color: var(--muted); font-size: 12px; line-height: 1.35; }
+.section-count { color: var(--green); font: 950 12px/1 var(--mono); white-space: nowrap; }
+.collection-grid, .gear-collection-grid, .chapter-map-grid, .achievement-grid, .monster-grid, .egg-grid {
+  display: grid; gap: 9px;
+}
+.gear-collection-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.chapter-map-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.achievement-grid, .monster-grid, .egg-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.collect-card { padding: 10px; border: 1px solid var(--line); border-radius: var(--radius); background: rgba(255,255,255,0.055); min-height: 96px; }
 .collect-card.locked { opacity: 0.38; }
 .collect-card.achievement { border-color: rgba(182,109,255,.32); }
 .collect-card.achievement.unlocked { background: rgba(182,109,255,.12); }
 .collect-card.chapter-collect { border-color: rgba(78,225,138,.26); }
-.collect-card strong { display: block; }
-.collect-card small { display: block; margin-top: 7px; color: var(--muted); line-height: 1.45; }
+.collect-card strong { display: block; line-height: 1.2; overflow-wrap: anywhere; }
+.collect-card small { display: block; margin-top: 6px; color: var(--muted); line-height: 1.38; font-size: 12px; }
 .collect-card.gear-collect {
   display: grid; grid-template-columns: 64px minmax(0, 1fr); grid-template-areas: "art title" "art stats" "desc desc";
-  align-items: center; column-gap: 12px; row-gap: 6px;
+  align-items: center; column-gap: 10px; row-gap: 5px; min-height: 128px;
 }
 .collect-card.gear-collect .gear-art { grid-area: art; align-self: start; width: 58px; height: 58px; margin: 0; }
-.collect-card.gear-collect strong { grid-area: title; min-width: 0; line-height: 1.25; }
+.collect-card.gear-collect strong { grid-area: title; min-width: 0; line-height: 1.2; padding-top: 1px; }
 .collect-card.gear-collect .stat-icons { grid-area: stats; margin-top: 0; }
 .collect-card.gear-collect small { grid-area: desc; margin-top: 4px; }
+.collect-card.goal { border-color: rgba(53,242,255,.25); min-height: 86px; }
+.collect-card.egg { border-color: rgba(78,225,138,.28); }
+.chapter-progress {
+  display: flex; gap: 4px; margin-top: 8px;
+}
+.chapter-dot {
+  height: 7px; flex: 1; border-radius: 999px; background: rgba(255,255,255,.12);
+}
+.chapter-dot.on { background: var(--green); box-shadow: 0 0 10px rgba(78,225,138,.26); }
+.mini-route { margin-top: 8px; display: grid; gap: 4px; }
+.mini-route span {
+  min-height: 24px; display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding: 0 8px; border-radius: 6px; background: rgba(0,0,0,.16); color: var(--muted); font-size: 11px;
+}
+.mini-route b { color: var(--ink); font-size: 11px; }
 
 .loader {
   position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; background: rgba(9,11,19,0.88); backdrop-filter: blur(18px);
@@ -405,7 +465,7 @@ textarea.share-text {
   .intro-grid, .dossier-layout, .result-layout, .universe-layout, .loadout-area { grid-template-columns: 1fr; }
   .hero h1 { font-size: clamp(40px, 12vw, 58px); }
   .setup-grid, .preset-row, .config-row, .hud, .controls { grid-template-columns: 1fr; }
-  .info-grid, .gear-grid, .collection-grid { grid-template-columns: 1fr; }
+  .info-grid, .gear-grid, .collection-grid, .gear-collection-grid, .chapter-map-grid, .achievement-grid, .monster-grid, .egg-grid, .run-progress { grid-template-columns: 1fr; }
   .touch-pad { display: grid; grid-template-columns: repeat(4, 1fr); }
   .route-strip { grid-template-columns: 1fr; }
   .help { display: none; }
@@ -558,6 +618,7 @@ textarea.share-text {
           <div class="hud-num" id="phaseText">阶段 1 · 礼貌试探</div>
         </div>
       </div>
+      <div class="run-progress" id="runProgress"></div>
       <div class="canvas-wrap">
         <canvas id="battleCanvas" width="960" height="540"></canvas>
         <div class="big-text" id="bigText"><b>开打</b><span>把它教育得明明白白</span></div>
@@ -628,9 +689,37 @@ textarea.share-text {
         <article class="panel stat-card"><span class="kicker">最高连击</span><b id="statCombo">0</b><small>最高连击</small></article>
         <article class="panel stat-card"><span class="kicker">收集进度</span><b id="statTea">0</b><small>装备收集进度</small></article>
       </div>
-      <div class="panel" style="padding:12px;">
-        <div class="hud-row" style="margin-bottom:10px;"><b>装备 · 大关卡 · 成就 · 图鉴</b><button class="btn small ghost" data-nav="intro">回去开局</button></div>
-        <div class="collection-grid" id="collectionGrid"></div>
+      <div class="panel collection-panel">
+        <div class="hud-row"><b>我的爆破宇宙</b><button class="btn small ghost" data-nav="intro">回去开局</button></div>
+        <div class="collection-tabs" id="collectionTabs">
+          <button class="collection-tab active" data-collection-tab="gear">装备库</button>
+          <button class="collection-tab" data-collection-tab="chapters">大关卡</button>
+          <button class="collection-tab" data-collection-tab="achievements">成就</button>
+          <button class="collection-tab" data-collection-tab="monsters">怪兽图鉴</button>
+          <button class="collection-tab" data-collection-tab="eggs">彩蛋目标</button>
+        </div>
+        <div class="collection-body">
+          <section class="collection-section active" data-section="gear">
+            <div class="section-head"><div><h3>装备库</h3><p>武器和技能分开收集，本关推荐会优先显示。</p></div><span class="section-count" id="gearCount">0/0</span></div>
+            <div class="gear-collection-grid" id="equipmentGrid"></div>
+          </section>
+          <section class="collection-section" data-section="chapters">
+            <div class="section-head"><div><h3>大关卡</h3><p>每个大关卡都是 5 个连续小关，通关后会记录胜场。</p></div><span class="section-count" id="chapterCount">0/4</span></div>
+            <div class="chapter-map-grid" id="chapterGrid"></div>
+          </section>
+          <section class="collection-section" data-section="achievements">
+            <div class="section-head"><div><h3>成就</h3><p>连击、闪避、难度、分享和彩蛋都会推进成就。</p></div><span class="section-count" id="achievementCount">0/0</span></div>
+            <div class="achievement-grid" id="achievementGrid"></div>
+          </section>
+          <section class="collection-section" data-section="monsters">
+            <div class="section-head"><div><h3>怪兽图鉴</h3><p>不同主题、物种和输入会生成不同烦人兽海报。</p></div><span class="section-count" id="monsterCount">0/0</span></div>
+            <div class="monster-grid" id="monsterGrid"></div>
+          </section>
+          <section class="collection-section" data-section="eggs">
+            <div class="section-head"><div><h3>彩蛋目标</h3><p>随机关卡会刷离谱彩蛋，打掉它能拿碎片和分享梗。</p></div><span class="section-count" id="eggCount">0</span></div>
+            <div class="egg-grid" id="eggGrid"></div>
+          </section>
+        </div>
       </div>
     </div>
   </section>
@@ -704,7 +793,7 @@ const CONTENT = {
         {world:'family', label:'拖鞋回旋廊', type:'melee', recommend:'近战', mechanic:'精英怪会贴脸插话'},
         {world:'creative', label:'章鱼路障阵', type:'melee', recommend:'破甲', mechanic:'第三段攻击更容易打出弱点'},
         {world:'social', label:'红点肉搏场', type:'hybrid', recommend:'近战+闪避', mechanic:'连击越高怒气越快'},
-        {world:'office', label:'近战总复盘', type:'boss', recommend:'近战武器', mechanic:'Boss 弱点更靠近身体'}
+        {world:'office', label:'近战总复盘', type:'boss', recommend:'近战武器', mechanic:'首领弱点更靠近身体'}
       ]
     },
     ranged: {
@@ -715,7 +804,7 @@ const CONTENT = {
         {world:'commute', label:'验证码狙击巷', type:'ranged', recommend:'穿透', mechanic:'小怪会站远处发弹'},
         {world:'office', label:'激光笔走廊', type:'ranged', recommend:'副武器', mechanic:'打掉红点可刷新副武器'},
         {world:'time', label:'闹钟飞盘台', type:'dodge', recommend:'远程+闪避', mechanic:'弹幕密度提高'},
-        {world:'social', label:'远程总复盘', type:'boss', recommend:'远程武器', mechanic:'Boss 弱点会短暂远离身体'}
+        {world:'social', label:'远程总复盘', type:'boss', recommend:'远程武器', mechanic:'首领弱点会短暂远离身体'}
       ]
     },
     hybrid: {
@@ -726,7 +815,7 @@ const CONTENT = {
         {world:'office', label:'需求反复横跳', type:'hybrid', recommend:'主副武器', mechanic:'敌人会频繁换站位'},
         {world:'family', label:'问题泡回收站', type:'ranged', recommend:'远程打回', mechanic:'投射物反弹更有价值'},
         {world:'social', label:'表情包贴脸赛', type:'melee', recommend:'近战爆发', mechanic:'近战清场更快'},
-        {world:'creative', label:'混合总复盘', type:'boss', recommend:'远程+近战', mechanic:'Boss 每阶段切换抗性'}
+        {world:'creative', label:'混合总复盘', type:'boss', recommend:'远程+近战', mechanic:'首领每阶段切换抗性'}
       ]
     },
     dodge: {
@@ -737,7 +826,7 @@ const CONTENT = {
         {world:'time', label:'闹钟跳台', type:'dodge', recommend:'二段跳', mechanic:'地面机关会连环弹起'},
         {world:'creative', label:'路障跑酷街', type:'dodge', recommend:'喷射', mechanic:'顺风区和滑倒区交替出现'},
         {world:'family', label:'汤碗弹簧房', type:'hybrid', recommend:'闪避+控场', mechanic:'汤碗会弹回投射物'},
-        {world:'commute', label:'跑酷总复盘', type:'boss', recommend:'闪避装备', mechanic:'Boss 招式更依赖预判'}
+        {world:'commute', label:'跑酷总复盘', type:'boss', recommend:'闪避装备', mechanic:'首领招式更依赖预判'}
       ]
     }
   },
@@ -748,7 +837,7 @@ const CONTENT = {
     dead: { name:'卷死', hp:1.65, dmg:1.38, speed:1.24, rate:1.25, loot:.42, score:2.1, note:'给硬核玩家的离谱试卷' },
   },
   species: {
-    knight:{ name:'键帽小骑士', title:'会把 Enter 当锤子', stats:{attack:5, maxHp:8}, color:'#35f2ff' },
+    knight:{ name:'键帽小骑士', title:'会把确认键当锤子', stats:{attack:5, maxHp:8}, color:'#35f2ff' },
     bubble:{ name:'奶茶能量体', title:'被珍珠保护的圆润战士', stats:{shield:18, maxHp:12, speed:-.03}, color:'#4ee18a' },
     shadow:{ name:'社交隐形人', title:'只要没被看见就很强', stats:{dodgeInvuln:.11, speed:.06, maxHp:-8}, color:'#b66dff' },
     skater:{ name:'电梯滑板客', title:'开门前已经滑走', stats:{speed:.12, doubleJump:1, maxHp:-10}, color:'#4de0ff' },
@@ -993,6 +1082,17 @@ function chapterDropPool(chapterId, baseDrops=[]) {
   return [...new Set([...(baseDrops || []), ...(pools[chapterId] || [])])];
 }
 
+function stageDropPool(type, chapterId, baseDrops=[]) {
+  const pools = {
+    melee:['keyboard','slipper','stampHammer','milkTea','memeBelt','coffeeDash'],
+    ranged:['loudspeaker','laserPointer','receiptCrossbow','clientRadar','redPacketDrone'],
+    hybrid:['dualPens','receiptCrossbow','stickyMine','bubbleWand','coffeeDash','memeBelt'],
+    dodge:['alarmBoots','jetpack','socialCharm','potLid','confettiShield','bubbleWand'],
+    boss: chapterDropPool(chapterId, baseDrops),
+  };
+  return [...new Set([...(pools[type] || []), ...chapterDropPool(chapterId, baseDrops)])].filter(id => EQUIP[id]);
+}
+
 function stageDamageMultiplier(kind) {
   if (!game?.stageNode) return 1;
   const type = game.stageNode.type;
@@ -1210,6 +1310,10 @@ function effectShort(eq, unlocked) {
   return eq.effect.replace(/，/g, ' · ').replace(/。/g, '').slice(0, 34);
 }
 
+function recommendedIds(chapterId=currentBoss?.chapter || selectedChapterId()) {
+  return chapterDropPool(chapterId, []).filter(id => EQUIP[id]);
+}
+
 function renderLoadout() {
   $('#slotList').innerHTML = slotMeta.map(([id,label,icon]) => {
     const eqId = save.equipped[id];
@@ -1222,22 +1326,30 @@ function renderLoadout() {
   $$('#slotList [data-slot]').forEach(btn => btn.addEventListener('click', () => { selectedSlot = btn.dataset.slot; renderLoadout(); }));
 
   const slotType = selectedSlot.startsWith('weapon') ? 'weapon' : 'skill';
-  $('#gearGrid').innerHTML = CONTENT.equipment.filter(e => e.slot === slotType).map(e => {
+  const rec = recommendedIds();
+  const chapter = chapterInfo();
+  $('#gearHelp').textContent = `${chapter.short} 推荐：${rec.map(id => EQUIP[id]?.short || EQUIP[id]?.name).filter(Boolean).slice(0, 4).join('、')}`;
+  $('#gearGrid').innerHTML = CONTENT.equipment
+    .filter(e => e.slot === slotType)
+    .sort((a,b) => Number(rec.includes(b.id)) - Number(rec.includes(a.id)) || Number(save.unlocked.includes(b.id)) - Number(save.unlocked.includes(a.id)) || a.name.localeCompare(b.name, 'zh-CN'))
+    .map(e => {
     const unlocked = save.unlocked.includes(e.id);
     const equipped = loadoutIds().includes(e.id);
-    return `<button class="gear-card ${unlocked?'':'locked'} ${equipped?'equipped':''}" data-gear="${e.id}">
+    const trial = equipped && !unlocked;
+    const hot = rec.includes(e.id);
+    return `<button class="gear-card ${unlocked || trial?'':'locked'} ${equipped?'equipped':''} ${hot?'recommended':''}" data-gear="${e.id}">
       ${gearArtHtml(e)}
       <span class="gear-copy">
-        <strong>${e.name}</strong>
+        <strong>${e.name}${hot ? '<span class="gear-note">本关</span>' : ''}</strong>
         <span class="stat-icons">${statGlyphs(e)}</span>
-        <small>${effectShort(e, unlocked)}</small>
+        <small>${trial ? `预设试用 · ${effectShort(e, true)}` : effectShort(e, unlocked)}</small>
       </span>
     </button>`;
   }).join('');
   $$('#gearGrid [data-gear]').forEach(btn => btn.addEventListener('click', () => {
     const id = btn.dataset.gear;
     const eq = EQUIP[id];
-    if (!save.unlocked.includes(id)) return;
+    if (!save.unlocked.includes(id) && !loadoutIds().includes(id)) return;
     const siblings = selectedSlot.startsWith('weapon') ? ['weapon1','weapon2'] : ['skill1','skill2'];
     siblings.forEach(other => { if (other !== selectedSlot && save.equipped[other] === id) save.equipped[other] = null; });
     save.equipped[selectedSlot] = id;
@@ -1266,7 +1378,7 @@ function initBattle() {
     stats:{ damage:0, taken:0, maxCombo:0, perfect:0, supers:0, hits:0 },
     shake:{x:0,y:0,life:0,amp:0}, flash:0, hitStop:0, slowMo:0, camera:1, bigTimer:0, bigTitle:'开打', bigSub:'把它教育得明明白白',
     particles:[], floats:[], slashes:[], telegraphs:[], projectiles:[], hazards:[], pending:[], enemies:[], props:[], zones:[], confetti:[],
-    wave:0, waveTimer:0, bossActive:false, endlessClears:0, stageWorld:currentBoss.world, stageNode:null, eggsFound:0,
+    wave:0, waveTimer:0, bossActive:false, endlessClears:0, stageWorld:currentBoss.world, stageNode:null, stageCleared:false, stageClearTimer:0, stageRewards:[], eggsFound:0,
     gear:getLoadout(), derived:stats,
     player:{ x:135,y:368,w:38,h:62,vx:0,vy:0,facing:1,grounded:false,jumps:0,maxJumps:1+stats.doubleJump,
       hp:maxHp,maxHp,shield:stats.shield,maxShield:stats.shield,rage:0,combo:0,comboTtl:0,attackCd:0,projectileCd:0,dodgeCd:0,activeCd:{skill1:0,skill2:0},invuln:0,dodgeTime:0,dodgePerfect:0,
@@ -1299,8 +1411,11 @@ function startWave(i) {
   const route = currentBoss.route || buildRoute(currentBoss.world);
   const last = route.length - 1;
   const stop = route[Math.min(i, last)];
-  game.wave = i; game.waveTimer = 0; game.enemies = []; game.bossActive = false; game.stageWorld = stop.world; game.stageNode = stop;
+  game.wave = i; game.waveTimer = 0; game.stageCleared = false; game.stageClearTimer = 0;
+  game.enemies = []; game.bossActive = false; game.stageWorld = stop.world; game.stageNode = stop;
   setupWorldProps();
+  game.runProgressKey = '';
+  renderRunProgress();
   const w = CONTENT.worlds[stop.world];
   if (i < last) {
     showBig(`第 ${i+1} 站`, `${w.name} · ${stop.label}`);
@@ -1426,7 +1541,11 @@ function update(dt, raw) {
   updateEffects(dt);
 
   game.waveTimer += dt;
-  if (!game.bossActive && game.enemies.length === 0 && game.waveTimer > .9) startWave(game.wave + 1);
+  if (!game.bossActive && game.enemies.length === 0 && game.waveTimer > .9) {
+    if (!game.stageCleared) completeStageReward();
+    game.stageClearTimer -= dt;
+    if (game.stageClearTimer <= 0) startWave(game.wave + 1);
+  }
   if (game.bossActive && game.boss.hp <= 0) handleBossDefeat();
   if (p.hp <= 0) finishBattle(false);
   updateHud();
@@ -1591,7 +1710,7 @@ function castSuper() {
     damageAll(96, '#ff5aa5', '批注爆破!');
     for (let i=0;i<12;i++) game.projectiles.push({from:'player', type:weapon==='bubbleWand'?'homingBubble':'receipt', x:p.x+p.w/2, y:p.y+20, vx:p.facing*rand(360,560), vy:rand(-180,80), r:10, damage:16, color:weapon==='bubbleWand'?'#b66dff':'#4ee18a', ttl:1.6, homing:weapon==='bubbleWand'});
   } else {
-    showBig('键帽暴雨', 'Enter 键说它先上');
+    showBig('键帽暴雨', '确认键说它先上');
     for (let i=0;i<16;i++) game.pending.push({ t:i*.035, fn:() => game.projectiles.push({from:'player', type:'key', x:rand(120,860), y:40, vx:rand(-40,40), vy:rand(420,580), r:9, damage:18, color:'#35f2ff', ttl:1.3}) });
   }
 }
@@ -1738,7 +1857,7 @@ function rollEnemyDrop(e) {
   const worldPool = CONTENT.equipment
     .filter(item => item.source.includes(CONTENT.worlds[e.world]?.name || '') || currentBoss.drops.includes(item.id))
     .map(item => item.id);
-  const pool = [...new Set([...worldPool, ...chapterDropPool(currentBoss.chapter, currentBoss.drops), 'memeBelt','milkTea','loudspeaker'])];
+  const pool = [...new Set([...worldPool, ...stageDropPool(game.stageNode?.type || currentBoss.chapter, currentBoss.chapter, currentBoss.drops), 'memeBelt','milkTea','loudspeaker'])];
   const id = pool[Math.floor(Math.random()*pool.length)];
   const eq = EQUIP[id];
   if (!eq) return;
@@ -1750,6 +1869,34 @@ function rollEnemyDrop(e) {
     save.fragments.sticker += 1;
     addFloat(e.x+e.w/2, e.y-12, '重复装备变碎片 +1', '#b66dff', .9);
   }
+  saveNow();
+}
+
+function completeStageReward() {
+  game.stageCleared = true;
+  game.stageClearTimer = .68;
+  const stop = game.stageNode;
+  if (!stop || stop.boss) return;
+  const pool = stageDropPool(stop.type, currentBoss.chapter, currentBoss.drops);
+  const chance = .3 + (game.difficulty?.loot || 0) + (stop.egg ? .08 : 0);
+  let text = '小关结算：表情包碎片 +1';
+  if (pool.length && Math.random() < chance) {
+    const id = pool[Math.floor(Math.random() * pool.length)];
+    const eq = EQUIP[id];
+    if (eq && !save.unlocked.includes(id)) {
+      save.unlocked.push(id);
+      text = `小关奖励：${eq.name}`;
+      SFX.loot();
+    } else {
+      save.fragments.sticker += 2;
+      text = '重复奖励：表情包碎片 +2';
+    }
+  } else {
+    save.fragments.sticker += 1;
+  }
+  game.stageRewards.push({ stage:stop.label, text, type:stop.type });
+  addFloat(480, 164, text, '#4ee18a', 1.05);
+  showBig('小关通过', text);
   saveNow();
 }
 
@@ -2010,8 +2157,9 @@ function finishBattle(won) {
   save.stats.perfect += game.stats.perfect;
   if (won) save.chapterWins[currentBoss.chapter] = (save.chapterWins[currentBoss.chapter] || 0) + 1;
   const newAchievements = checkAchievements(won);
+  const rewardLine = (game.stageRewards || []).map(r => r.text.replace(/^小关奖励：|^重复奖励：|^小关结算：/, '')).slice(-4).join('、') || '暂无小关奖励';
   save.codex[currentBoss.id] = { name:currentBoss.displayName, world:currentBoss.world, wins:(save.codex[currentBoss.id]?.wins||0)+(won?1:0), at:Date.now() };
-  save.history.unshift({ boss:currentBoss.displayName, won, drop:drop.name, damage:game.stats.damage, combo:game.stats.maxCombo, time:seconds, chapter:currentBoss.chapter, difficulty:currentBoss.difficulty, achievements:newAchievements, at:Date.now() });
+  save.history.unshift({ boss:currentBoss.displayName, won, drop:drop.name, damage:game.stats.damage, combo:game.stats.maxCombo, time:seconds, chapter:currentBoss.chapter, difficulty:currentBoss.difficulty, rewards:game.stageRewards, achievements:newAchievements, at:Date.now() });
   save.history = save.history.slice(0, 10);
   saveNow();
   updateLastRunBadge();
@@ -2020,10 +2168,10 @@ function finishBattle(won) {
   const chapter = chapterInfo(currentBoss.chapter);
   const diff = difficultyInfo(currentBoss.difficulty);
   const summary = won
-    ? `你用 ${fmtTime(seconds)} 打完「${chapter.short}」的 ${diff.name} 难度，最高连击 ${game.stats.maxCombo}，完美闪避 ${game.stats.perfect} 次。`
+    ? `你用 ${fmtTime(seconds)} 连续打完「${chapter.short}」5 个小关，最高连击 ${game.stats.maxCombo}，完美闪避 ${game.stats.perfect} 次。小关奖励：${rewardLine}。`
     : `你把「${currentBoss.displayName}」打到还剩 ${Math.ceil(game.boss.hp)} 点体面。下一局多抓弱点发光和完美闪避，胜算很高。`;
   const brag = buildShareHook(won, seconds, newAchievements);
-  const share = `${brag}\n我今天把「${currentBoss.safe}」登记成了烦人兽：${currentBoss.displayName}。\n${won ? `${chapter.short} · ${diff.name} 难度完成` : '它暂时保住了面子'}，用时 ${fmtTime(seconds)}，最高连击 ${game.stats.maxCombo}。\n${lootText}。\n${code} #今日烦人兽爆破局 #谁来接力`;
+  const share = `${brag}\n我今天把「${currentBoss.safe}」登记成了烦人兽：${currentBoss.displayName}。\n${won ? `${chapter.short} · ${diff.name} 难度 · 5 个小关连续完成` : '它暂时保住了面子'}，用时 ${fmtTime(seconds)}，最高连击 ${game.stats.maxCombo}。\n${lootText}，小关奖励：${rewardLine}。\n${code} #今日烦人兽爆破局 #谁来接力`;
   $('#resultKicker').textContent = won ? '结算出炉' : '下次更响亮';
   $('#resultTitle').textContent = title;
   $('#resultSummary').textContent = summary;
@@ -2070,6 +2218,23 @@ function buildShareHook(won, seconds, achievements=[]) {
   return '今天的离谱小事被我做成海报，又被我一路拆到只剩礼貌。';
 }
 
+function renderRunProgress() {
+  const el = $('#runProgress');
+  if (!el || !game || !currentBoss?.route) return;
+  const key = `${game.wave}:${game.stageCleared}:${game.bossActive}`;
+  if (game.runProgressKey === key) return;
+  game.runProgressKey = key;
+  el.innerHTML = currentBoss.route.map((r, i) => {
+    const w = CONTENT.worlds[r.world];
+    const state = i < game.wave ? 'done' : i === game.wave ? 'active' : '';
+    const mark = i < game.wave ? '✓' : r.boss ? '烦' : i + 1;
+    return `<article class="run-node ${state}">
+      <span class="run-node-glyph" style="background:${w.accent};">${mark}</span>
+      <span><strong>${r.label}</strong><small>${r.recommend} · ${state === 'done' ? '已通过' : state === 'active' ? '进行中' : '待挑战'}</small></span>
+    </article>`;
+  }).join('');
+}
+
 function updateHud() {
   if (!game) return;
   const p = game.player, b = game.boss;
@@ -2082,6 +2247,7 @@ function updateHud() {
   $('#phaseText').textContent = game.bossActive ? `阶段 ${b.phase+1} · ${b.weakTimer>0?'弱点发光':'观察前摇'}` : `第 ${game.wave+1} 站 · 清清场`;
   $('#rageFill').style.width = `${p.rage}%`;
   $('#comboText').innerHTML = `${p.combo}<small>连击</small>`;
+  renderRunProgress();
   $$('.skill-btn').forEach(btn => {
     const a = btn.dataset.touch;
     let ready = true, cool = 0;
@@ -2558,30 +2724,99 @@ function updateLastRunBadge() {
   badge.classList.remove('hidden');
 }
 
+function setCollectionTab(name='gear') {
+  $$('.collection-tab').forEach(btn => btn.classList.toggle('active', btn.dataset.collectionTab === name));
+  $$('.collection-section').forEach(sec => sec.classList.toggle('active', sec.dataset.section === name));
+}
+
+function localDay(ts=Date.now()) { return new Date(ts).toLocaleDateString('zh-CN'); }
+
+function dailyGoals() {
+  const today = localDay();
+  const recent = save.history.filter(h => localDay(h.at) === today);
+  const chapterKeys = Object.keys(CONTENT.chapters);
+  const dailyChapter = chapterKeys[hashText(today) % chapterKeys.length];
+  const chapter = chapterInfo(dailyChapter);
+  const todayCombo = recent.reduce((m,h) => Math.max(m, h.combo || 0), 0);
+  return [
+    {name:'今日接力小关', desc:`用「${chapter.short}」完成一次 5 站路线`, done:recent.some(h => h.won && h.chapter === dailyChapter), progress:recent.some(h => h.chapter === dailyChapter) ? '已挑战' : '未挑战'},
+    {name:'连击开胃菜', desc:'今天任意一局打到 20 连击', done:todayCombo >= 20, progress:`今日最高 ${todayCombo}`},
+    {name:'晒图触发器', desc:'复制一次战报文案或下载图片后发给朋友', done:(save.stats.shares || 0) > 0, progress:`累计复制 ${save.stats.shares || 0}`},
+    {name:'装备收纳癖', desc:'收集 12 件装备，解锁杂物间馆长成就', done:save.unlocked.length >= 12, progress:`${save.unlocked.length}/12`},
+  ];
+}
+
 function renderUniverse() {
   $('#statBosses').textContent = save.stats.bosses;
   $('#statDamage').textContent = save.stats.damage;
   $('#statCombo').textContent = save.stats.bestCombo;
   $('#statTea').textContent = `${save.unlocked.length}/${CONTENT.equipment.length}`;
   $('#statTea').nextElementSibling.textContent = '装备收集进度';
-  const gearCards = CONTENT.equipment.map(e => {
-    const on = save.unlocked.includes(e.id);
-    return `<article class="collect-card gear-collect ${on?'':'locked'}">${gearArtHtml(e)}<strong>${e.name}</strong><div class="stat-icons">${statGlyphs(e)}</div><small>${on ? effectShort(e, true) : `未解锁 · ${e.source}`}</small></article>`;
+
+  const activeRec = recommendedIds(selectedChapterId());
+  $('#gearCount').textContent = `${save.unlocked.length}/${CONTENT.equipment.length}`;
+  $('#equipmentGrid').innerHTML = [...CONTENT.equipment]
+    .sort((a,b) => Number(activeRec.includes(b.id)) - Number(activeRec.includes(a.id)) || Number(save.unlocked.includes(b.id)) - Number(save.unlocked.includes(a.id)) || a.slot.localeCompare(b.slot))
+    .map(e => {
+      const on = save.unlocked.includes(e.id);
+      const hot = activeRec.includes(e.id);
+      const slot = e.slot === 'weapon' ? '武器' : '技能';
+      return `<article class="collect-card gear-collect ${on?'':'locked'} ${hot?'chapter-collect':''}">
+        ${gearArtHtml(e)}
+        <strong>${slot} · ${e.name}${hot ? '<span class="gear-note">当前关</span>' : ''}</strong>
+        <div class="stat-icons">${statGlyphs(e)}</div>
+        <small>${on ? effectShort(e, true) : `未解锁 · ${e.source}`}</small>
+      </article>`;
+    }).join('');
+
+  const chapterEntries = Object.entries(CONTENT.chapters);
+  $('#chapterCount').textContent = `${chapterEntries.filter(([id]) => save.chapterWins[id]).length}/${chapterEntries.length}`;
+  $('#chapterGrid').innerHTML = chapterEntries.map(([id,ch]) => {
+    const wins = save.chapterWins[id] || 0;
+    const rec = recommendedIds(id).map(eid => EQUIP[eid]?.short || EQUIP[eid]?.name).filter(Boolean).slice(0, 5).join('、');
+    const mini = ch.route.map((r,i) => `<span><b>${i+1}. ${r.label}</b><em>${r.recommend}</em></span>`).join('');
+    return `<article class="collect-card chapter-collect ${wins?'':'locked'}">
+      <strong style="color:${ch.color}">${ch.name}</strong>
+      <small>${ch.need} · ${wins ? `已通关 ${wins} 次` : '等待首次通关'}</small>
+      <div class="chapter-progress">${ch.route.map((_,i) => `<span class="chapter-dot ${wins || i === 0 ? 'on' : ''}"></span>`).join('')}</div>
+      <small>推荐装备：${rec}</small>
+      <div class="mini-route">${mini}</div>
+    </article>`;
   }).join('');
-  const bossCards = CONTENT.bosses.map(b => {
+
+  $('#achievementCount').textContent = `${save.achievements.length}/${CONTENT.achievements.length}`;
+  $('#achievementGrid').innerHTML = CONTENT.achievements.map(a => {
+    const on = save.achievements.includes(a.id);
+    return `<article class="collect-card achievement ${on?'unlocked':'locked'}">
+      <strong>${on?'✓':'?'} ${a.name}</strong>
+      <small>${a.desc}</small>
+      <small>${on ? a.reward : '奖励待拿'}</small>
+    </article>`;
+  }).join('');
+
+  const knownBosses = CONTENT.bosses.filter(b => save.codex[b.id]);
+  $('#monsterCount').textContent = `${knownBosses.length}/${CONTENT.bosses.length}`;
+  $('#monsterGrid').innerHTML = CONTENT.bosses.map(b => {
     const item = save.codex[b.id];
     const world = CONTENT.worlds[b.world];
-    return `<article class="collect-card ${item?'':'locked'}"><strong style="color:${b.color}">${b.glyph} ${item?.name || b.name}</strong><small>${world.name} · ${item ? `胜场 ${item.wins}` : '等待登记'}</small><small>${b.title}</small></article>`;
+    return `<article class="collect-card ${item?'':'locked'}">
+      <strong style="color:${b.color}">${b.glyph} ${item?.name || b.name}</strong>
+      <small>${world.name} · ${item ? `胜场 ${item.wins}` : '等待登记'}</small>
+      <small>${b.title}</small>
+    </article>`;
   }).join('');
-  const chapterCards = Object.entries(CONTENT.chapters).map(([id,ch]) => {
-    const wins = save.chapterWins[id] || 0;
-    return `<article class="collect-card chapter-collect ${wins?'':'locked'}"><strong style="color:${ch.color}">${ch.short}</strong><small>${ch.need} · ${wins ? `通关 ${wins} 次` : '等待通关'}</small><small>${ch.intro}</small></article>`;
-  }).join('');
-  const achievementCards = CONTENT.achievements.map(a => {
-    const on = save.achievements.includes(a.id);
-    return `<article class="collect-card achievement ${on?'unlocked':'locked'}"><strong>${on?'✓':'?'} ${a.name}</strong><small>${a.desc}</small><small>${on ? a.reward : '未解锁'}</small></article>`;
-  }).join('');
-  $('#collectionGrid').innerHTML = gearCards + chapterCards + achievementCards + bossCards;
+
+  const goals = dailyGoals();
+  const eggs = [
+    {name:'撤回键彩蛋', desc:'任意路线中砸开彩蛋道具', done:(save.stats.eggs || 0) >= 1, progress:`${save.stats.eggs || 0}/1`},
+    {name:'彩蛋连击账本', desc:'累计发现 5 个彩蛋', done:(save.stats.eggs || 0) >= 5, progress:`${save.stats.eggs || 0}/5`},
+    {name:'怪兽海报接力', desc:'累计生成 3 份历史战报', done:(save.history.length || 0) >= 3, progress:`${save.history.length || 0}/3`},
+  ];
+  $('#eggCount').textContent = `${goals.filter(g => g.done).length}/${goals.length} 今日 · ${save.stats.eggs || 0} 彩蛋`;
+  $('#eggGrid').innerHTML = [
+    ...goals.map(g => `<article class="collect-card goal ${g.done?'chapter-collect':''}"><strong>${g.done?'✓':'○'} ${g.name}</strong><small>${g.desc}</small><small>${g.progress}</small></article>`),
+    ...eggs.map(g => `<article class="collect-card egg ${g.done?'chapter-collect':'locked'}"><strong>${g.done?'✓':'?'} ${g.name}</strong><small>${g.desc}</small><small>${g.progress}</small></article>`),
+  ].join('');
 }
 
 function downloadCard() {
@@ -2611,6 +2846,8 @@ function downloadCard() {
   a.href = card.toDataURL('image/png');
   a.download = `${currentBoss.posterNo}-烦人兽战报.png`;
   a.click();
+  save.stats.shares = (save.stats.shares || 0) + 1;
+  saveNow();
 }
 function wrapText(c, text, x, y, maxWidth, lineHeight) {
   let line = '', yy = y;
@@ -2630,6 +2867,12 @@ function bindEvents() {
     if (currentScreen === 'intro') { miniTime = 0; drawMini(); }
   }));
   $$('#presetChips [data-preset]').forEach(btn => btn.addEventListener('click', () => applyPreset(btn.dataset.preset)));
+  $('#chapterSelect').addEventListener('change', () => {
+    $$('#presetChips [data-preset]').forEach(btn => btn.classList.toggle('active', CONTENT.presets[btn.dataset.preset]?.chapter === selectedChapterId()));
+    if (currentScreen === 'dossier') renderLoadout();
+    renderUniverse();
+  });
+  $$('#collectionTabs [data-collection-tab]').forEach(btn => btn.addEventListener('click', () => setCollectionTab(btn.dataset.collectionTab)));
   $('#rantInput').addEventListener('input', () => $('#rantCounter').textContent = `${$('#rantInput').value.length}/180`);
   $('#generateBtn').addEventListener('click', () => { ensureAudio(); makeBoss(); });
   $('#regenBtn').addEventListener('click', () => { ensureAudio(); makeBoss(); });
@@ -2674,7 +2917,6 @@ function applyPreset(id) {
   $('#speciesSelect').value = preset.species;
   currentTopic = preset.topic;
   $$('#topicChips .chip').forEach(c => c.classList.toggle('active', c.dataset.topic === preset.topic));
-  preset.unlock.forEach(id => { if (!save.unlocked.includes(id)) save.unlocked.push(id); });
   save.equipped = {...save.equipped, ...preset.equip};
   saveNow();
   miniTime = 0;
