@@ -1,15 +1,60 @@
-# 今日烦人兽爆破局
+<div align="center">
+
+<h1>Breakverse</h1>
+
+<h3>今日烦人兽爆破局</h3>
+
+<p>
+  <em>「把今天的小破事，打成一张能发群的战报。」</em><br>
+  <em>"Turn today's tiny annoyance into a ridiculous monster, beat it, and share the receipt."</em>
+</p>
+
+<p>
+  <a href="./README.md"><strong>简体中文</strong></a>
+  ·
+  <a href="./README.en.md">English</a>
+</p>
+
+<p>
+  <img alt="Version v0.4.0" src="https://img.shields.io/badge/version-v0.4.0-35f2ff?style=for-the-badge">
+  <img alt="License Personal Use Only" src="https://img.shields.io/badge/license-personal_use_only-ff7a45?style=for-the-badge">
+  <img alt="Runtime HTML5 Canvas" src="https://img.shields.io/badge/runtime-HTML5_Canvas-8b5cf6?style=for-the-badge">
+  <img alt="Backend Python Account API" src="https://img.shields.io/badge/backend-Python_account_API-4ee18a?style=for-the-badge">
+  <img alt="Status Playable Preview" src="https://img.shields.io/badge/status-playable_preview-ff5aa5?style=for-the-badge">
+</p>
+
+<p>
+  <strong>当前版本：</strong> v0.4.0
+  ·
+  <strong>主文件：</strong> <code>index.html</code>
+  ·
+  <strong>可选服务端：</strong> <code>server.py</code>
+</p>
+
+</div>
+
+---
 
 把今天烦人的小事变成圆滚滚怪兽，选装备，开打，掉落新玩具，再生成一张适合分享的搞笑战报。
 
 ## 快速开始
+
+离线单机模式：
 
 ```bash
 # 直接打开
 open index.html
 ```
 
-无需安装、无需构建、无外部依赖。核心游戏仍然是一个自包含的 `index.html`。
+账号、云存档和管理员面板模式：
+
+```bash
+python3 server.py
+```
+
+默认访问 `http://localhost:4173`。核心游戏仍然是一个自包含的 `index.html`，`server.py` 只负责账号、会话和云存档 API。
+
+> 当前仓库未添加正式开源许可证，默认仅供个人学习、试玩和内部预览使用；商用或二次发布请先获得授权。
 
 ## 当前玩法
 
@@ -145,8 +190,8 @@ BREAKVERSE_COOKIE_SECURE=1
 
 | 版本 | 日期 | 内容 |
 | --- | --- | --- |
-| `v0.4.0` | 2026-05-11 | 产品化迭代：重做"我的爆破宇宙"布局，拆分装备库/大关卡/成就/怪兽图鉴/彩蛋目标；新增战斗内 5 小关连续进度带；小关通关后按当前关卡类型结算装备或碎片；装备箱按本关推荐排序并标记当前关；新增每日目标和彩蛋目标，强化长期刷装、刷成就和分享动机。 |
-| `v0.3.0` | 2026-05-11 | 大版本迭代：新增四个大关卡与小关路线、四档"卷"难度、物种开局、快速预设、扩展装备池、关卡需求型掉落、成就系统、随机关卡彩蛋、收集页整合装备/大关卡/成就/怪兽图鉴，并强化社交分享文案；账号系统上线（注册/登录、HttpOnly 会话、云存档同步、管理员管理）；移动端固定视口与双侧触控布局。 |
+| `v0.4.0` | 2026-05-11 | 产品化迭代：重做"我的爆破宇宙"布局，拆分装备库/大关卡/成就/怪兽图鉴/彩蛋目标；新增战斗内 5 小关连续进度带；小关通关后按当前关卡类型结算装备或碎片；装备箱按本关推荐排序并标记当前关；新增每日目标和彩蛋目标；合并账号系统（注册/登录、HttpOnly 会话、云存档同步、管理员管理）与移动端固定视口。 |
+| `v0.3.0` | 2026-05-11 | 大版本迭代：新增四个大关卡与小关路线、四档"卷"难度、物种开局、快速预设、扩展装备池、关卡需求型掉落、成就系统、随机关卡彩蛋、收集页整合装备/大关卡/成就/怪兽图鉴，并强化社交分享文案。 |
 | `v0.2.0` | 2026-05-10 | 搞怪解压重构：移除旧暗色负面基调，改成“今日烦人兽爆破局”；新增主武器、副武器、双主动技能、怒气大招、5 站路线、小怪/精英掉落、中文化属性符号、图鉴装备图标布局修复、分享战报卡升级。 |
 
 ## 后续方向
