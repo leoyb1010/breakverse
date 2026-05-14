@@ -16,7 +16,21 @@
 </p>
 
 <p>
-  <img alt="Version v0.4.0" src="https://img.shields.io/badge/version-v0.4.0-35f2ff?style=for-the-badge">
+  <a href="#quick-start">Quick Start</a>
+  ·
+  <a href="#screenshots">Screenshots</a>
+  ·
+  <a href="#current-gameplay">Gameplay</a>
+  ·
+  <a href="#account-system">Account System</a>
+  ·
+  <a href="#technical-structure">Technical Structure</a>
+  ·
+  <a href="#changelog">Changelog</a>
+</p>
+
+<p>
+  <img alt="Version v0.4.1" src="https://img.shields.io/badge/version-v0.4.1-35f2ff?style=for-the-badge">
   <img alt="License Personal Use Only" src="https://img.shields.io/badge/license-personal_use_only-ff7a45?style=for-the-badge">
   <img alt="Runtime HTML5 Canvas" src="https://img.shields.io/badge/runtime-HTML5_Canvas-8b5cf6?style=for-the-badge">
   <img alt="Backend Python Account API" src="https://img.shields.io/badge/backend-Python_account_API-4ee18a?style=for-the-badge">
@@ -24,12 +38,14 @@
 </p>
 
 <p>
-  <strong>Current version:</strong> v0.4.0
+  <strong>Current version:</strong> v0.4.1
   ·
   <strong>Main file:</strong> <code>index.html</code>
   ·
   <strong>Optional server:</strong> <code>server.py</code>
 </p>
+
+<img alt="Breakverse preview" src="./screenshots/00-preview.png">
 
 </div>
 
@@ -54,6 +70,22 @@ python3 server.py
 The default URL is `http://localhost:4173`. The game itself remains a self-contained `index.html`; `server.py` only provides account, session, cloud save, and admin APIs.
 
 > This repository does not include a formal open-source license yet. Treat it as personal-use-only for learning, playtesting, and private preview. Commercial use or redistribution requires prior permission.
+
+## Screenshots
+
+> Screenshots were regenerated for `v0.4.1`, covering start, dossier, battle, result, collection, and account screens.
+
+| Start | Monster Dossier |
+| --- | --- |
+| ![Start](./screenshots/01-intro.png) | ![Monster Dossier](./screenshots/02-dossier.png) |
+
+| Continuous Route Combat | Share Result |
+| --- | --- |
+| ![Continuous Route Combat](./screenshots/03-battle.png) | ![Share Result](./screenshots/04-result.png) |
+
+| My Breakverse | Account and Cloud Save |
+| --- | --- |
+| ![My Breakverse](./screenshots/05-universe.png) | ![Account and Cloud Save](./screenshots/06-account.png) |
 
 ## Current Gameplay
 
@@ -197,6 +229,7 @@ Example equipment:
 
 | Version | Date | Notes |
 | --- | --- | --- |
+| `v0.4.1` | 2026-05-14 | Repository presentation refresh: rebuilt the README header, navigation, badges, version display, language switcher, and screenshot gallery; added English documentation; regenerated 6 current UI screenshots. |
 | `v0.4.0` | 2026-05-11 | Productization pass: redesigned "My Breakverse" into separate equipment, chapter, achievement, monster codex, and easter egg goal sections; added battle route progress; added stage-clear rewards based on chapter type; sorted equipment by chapter recommendations; added daily and easter egg goals; merged account system, cloud save sync, admin management, and mobile battle viewport fixes. |
 | `v0.3.0` | 2026-05-11 | Added four major chapters, five-stage routes, four difficulty levels, starter species, quick presets, expanded equipment, chapter-aware drops, achievements, random easter eggs, and stronger share captions. |
 | `v0.2.0` | 2026-05-10 | Rebuilt the tone into a funny stress-relief game, added weapons, secondary weapons, two active skills, rage supers, route structure, enemy drops, Chinese stat glyphs, equipment icon fixes, and upgraded battle report sharing. |
