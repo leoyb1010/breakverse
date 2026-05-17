@@ -30,7 +30,7 @@
 </p>
 
 <p>
-  <img alt="Version v0.4.1" src="https://img.shields.io/badge/version-v0.4.1-35f2ff?style=for-the-badge">
+  <img alt="Version v0.4.2" src="https://img.shields.io/badge/version-v0.4.2-35f2ff?style=for-the-badge">
   <img alt="License Personal Use Only" src="https://img.shields.io/badge/license-personal_use_only-ff7a45?style=for-the-badge">
   <img alt="Runtime HTML5 Canvas" src="https://img.shields.io/badge/runtime-HTML5_Canvas-8b5cf6?style=for-the-badge">
   <img alt="Backend Python Account API" src="https://img.shields.io/badge/backend-Python_account_API-4ee18a?style=for-the-badge">
@@ -38,7 +38,7 @@
 </p>
 
 <p>
-  <strong>当前版本：</strong> v0.4.1
+  <strong>当前版本：</strong> v0.4.2
   ·
   <strong>主文件：</strong> <code>index.html</code>
   ·
@@ -74,7 +74,7 @@ python3 server.py
 
 ## 界面预览
 
-> 截图基于 `v0.4.1` 重新生成，覆盖开局、海报、战斗、结算、收集和账号页。
+> 截图基于 `v0.4.x` 当前界面生成，覆盖开局、海报、战斗、结算、收集和账号页。
 
 | 开局生成 | 怪兽档案 |
 | --- | --- |
@@ -138,7 +138,9 @@ python3 server.py
 
 - 注册、登录、退出登录。
 - 密码使用 PBKDF2-HMAC-SHA256 哈希保存。
-- 会话使用 `HttpOnly` Cookie，默认 7 天有效期。
+- 会话使用 `HttpOnly` Cookie，默认 7 天有效期；写接口启用 CSRF 双提交 Cookie 校验。
+- 登录失败会按 IP + 账号短窗口限流，改密后会自动撤销旧会话。
+- 云存档在服务端进行结构清洗，前端渲染存档字段时会做白名单和转义。
 - 首个注册账号自动成为管理员。
 - 登录后可上传当前存档、拉取云存档。
 - 管理员可查看账号列表、启用/停用账号、调整玩家/管理员角色。
@@ -152,10 +154,13 @@ data/accounts.json
 该文件已加入 `.gitignore`，不要提交到仓库。正式部署时可用环境变量调整：
 
 ```bash
+HOST=127.0.0.1
 PORT=4173
 BREAKVERSE_DATA_DIR=/path/to/private-data
 BREAKVERSE_SESSION_TTL=604800
 BREAKVERSE_COOKIE_SECURE=1
+BREAKVERSE_LOGIN_LIMIT=8
+BREAKVERSE_LOGIN_WINDOW=300
 ```
 
 ## 内容
@@ -222,6 +227,7 @@ BREAKVERSE_COOKIE_SECURE=1
 
 | 版本 | 日期 | 内容 |
 | --- | --- | --- |
+| `v0.4.2` | 2026-05-17 | 安全与稳定性修复：账号数据损坏时失败关闭，避免误开新管理员；新增 CSRF 校验、登录限流、改密踢旧会话；云存档服务端结构清洗，前端存档渲染白名单化并补 XSS 转义；战斗结算掉落增加兜底；服务端默认绑定本机并改为线程 HTTPServer；补充无端口单元测试。 |
 | `v0.4.1` | 2026-05-14 | 仓库门面升级：参考产品型 README 结构重做头部、导航、徽章、版本展示和多语言入口；新增英文 README；重新生成 6 张最新界面截图并加入预览图库。 |
 | `v0.4.0` | 2026-05-11 | 产品化迭代：重做"我的爆破宇宙"布局，拆分装备库/大关卡/成就/怪兽图鉴/彩蛋目标；新增战斗内 5 小关连续进度带；小关通关后按当前关卡类型结算装备或碎片；装备箱按本关推荐排序并标记当前关；新增每日目标和彩蛋目标；合并账号系统（注册/登录、HttpOnly 会话、云存档同步、管理员管理）与移动端固定视口。 |
 | `v0.3.0` | 2026-05-11 | 大版本迭代：新增四个大关卡与小关路线、四档"卷"难度、物种开局、快速预设、扩展装备池、关卡需求型掉落、成就系统、随机关卡彩蛋、收集页整合装备/大关卡/成就/怪兽图鉴，并强化社交分享文案。 |

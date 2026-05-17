@@ -30,7 +30,7 @@
 </p>
 
 <p>
-  <img alt="Version v0.4.1" src="https://img.shields.io/badge/version-v0.4.1-35f2ff?style=for-the-badge">
+  <img alt="Version v0.4.2" src="https://img.shields.io/badge/version-v0.4.2-35f2ff?style=for-the-badge">
   <img alt="License Personal Use Only" src="https://img.shields.io/badge/license-personal_use_only-ff7a45?style=for-the-badge">
   <img alt="Runtime HTML5 Canvas" src="https://img.shields.io/badge/runtime-HTML5_Canvas-8b5cf6?style=for-the-badge">
   <img alt="Backend Python Account API" src="https://img.shields.io/badge/backend-Python_account_API-4ee18a?style=for-the-badge">
@@ -38,7 +38,7 @@
 </p>
 
 <p>
-  <strong>Current version:</strong> v0.4.1
+  <strong>Current version:</strong> v0.4.2
   ·
   <strong>Main file:</strong> <code>index.html</code>
   ·
@@ -73,7 +73,7 @@ The default URL is `http://localhost:4173`. The game itself remains a self-conta
 
 ## Screenshots
 
-> Screenshots were regenerated for `v0.4.1`, covering start, dossier, battle, result, collection, and account screens.
+> Screenshots match the current `v0.4.x` interface and cover start, dossier, battle, result, collection, and account screens.
 
 | Start | Monster Dossier |
 | --- | --- |
@@ -137,7 +137,9 @@ The optional Python server includes built-in account APIs with no extra dependen
 
 - Register, log in, and log out.
 - Passwords are stored with PBKDF2-HMAC-SHA256.
-- Sessions use `HttpOnly` cookies and last 7 days by default.
+- Sessions use `HttpOnly` cookies and last 7 days by default; mutating APIs are protected by double-submit CSRF tokens.
+- Login failures are rate-limited by IP + username, and password changes revoke older sessions.
+- Cloud saves are schema-sanitized on the server, and stored fields are allowlisted and escaped before UI rendering.
 - The first registered account automatically becomes an admin.
 - Logged-in users can upload and pull cloud saves.
 - Admins can view accounts, enable or disable accounts, and change player or admin roles.
@@ -151,10 +153,13 @@ data/accounts.json
 That file is ignored by Git and should not be committed. For production deployment, configure:
 
 ```bash
+HOST=127.0.0.1
 PORT=4173
 BREAKVERSE_DATA_DIR=/path/to/private-data
 BREAKVERSE_SESSION_TTL=604800
 BREAKVERSE_COOKIE_SECURE=1
+BREAKVERSE_LOGIN_LIMIT=8
+BREAKVERSE_LOGIN_WINDOW=300
 ```
 
 ## Content
@@ -224,11 +229,13 @@ Example equipment:
 - Session cookies.
 - Cloud save upload and download.
 - Admin account management.
+- CSRF checks, login rate limiting, cloud-save sanitization, and fail-closed account-store handling.
 
 ## Changelog
 
 | Version | Date | Notes |
 | --- | --- | --- |
+| `v0.4.2` | 2026-05-17 | Security and stability pass: account store corruption now fails closed instead of bootstrapping a new admin; added CSRF protection, login rate limiting, old-session revocation after password changes, server-side cloud save sanitization, frontend save allowlisting and XSS escaping, battle-drop fallback handling, localhost default binding, ThreadingHTTPServer, and no-port unit tests. |
 | `v0.4.1` | 2026-05-14 | Repository presentation refresh: rebuilt the README header, navigation, badges, version display, language switcher, and screenshot gallery; added English documentation; regenerated 6 current UI screenshots. |
 | `v0.4.0` | 2026-05-11 | Productization pass: redesigned "My Breakverse" into separate equipment, chapter, achievement, monster codex, and easter egg goal sections; added battle route progress; added stage-clear rewards based on chapter type; sorted equipment by chapter recommendations; added daily and easter egg goals; merged account system, cloud save sync, admin management, and mobile battle viewport fixes. |
 | `v0.3.0` | 2026-05-11 | Added four major chapters, five-stage routes, four difficulty levels, starter species, quick presets, expanded equipment, chapter-aware drops, achievements, random easter eggs, and stronger share captions. |

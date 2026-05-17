@@ -1381,24 +1381,57 @@ function defaultSave() {
 }
 function normalizeSave(raw) {
   const base = defaultSave();
-  const old = raw?.equipped || {};
-  const equipped = {
-    weapon1: old.weapon1 || old.weapon || base.equipped.weapon1,
-    weapon2: old.weapon2 || base.equipped.weapon2,
-    skill1: old.skill1 || old.armor || old.charm1 || base.equipped.skill1,
-    skill2: old.skill2 || old.charm2 || base.equipped.skill2,
+  const data = raw && typeof raw === 'object' ? raw : {};
+  const validGear = new Set(CONTENT.equipment.map(e => e.id));
+  const validBosses = new Set(CONTENT.bosses.map(b => b.id));
+  const validChapters = new Set(Object.keys(CONTENT.chapters));
+  const validAchievements = new Set(CONTENT.achievements.map(a => a.id));
+  const text = (value, max=80) => String(value ?? '').replace(/[\u0000-\u001f\u007f]/g, '').slice(0, max);
+  const int = (value, max=9999999) => {
+    const n = Number(value);
+    return Number.isFinite(n) ? Math.max(0, Math.min(max, Math.floor(n))) : 0;
   };
+  const idList = (list, allowed, max=120) => Array.isArray(list)
+    ? [...new Set(list.filter(id => typeof id === 'string' && (!allowed || allowed.has(id))))].slice(0, max)
+    : [];
+  const old = data.equipped && typeof data.equipped === 'object' ? data.equipped : {};
+  const pickGear = (...ids) => ids.find(id => typeof id === 'string' && validGear.has(id));
+  const equipped = {
+    weapon1: pickGear(old.weapon1, old.weapon, base.equipped.weapon1) || base.equipped.weapon1,
+    weapon2: pickGear(old.weapon2, base.equipped.weapon2) || base.equipped.weapon2,
+    skill1: pickGear(old.skill1, old.armor, old.charm1, base.equipped.skill1) || base.equipped.skill1,
+    skill2: pickGear(old.skill2, old.charm2, base.equipped.skill2) || base.equipped.skill2,
+  };
+  const stats = Object.fromEntries(Object.keys(base.stats).map(key => [key, int(data.stats?.[key])]));
+  const fragments = Object.fromEntries(Object.keys(base.fragments).map(key => [key, int(data.fragments?.[key], 9999)]));
+  const codex = {};
+  if (data.codex && typeof data.codex === 'object') {
+    Object.entries(data.codex).forEach(([id, item]) => {
+      if (!validBosses.has(id) || !item || typeof item !== 'object') return;
+      codex[id] = { name:text(item.name), world:text(item.world, 40), wins:int(item.wins, 9999), at:int(item.at, 9999999999999) };
+    });
+  }
+  const chapterWins = {};
+  if (data.chapterWins && typeof data.chapterWins === 'object') {
+    Object.entries(data.chapterWins).forEach(([id, wins]) => { if (validChapters.has(id)) chapterWins[id] = int(wins, 9999); });
+  }
+  const history = Array.isArray(data.history) ? data.history.filter(item => item && typeof item === 'object').slice(0, 10).map(item => ({
+    boss:text(item.boss), won:!!item.won, drop:text(item.drop, 64), damage:int(item.damage), combo:int(item.combo),
+    time:int(item.time, 3600), chapter:validChapters.has(item.chapter) ? item.chapter : '', difficulty:text(item.difficulty, 24),
+    rewards:Array.isArray(item.rewards) ? item.rewards.slice(0, 8).map(r => ({ text:text(r?.text || r, 80) })) : [],
+    achievements:idList(item.achievements, validAchievements, 20), at:int(item.at, 9999999999999),
+  })) : [];
   return {
-    ...base, ...(raw || {}),
-    unlocked:[...new Set([...(base.unlocked || []), ...((raw?.unlocked) || [])])],
+    ...base,
+    unlocked:[...new Set([...(base.unlocked || []), ...idList(data.unlocked, validGear)])],
     equipped,
-    stats:{...base.stats, ...(raw?.stats || {})},
-    fragments:{...base.fragments, ...(raw?.fragments || {})},
-    codex:{...(raw?.codex || {})},
-    achievements:Array.isArray(raw?.achievements) ? raw.achievements : [],
-    chapterWins:{...(raw?.chapterWins || {})},
-    history:Array.isArray(raw?.history) ? raw.history : [],
-    updatedAt: raw?.updatedAt || 0,
+    stats:{...base.stats, ...stats},
+    fragments:{...base.fragments, ...fragments},
+    codex,
+    achievements:idList(data.achievements, validAchievements),
+    chapterWins,
+    history,
+    updatedAt: int(data.updatedAt, 9999999999999),
   };
 }
 function loadSave() {
@@ -1407,11 +1440,11 @@ function loadSave() {
     return normalizeSave(raw);
   } catch(e) { return defaultSave(); }
 }
-function saveNow() {
+function saveNow(options={}) {
   try {
     save.updatedAt = Date.now();
     localStorage.setItem(SAVE_KEY, JSON.stringify(save));
-    scheduleCloudSave();
+    if (options.sync !== false) scheduleCloudSave();
   } catch(e) {}
 }
 
@@ -2514,7 +2547,8 @@ function finishBattle(won) {
   cancelAnimationFrame(animId);
   const seconds = Math.max(1, Math.round((performance.now()-game.startedAt)/1000));
   const code = `爆-${currentBoss.posterNo}-${won?'完成':'再来'}`;
-  const drop = currentDrop;
+  const chapterDrop = chapterInfo(currentBoss.chapter)?.drops?.[0];
+  const drop = currentDrop || EQUIP[chapterDrop] || EQUIP.keyboard || CONTENT.equipment[0];
   let lootText = won ? `掉落：${drop.name}` : '掉落：一张“下次它就懂了”贴纸';
   if (won) {
     if (!save.unlocked.includes(drop.id)) {
@@ -3176,10 +3210,12 @@ function renderUniverse() {
   $('#monsterGrid').innerHTML = CONTENT.bosses.map(b => {
     const item = save.codex[b.id];
     const world = CONTENT.worlds[b.world];
+    const bossName = escapeHtml(item?.name || b.name);
+    const wins = Number.isFinite(Number(item?.wins)) ? Math.max(0, Math.floor(Number(item.wins))) : 0;
     return `<article class="collect-card ${item?'':'locked'}">
-      <strong style="color:${b.color}">${b.glyph} ${item?.name || b.name}</strong>
-      <small>${world.name} · ${item ? `胜场 ${item.wins}` : '等待登记'}</small>
-      <small>${b.title}</small>
+      <strong style="color:${b.color}">${escapeHtml(b.glyph)} ${bossName}</strong>
+      <small>${escapeHtml(world.name)} · ${item ? `胜场 ${wins}` : '等待登记'}</small>
+      <small>${escapeHtml(b.title)}</small>
     </article>`;
   }).join('');
 
@@ -3204,9 +3240,27 @@ function shortDate(value) {
   const d = new Date(value);
   return Number.isNaN(d.getTime()) ? '暂无' : d.toLocaleString('zh-CN', { month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' });
 }
+const CSRF_COOKIE = 'bv_csrf';
+function getCookie(name) {
+  return document.cookie.split(';').map(item => item.trim()).find(item => item.startsWith(`${name}=`))?.slice(name.length + 1) || '';
+}
+async function ensureCsrfToken() {
+  const existing = getCookie(CSRF_COOKIE);
+  if (existing) return existing;
+  try {
+    const res = await fetch('/api/auth/me', { credentials:'same-origin' });
+    await res.json().catch(() => ({}));
+  } catch(e) {}
+  return getCookie(CSRF_COOKIE);
+}
 async function apiFetch(path, options={}) {
+  const method = (options.method || 'GET').toUpperCase();
   const init = { credentials:'same-origin', ...options };
   init.headers = { ...(options.body ? {'Content-Type':'application/json'} : {}), ...(options.headers || {}) };
+  if (!['GET', 'HEAD', 'OPTIONS'].includes(method)) {
+    const csrf = getCookie(CSRF_COOKIE) || await ensureCsrfToken();
+    if (csrf) init.headers['X-CSRF-Token'] = csrf;
+  }
   if (options.body && typeof options.body !== 'string') init.body = JSON.stringify(options.body);
   const res = await fetch(path, init);
   const data = await res.json().catch(() => ({}));
@@ -3362,7 +3416,7 @@ async function loadCloudSave() {
       return;
     }
     save = normalizeSave(data.save);
-    saveNow();
+    saveNow({ sync:false });
     renderUniverse();
     renderAccount('云存档已载入本机');
     updateLastRunBadge();
