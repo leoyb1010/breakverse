@@ -703,10 +703,6 @@ function initBattle() {
   const maxHp = Math.round(stats.maxHp);
   const bossMax = Math.round((480 + (current大首领.seed % 120)) * current大首领.hpScale * (current大首领.affix?.id === 'tank' ? 1.5 : 1));
   const bossSpeedScale = current大首领.affix?.id === 'swift' ? 1.5 : 1;
-  const bossThorns = current大首领.affix?.id === 'thorns' ? 0.1 : 0;
-  const bossVampire = current大首领.affix?.id === 'vampiric' ? 0.2 : 0;
-  const bossBerserk = current大首领.affix?.id === 'berserk' ? true : false;
-
   const modeName = $('#modeSelect').selectedOptions[0].textContent;
   const chapter = chapterInfo(current大首领.chapter);
   const diff = difficultyInfo(current大首领.difficulty);
@@ -1099,6 +1095,7 @@ function damage大首领(amount, box, meta={}) {
   const crit = Math.random() < game.derived.crit + (weak ? .12 : 0);
   const dmg = Math.round(amount * mul * (crit ? 1.55 : 1));
   b.hp = Math.max(0, b.hp - dmg);
+  if (current大首领.affix?.id === 'thorns' && dmg > 0) hurtPlayer(Math.round(dmg * 0.1), {_thorn:true});
   b.hurt = .16; b.face = weak ? '⊙▽⊙' : 'ಠ_ಠ';
   game.stats.damage += dmg; game.stats.hits++;
   game.hitStop = Math.max(game.hitStop, crit ? .09 : .055);
@@ -1263,7 +1260,7 @@ function update大首领(dt) {
   const p = game.player;
   b.x += Math.sin(performance.now()/520) * dt * 18;
   b.x = clamp(b.x, 520, 820);
-  b.attackTimer -= dt * (b.slow > 0 ? .46 : 1) * (game?.difficulty?.rate || 1);
+  b.attackTimer -= dt * (b.slow > 0 ? .46 : 1) * (game?.difficulty?.rate || 1) * (current大首领.affix?.id === 'berserk' ? 1.5 : 1);
   if (b.attackTimer > 0) return;
   const pool = current大首领.patterns;
   const type = pool[(b.patternIndex + b.phase) % pool.length];
@@ -1430,6 +1427,10 @@ function hurtPlayer(amount, source={}) {
     }
   }
   if (dmg > 0) p.hp = Math.max(0, p.hp-dmg);
+  if (game.bossActive && current大首领.affix?.id === 'vampiric' && dmg > 0 && !source._thorn) {
+    game.boss.hp = Math.min(game.boss.maxHp, game.boss.hp + Math.round(dmg * 0.2));
+    addFloat(game.boss.x+game.boss.w/2, game.boss.y, '吸血恢复', '#ff4fd8', .8);
+  }
   if (p.hp <= 0 && hasEquip('overtimeCape') && !p.deathSave) {
     p.deathSave = true; p.hp = 1; p.overclock = 4; p.rage = 100;
     addFloat(p.x+p.w/2, p.y, '下班冲刺!', '#35f2ff', 1.2);
